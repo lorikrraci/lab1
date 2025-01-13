@@ -26,6 +26,7 @@ module.exports = {
         const [rows] = await db.execute(sql, [email]);
         return rows[0];
     },
+
     // UPDATE user
     updateUser: async (id, { name, email, password }) => {
         const fields = [];
@@ -54,6 +55,7 @@ module.exports = {
         const [result] = await db.execute(sql, values);
         return result.affectedRows; // number of updated rows
     },
+
     // DELETE user
     deleteUser: async (id) => {
         const sql = 'DELETE FROM users WHERE id = ?';
@@ -67,4 +69,4 @@ module.exports = {
         const [rows] = await db.execute(sql, [email, excludeId]);
         return rows[0];
     },
-}
+};
