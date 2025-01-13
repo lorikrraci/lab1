@@ -69,3 +69,28 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     // Send token and user data
     sendToken(user, 201, res);
 });
+
+// 2. Login user
+exports.loginUser = catchAsyncErrors(async (req, res, next) => {
+    const { email, password } = req.body;
+
+    // Validate email & password
+    if (!email || !password) {
+        return next(new ErrorHandler('Please enter email & password', 400));
+    }
+
+    // Find user by email
+    const user = await User.getUserByEmail(email);
+    if (!user) {
+        return next(new ErrorHandler('Invalid Email or Password', 401));
+    }
+
+    // Compare passwords
+    const isPasswordMatched = await bcrypt.compare(password, user.password);
+    if (!isPasswordMatched) {
+        return next(new ErrorHandler('Invalid Email or Password', 401));
+    }
+
+    // Send token and user data
+    sendToken(user, 200, res);
+});
