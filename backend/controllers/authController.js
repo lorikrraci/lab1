@@ -124,3 +124,40 @@ exports.getUserProfile = catchAsyncErrors(async (req, res, next) => {
         user: userData,
     });
 });
+
+// 5. Update user profile
+exports.updateUserProfile = catchAsyncErrors(async (req, res, next) => {
+    const { name, email, password } = req.body;
+
+    // Check if email is being updated and if it's already taken
+    if (email) {
+        const existingUser = await User.getUserByEmailExcludingId(email, req.user.id);
+        if (existingUser) {
+            return next(new ErrorHandler('Email already in use by another account', 400));
+        }
+    }
+
+    // Prepare updates
+    const updates = {};
+    if (name) updates.name = name;
+    if (email) updates.email = email;
+    if (password) updates.password = password;
+
+    // Update user in MySQL
+    const affectedRows = await User.updateUser(req.user.id, updates);
+    if (affectedRows === 0) {
+        return next(new ErrorHandler('No changes made or user not found', 400));
+    }
+
+    // Retrieve updated user
+    const updatedUser = await User.getUserById(req.user.id);
+
+    // Remove password before sending
+    const { password: pwd, ...userData } = updatedUser;
+
+    res.status(200).json({
+        success: true,
+        user: userData,
+    });
+});
+
