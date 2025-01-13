@@ -26,4 +26,32 @@ module.exports = {
         const [rows] = await db.execute(sql, [email]);
         return rows[0];
     },
+    // UPDATE user
+    updateUser: async (id, { name, email, password }) => {
+        const fields = [];
+        const values = [];
+
+        if (name !== undefined) {
+            fields.push('name = ?');
+            values.push(name);
+        }
+        if (email !== undefined) {
+            fields.push('email = ?');
+            values.push(email);
+        }
+        if (password !== undefined) {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            fields.push('password = ?');
+            values.push(hashedPassword);
+        }
+
+        // Always update updatedAt
+        fields.push('updatedAt = NOW()');
+
+        const sql = `UPDATE users SET ${fields.join(', ')} WHERE id = ?`;
+        values.push(id);
+
+        const [result] = await db.execute(sql, values);
+        return result.affectedRows; // number of updated rows
+    },
 }
