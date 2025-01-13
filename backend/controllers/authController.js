@@ -94,3 +94,33 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
     // Send token and user data
     sendToken(user, 200, res);
 });
+
+// 3. Logout user
+exports.logoutUser = catchAsyncErrors(async (req, res, next) => {
+    res.cookie('token', null, {
+        expires: new Date(Date.now()),
+        httpOnly: true,
+    });
+
+    res.status(200).json({
+        success: true,
+        message: 'Logged out successfully',
+    });
+});
+
+// 4. Get user profile
+exports.getUserProfile = catchAsyncErrors(async (req, res, next) => {
+    const user = await User.getUserById(req.user.id);
+
+    if (!user) {
+        return next(new ErrorHandler('User not found', 404));
+    }
+
+    // Remove password before sending
+    const { password, ...userData } = user;
+
+    res.status(200).json({
+        success: true,
+        user: userData,
+    });
+});
