@@ -62,6 +62,13 @@ module.exports = {
     return rows[0]; // single order object or undefined
   },
 
+   // 4. Get single order by id (no user constraint) - for Admin or general usage
+   getOrderById: async (orderId) => {
+    const sql = `SELECT * FROM orders WHERE id = ? LIMIT 1`;
+    const [rows] = await db.execute(sql, [orderId]);
+    return rows[0];
+  },
+
 }
  
 
