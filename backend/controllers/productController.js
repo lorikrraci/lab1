@@ -61,3 +61,30 @@ exports.getProductById = catchAsyncErrors(async (req, res, next) => {
     });
   }
 });
+
+// CREATE NEW PRODUCT => /api/v1/admin/products/new
+// ─────────────────────────────────────────────────────────────────────────────
+exports.createProduct = catchAsyncErrors(async (req, res, next) => {
+  try {
+    // Typically you’d track which user created the product:
+    req.body.userId = req.user ? req.user.id : null;
+
+    // Insert into DB and get the new product ID
+    const newProductId = await createProduct(req.body);
+
+    // Fetch the newly created product
+    const newProduct = await getProductById(newProductId);
+
+    res.status(201).json({
+      success: true,
+      message: "Product created successfully",
+      product: newProduct
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Product creation failed',
+      error: error.message
+    });
+  }
+});
