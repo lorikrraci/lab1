@@ -7,6 +7,54 @@ module.exports = {
       const [rows] = await db.execute(sql, [userId]);
       return rows; // array of order objects
     },
-}  
+
+    // 2. Create new order
+  createOrder: async (orderData) => {
+    const {
+      userId,
+      orderItems,
+      shippingInfo, // If you want to store shippingInfo, either add column or merge it into orderItems/paymentInfo
+      paymentInfo,
+      itemsPrice,
+      taxPrice,
+      shippingPrice,
+      totalPrice,
+    } = orderData;
+
+    // Note: You have a `paidAt` field in your Sequelize model; set it if needed
+    const paidAt = new Date(); // or Date.now()
+    
+    const sql = `
+      INSERT INTO orders (
+        userId, 
+        orderItems, 
+        paymentInfo, 
+        paidAt, 
+        itemsPrice, 
+        taxPrice, 
+        shippingPrice, 
+        totalPrice,
+        createdAt, 
+        updatedAt
+      )
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+    `;
+    
+    const [result] = await db.execute(sql, [
+      userId,
+      JSON.stringify(orderItems), // convert array/object to JSON string
+      paymentInfo ? JSON.stringify(paymentInfo) : null,
+      paidAt,
+      itemsPrice,
+      taxPrice,
+      shippingPrice,
+      totalPrice
+    ]);
+
+    // return the newly created order ID
+    return result.insertId;
+  },
+}
+ 
 
   
