@@ -93,7 +93,13 @@ module.exports = {
     return result.affectedRows;
   },
 
-}
+  // 6. Delete order
+  deleteOrder: async (orderId) => {
+    const sql = `DELETE FROM orders WHERE id = ?`;
+    const [result] = await db.execute(sql, [orderId]);
+    return result.affectedRows;
+  }
+};
  
 
   
