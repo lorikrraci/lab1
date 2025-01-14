@@ -54,6 +54,14 @@ module.exports = {
     // return the newly created order ID
     return result.insertId;
   },
+
+  // 3. Get single order by id (and optional userId)
+  getOrderByIdAndUserId: async (orderId, userId) => {
+    const sql = `SELECT * FROM orders WHERE id = ? AND userId = ? LIMIT 1`;
+    const [rows] = await db.execute(sql, [orderId, userId]);
+    return rows[0]; // single order object or undefined
+  },
+
 }
  
 
