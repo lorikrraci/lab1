@@ -69,6 +69,30 @@ module.exports = {
     return rows[0];
   },
 
+  // 5. Update order status
+  updateOrderStatus: async (orderId, status, deliveredAt) => {
+    // set `deliveredAt` if needed
+    const fields = ['orderStatus = ?'];
+    const values = [status];
+
+    if (status === 'Delivered') {
+      fields.push('deliveredAt = ?');
+      values.push(new Date());
+    }
+
+    fields.push('updatedAt = NOW()');
+
+    const sql = `
+      UPDATE orders
+      SET ${fields.join(', ')}
+      WHERE id = ?
+    `;
+    values.push(orderId);
+
+    const [result] = await db.execute(sql, values);
+    return result.affectedRows;
+  },
+
 }
  
 
