@@ -116,3 +116,29 @@ exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
     });
   }
 });
+// DELETE PRODUCT => /api/v1/admin/products/:id
+// ─────────────────────────────────────────────────────────────────────────────
+exports.deleteProduct = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const productId = req.params.id;
+
+    // Attempt to delete
+    const rowsAffected = await deleteProduct(productId);
+
+    if (rowsAffected === 0) {
+      return next(new ErrorHandler('Product not found', 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Product is deleted.'
+    });
+  } catch (error) {
+    console.error('Error deleting product:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server Error',
+      error: error.message
+    });
+  }
+});
