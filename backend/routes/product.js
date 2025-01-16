@@ -6,3 +6,11 @@ const {
 } = require('../controllers/productController');
 
 module.exports = router;
+const { 
+    getProducts, // Renamed from getProducts
+    createProduct,  // Renamed from newProduct
+    getProductById, // Renamed from getSingleProduct
+    updateProduct,
+    deleteProduct,
+    // Add review-related controllers if they exist
+} = require('../controllers/productController'); // Ensure this path is correct
