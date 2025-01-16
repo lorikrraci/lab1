@@ -117,6 +117,28 @@ module.exports = {
     const [result] = await db.execute(sql, values);
     return result.affectedRows;
   },
+  // 4. Delete product
+  deleteProduct: async (id) => {
+    const sql = 'DELETE FROM products WHERE id = ?';
+    const [result] = await db.execute(sql, [id]);
+    return result.affectedRows;
+  },
 
+  // 5. List or search products
+  //   For example, to get all products or search by name
+  getAllProducts: async () => {
+    const sql = 'SELECT * FROM products';
+    const [rows] = await db.execute(sql);
+
+    // Parse JSON columns
+    rows.forEach((item) => {
+      item.images = JSON.parse(item.images || '[]');
+      if (item.reviews) {
+        item.reviews = JSON.parse(item.reviews);
+      }
+    });
+
+    return rows;
+  },
 
 };
