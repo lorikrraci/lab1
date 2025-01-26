@@ -9,6 +9,11 @@ const cors = require('cors');
 // Environment Variables
 require('dotenv').config();
 
+// Middleware
+app.use(express.json());
+app.use(cookieParser());
+app.use(bodyparser.urlencoded({ extended: true }));
+
 // Import all the routes
 const products = require('./routes/product');
 const order = require('./routes/order');
