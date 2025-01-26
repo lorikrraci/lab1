@@ -14,3 +14,13 @@ process.on('uncaughtException', err => {
 
 // Setting up config file
 dotenv.config({ path: 'backend/config/.env' });
+// Start the server only after ensuring database connectivity
+const startServer = async () => {
+    try {
+        // Test the database connection
+        await db.getConnection();
+        console.log('MySQL Database connected successfully.');
+
+        const server = app.listen(process.env.PORT, () => {
+            console.log(Server is running on http://localhost:${process.env.PORT});
+        });
