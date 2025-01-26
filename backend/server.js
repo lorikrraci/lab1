@@ -24,3 +24,17 @@ const startServer = async () => {
         const server = app.listen(process.env.PORT, () => {
             console.log(Server is running on http://localhost:${process.env.PORT});
         });
+        // Handle unhandled promise rejections
+        process.on('unhandledRejection', err => {
+            console.error(Unhandled Rejection: ${err.message});
+            console.error(err.stack);
+            console.log('Shutting down the server due to unhandled promise rejection.');
+            server.close(() => {
+                process.exit(1);
+            });
+        });
+    } catch (err) {
+        console.error('Failed to connect to the database:', err);
+        process.exit(1);
+    }
+};
