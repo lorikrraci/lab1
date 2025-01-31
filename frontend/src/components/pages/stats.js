@@ -79,6 +79,17 @@ const teamStandings = [
         goalDifference: -47,
         points: 25,
     },
+    {
+        position: 8,
+        teamName: "Proton Cable Prizreni",
+        matchesPlayed: 19,
+        wins: 4,
+        losses: 15,
+        scored: 1488,
+        conceded: 1746,
+        goalDifference: -258,
+        points: 23,
+    }
 
 ]
 
