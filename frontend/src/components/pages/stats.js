@@ -24,6 +24,18 @@ const teamStandings = [
         goalDifference:192,
         points: 32,
     },
+    {
+        position: 3,
+        teamName: "Sigal Prishtina",
+        matchesPlayed: 19,
+        wins: 11,
+        losses: 8,
+        scored: 1589,
+        conceded: 1583,
+        goalDifference: 6,
+        points: 30,
+    },
+
 ]
 
 
