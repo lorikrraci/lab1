@@ -4,7 +4,7 @@ const Club = () => {
   return (
     <div>
       <h2>Klubi</h2>
-      <p>Informacione për klubin tuaj...</p>
+      <p>klubiiiii</p>
     </div>
   );
 };
