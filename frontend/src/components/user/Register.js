@@ -143,7 +143,7 @@ export const Register = () => {
                             className="register-button" 
                             disabled={loading ? true : false}
                         >
-                            REGISTER
+                            REGISTER 
                         </button>
                     </form>
                 </div>
