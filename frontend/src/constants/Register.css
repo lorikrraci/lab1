@@ -60,3 +60,25 @@
     color: #333;
     font-weight: bold;
 }
+/* Form Inputs */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Links */
+.forgot-password-link,
+.new-user-link {
+    display: block;
+    text-align: center;
+    margin: 0.5rem 0;
+    color: #e11b22;
+    text-decoration: none;
+    font-weight: bold;
+}
