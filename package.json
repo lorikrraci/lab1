@@ -21,6 +21,10 @@
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.12.0",
     "nodemailer": "^6.9.16",
+    "react-alert-template-basic": "^1.0.2",
+    "react-helmet": "^6.1.0",
+    "redux": "^5.0.1",
+    "redux-devtools-extension": "^2.13.9",
     "validator": "^13.12.0"
   },
   "devDependencies": {

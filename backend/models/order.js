@@ -100,6 +100,3 @@ module.exports = {
     return result.affectedRows;
   }
 };
- 
-
-  

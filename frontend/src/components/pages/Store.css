@@ -1,0 +1,35 @@
+/* Store.css */
+.store-background {
+    height: 100vh;
+    display: flex;
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
+    background-color: #f4f4f4; /* Add a background color if desired */
+}
+
+.store-container {
+    width: 100%;
+    max-width: 1200px; /* You can adjust this to your desired container width */
+    padding: 20px;
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Centers the content horizontally within the container */
+}
+
+#products {
+    display: flex;
+    flex-wrap: wrap; /* Allows products to wrap in rows */
+    justify-content: center; /* Centers the products within the row */
+    gap: 20px; /* Adds space between products */
+}
+
+.row {
+    display: flex;
+    justify-content: center; /* Centers the columns of products */
+    width: 100%;
+}
+
+.product {
+    width: 250px; /* Or any width that fits your design */
+    margin: 10px; /* Adds spacing between the product cards */
+}
