@@ -46,6 +46,17 @@ const teamStandings = [
         goalDifference: 38,
         points: 29,
     },
+    {
+        position: 5,
+        teamName: "Vëllaznimi",
+        matchesPlayed: 19,
+        wins: 10,
+        losses: 9,
+        scored: 1452,
+        conceded: 1451,
+        goalDifference: 1,
+        points: 29,
+    },
 
 ]
 
