@@ -35,6 +35,17 @@ const teamStandings = [
         goalDifference: 6,
         points: 30,
     },
+    {
+        position: 4,
+        teamName: "Peja",
+        matchesPlayed: 	19,
+        wins: 10,
+        losses: 9,
+        scored: 1495,
+        conceded: 1457,
+        goalDifference: 38,
+        points: 29,
+    },
 
 ]
 
