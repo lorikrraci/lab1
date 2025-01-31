@@ -68,6 +68,17 @@ const teamStandings = [
         goalDifference: -75,
         points: 27,
     },
+    {
+        position: 7,
+        teamName: "Bora",
+        matchesPlayed: 19,
+        wins: 6,
+        losses: 13,
+        scored: 1495,
+        conceded: 1542,
+        goalDifference: -47,
+        points: 25,
+    },
 
 ]
 
