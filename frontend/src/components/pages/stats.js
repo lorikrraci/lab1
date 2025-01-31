@@ -1,4 +1,7 @@
-
+import React from 'react';
+import './Stats.css';
+import MetaData from '../layout/MetaData';
+import { useNavigate } from 'react-router-dom';
 
 // Example of an array holding data for all teams
 const teamStandings = [
@@ -91,6 +94,139 @@ const teamStandings = [
         points: 23,
     }
 
-]
+];
+
+const gameResults = [
+    {
+      teams: ["Vëllaznimi", "Peja"],
+      score: "87 - 72",
+      date: "January 20, 2025",
+      stats: [
+        { label: "Field Goals", value: "31/60 - 27/55" },
+        { label: "3PT", value: "9/18 - 7/20" },
+        { label: "Free Throws", value: "16/18 - 11/14" },
+        { label: "Rebounds", value: "45 - 38" },
+        { label: "Assists", value: "22 - 18" },
+      ],
+    },
+    {
+      teams: ["Vëllaznimi", "Bora"],
+      score: "95 - 89",
+      date: "January 18, 2025",
+      stats: [
+        { label: "Field Goals", value: "36/70 - 32/68" },
+        { label: "3PT", value: "8/15 - 9/21" },
+        { label: "Free Throws", value: "15/20 - 12/18" },
+        { label: "Rebounds", value: "42 - 40" },
+        { label: "Assists", value: "23 - 20" },
+      ],
+    },
+    {
+      teams: ["Vëllaznimi", "Prishtina"],
+      score: "78 - 82",
+      date: "January 15, 2025",
+      stats: [
+        { label: "Field Goals", value: "28/58 - 32/64" },
+        { label: "3PT", value: "6/13 - 5/14" },
+        { label: "Free Throws", value: "10/12 - 15/19" },
+        { label: "Rebounds", value: "38 - 35" },
+        { label: "Assists", value: "19 - 17" },
+      ],
+    },
+  ];
+
+const Stats = () => {
+    const navigate = useNavigate(); // For navigation to the Rezultatet page
+
+    return (
+        <>
+            <div className="results-container">
+      <h1 className="results-heading">Last Games Results</h1>
+      <div className="results-list">
+        {gameResults.map((game, index) => (
+          <div className="result-box" key={index}>
+            <div className="logos">
+              <img
+                className="team-logo"
+                src="./images/KB-Vellaznimi-logo.png"
+                alt={game.teams[0]}
+              />
+              <span className="vs-text">VS</span>
+              <img
+                className="team-logo"
+                src="./images/KB-Peja-logo.png"
+                alt={game.teams[1]}
+              />
+            </div>
+            <p className="game-score">{game.score}</p>
+            <p className="game-date">{game.date}</p>
+            <table className="stats-table">
+              <thead>
+                <tr>
+                  <th>Stats</th>
+                  <th>{game.teams[0]}</th>
+                  <th>{game.teams[1]}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {game.stats.map((stat, index) => (
+                  <tr key={index}>
+                    <td>{stat.label}</td>
+                    <td>{stat.value.split(" - ")[0]}</td>
+                    <td>{stat.value.split(" - ")[1]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ))}
+      </div>
+    </div>
+ 
+
+            {/* Team Standing Section */}
+            <div className="team-standing-section">
+                <div className="team-standing-content">
+                    <h2 className="team-standing-heading">TEAM STANDING</h2>
+                    <table className="team-standing-table">
+                        <thead>
+                            <tr>
+                                <th>Position</th>
+                                <th>Ekipi</th>
+                                <th>Ndeshjet</th>
+                                <th>Fitoret</th>
+                                <th>Humbjet</th>
+                                <th>Shënuara</th>
+                                <th>Pranuara</th>
+                                <th>Kosh Diferenca</th>
+                                <th>Pikët</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {/* Map through the array and display data */}
+                            {teamStandings.map((team) => (
+                                <tr key={team.position}>
+                                    <td>{team.position}</td>
+                                    <td>{team.teamName}</td>
+                                    <td>{team.matchesPlayed}</td>
+                                    <td>{team.wins}</td>
+                                    <td>{team.losses}</td>
+                                    <td>{team.scored}</td>
+                                    <td>{team.conceded}</td>
+                                    <td>{team.goalDifference}</td>
+                                    <td>{team.points}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </>
+    );
+};
+
+export default Stats;
+
+
 
 
