@@ -13,6 +13,17 @@ const teamStandings = [
         goalDifference: 143,
         points: 33,
     },
+    {
+        position: 2,
+        teamName: "	Trepça",
+        matchesPlayed: 19,
+        wins: 13,
+        losses: 6,
+        scored:1546,
+        conceded:1354,
+        goalDifference:192,
+        points: 32,
+    },
 ]
 
 
