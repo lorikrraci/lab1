@@ -1,0 +1,104 @@
+/* General Styling */
+.results-container {
+    margin: 50px auto;
+    padding: 40px 20px;
+    background-color: #f0f0f0;
+    max-width: 1200px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .results-heading {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .results-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+  }
+  
+  .result-box {
+    width: 320px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .result-box:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .logos {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .team-logo {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  
+  .vs-text {
+    margin: 0 20px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .game-score {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin: 10px 0;
+  }
+  
+  .game-date {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+  }
+  
+  .stats-table th, .stats-table td {
+    padding: 8px 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+  }
+  
+  .stats-table th {
+    background-color: #A50304;
+    color: white;
+  }
+  
+  .stats-table td {
+    background-color: #f9f9f9;
+  }
+  
+  .stats-table tr:nth-child(even) td {
+    background-color: #f0f0f0;
+  }
+  
+  .stats-table td {
+    font-weight: bold;
+    color: #333;
+  }
+  
