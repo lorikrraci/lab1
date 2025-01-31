@@ -1,4 +1,3 @@
-import { signedCookie } from 'cookie-parser';
 import React from 'react';
 
 export const Footer = () => {
@@ -31,7 +30,6 @@ export const Footer = () => {
             </div>
         </footer>
     );
-    
 };
 
 export default Footer;

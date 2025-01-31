@@ -16,7 +16,8 @@ const axiosInstance =  axios.create({
       'Content-Type': 'application/json',  // Optional: Default headers
     },
   });
-  //Login
+
+//Login
 export const login = (email, password) => async (dispatch )=>{
     try{
 
@@ -42,6 +43,7 @@ export const login = (email, password) => async (dispatch )=>{
         })
     }
 }
+
 // Register user
 // Register user
 export const register = (userData) => async (dispatch) => {
@@ -76,6 +78,10 @@ export const register = (userData) => async (dispatch) => {
         });
     }
 };
+
+
+
+
 //Clear errors
 export const clearErrors = () => async (dispatch) =>{
     dispatch({

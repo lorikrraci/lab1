@@ -12,6 +12,7 @@
     background-position: center;
     background-repeat: no-repeat; /* Prevents repeating the image */
 }
+
 /* Background Blur Effect */
 .register-container::before {
     content: '';
@@ -24,6 +25,7 @@
     background-color: rgba(0, 0, 0, 0.4); /* Optional dark overlay to enhance readability */
     z-index: 0; /* Behind the content */
 }
+
 /* Smaller Logo as Background (Centered and Blurred) */
 .logo-overlay {
     position: absolute;
@@ -40,6 +42,7 @@
     filter: blur(10px); /* Increase blur effect for stronger impact */
     z-index: 1; /* Behind the form */
 }
+
 /* Form Wrapper */
 .register-wrapper {
     position: relative;
@@ -60,6 +63,7 @@
     color: #333;
     font-weight: bold;
 }
+
 /* Form Inputs */
 .form-group {
     margin-bottom: 1rem;
@@ -82,6 +86,7 @@
     text-decoration: none;
     font-weight: bold;
 }
+
 .forgot-password-link:hover,
 .new-user-link:hover {
     text-decoration: underline;
