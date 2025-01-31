@@ -57,6 +57,17 @@ const teamStandings = [
         goalDifference: 1,
         points: 29,
     },
+    {
+        position: 6,
+        teamName: "Golden Eagle Ylli",
+        matchesPlayed: 19,
+        wins: 8,
+        losses: 11,
+        scored: 1399,
+        conceded: 1474,
+        goalDifference: -75,
+        points: 27,
+    },
 
 ]
 
