@@ -7,14 +7,13 @@ const Search = () => {
 
     const searchHandler = (e) => {
         e.preventDefault();
-    
+
         if (keyword.trim()) {
-            navigate(`/search/${keyword}`);  
+            navigate(`/store/search/${keyword}`);  // Corrected route path
         } else {
-            navigate('/');  
+            navigate('/store');  // Redirect to the store page when no keyword
         }
     };
-    
 
     return (
         <form onSubmit={searchHandler}>
@@ -34,7 +33,6 @@ const Search = () => {
             </div>
         </form>
     );
-    
 };
 
 export default Search;
