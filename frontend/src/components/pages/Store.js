@@ -24,11 +24,21 @@ const Store = () => {
 
     useEffect(() => {
         if (error) console.error(error);
-        dispatch(getProducts(keyword, currentPage, price, category, rating)); // Fetch products based on search params
+        dispatch(getProducts(keyword, currentPage, price, category, rating));
     }, [dispatch, error, keyword, currentPage, price, category, rating]);
-
+    
     const handlePageClick = (data) => setCurrentPage(data.selected + 1);
-
+    
+    const handleCategoryClick = (category) => {
+        setCategory(category);
+        setCurrentPage(1); // Reset to the first page when changing category
+    };
+    
+    const handleRatingClick = (rating) => {
+        setRating(rating);
+        setCurrentPage(1); // Reset to the first page when changing rating
+    };
+    
     return (
         <div className="store-background">
             <div className="store-container">
@@ -54,7 +64,7 @@ const Store = () => {
                                     <h4 className="mb-3">Categories</h4>
                                     <ul>
                                         {categories.map(category => (
-                                            <li key={category} className="category-item" onClick={() => setCategory(category)}>
+                                            <li key={category} className="category-item" onClick={() => handleCategoryClick(category)}>
                                                 {category}
                                             </li>
                                         ))}
@@ -63,7 +73,7 @@ const Store = () => {
                                     <h4 className="mb-3">Ratings</h4>
                                     <ul>
                                         {[5, 4, 3, 2, 1].map(star => (
-                                            <li key={star} className="rating-item" onClick={() => setRating(star)}>
+                                            <li key={star} className="rating-item" onClick={() => handleRatingClick(star)}>
                                                 {'⭐'.repeat(star)}
                                             </li>
                                         ))}
@@ -80,13 +90,9 @@ const Store = () => {
                             <ReactPaginate
                                 pageCount={Math.ceil(productCount / resPerPage)}
                                 onPageChange={handlePageClick}
-                                previousLabel={'Prev'}
-                                nextLabel={'Next'}
-                                breakLabel={'...'}
-                                marginPagesDisplayed={2}
-                                pageRangeDisplayed={5}
-                                containerClassName={'pagination'}
-                                activeClassName={'active'}
+                                containerClassName="pagination"
+                                previousLabel="Previous"
+                                nextLabel="Next"
                             />
                         )}
                     </Fragment>

@@ -12,30 +12,35 @@ const {
 
 // GET ALL PRODUCTS =>  /api/v1/products?keyword=apple
 // ─────────────────────────────────────────────────────────────────────────────
+// GET ALL PRODUCTS => /api/v1/products?keyword=apple&category=Jersey&price[lte]=5000&price[gte]=1&ratings[gte]=4
 exports.getProducts = catchAsyncErrors(async (req, res, next) => {
   try {
-    // 1) If you want to do search/filter/pagination manually, you’ll have to build
-    //    raw SQL queries. For now, we’ll just fetch all products:
-    const products = await getAllProducts();
+      const keyword = req.query.keyword || '';
+      const category = req.query.category || '';
+      const price = [
+          req.query.price?.[0] || 1, // Default min price
+          req.query.price?.[1] || 5000, // Default max price
+      ];
+      const rating = req.query.ratings?.[0] || 0; // Default rating
 
-    // 2) Count how many we have
-    const productCount = products.length;
-    
-    // 3) Optionally define a per-page (just as an example)
-    const resPerPage = 4;
+      // Fetch products with filters
+      const products = await getAllProducts(keyword, price, category, rating);
 
-    // 4) Return your products
-    res.status(200).json({
-      success: true,
-      message: "This route will show all products.",
-      productCount,
-      resPerPage,
-      products
-    });
+      const productCount = products.length;
+      const resPerPage = 4;
+
+      res.status(200).json({
+          success: true,
+          message: "Fetched all products.",
+          productCount,
+          resPerPage,
+          products
+      });
   } catch (error) {
-    return next(new ErrorHandler(error.message, 500));
+      return next(new ErrorHandler(error.message, 500));
   }
 });
+
 
 // GET SINGLE PRODUCT => /api/v1/products/:id
 // ─────────────────────────────────────────────────────────────────────────────

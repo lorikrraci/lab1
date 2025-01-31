@@ -126,19 +126,42 @@ module.exports = {
 
   // 5. List or search products
   //   For example, to get all products or search by name
-  getAllProducts: async () => {
-    const sql = 'SELECT * FROM products';
-    const [rows] = await db.execute(sql);
+  // 5. List or search products
+getAllProducts: async (keyword = '', priceRange = [1, 5000], category = '', rating = 0) => {
+  let sql = 'SELECT * FROM products WHERE 1';
+  let values = [];
 
-    // Parse JSON columns
-    rows.forEach((item) => {
+  if (keyword) {
+      sql += ' AND name LIKE ?';
+      values.push(`%${keyword}%`);
+  }
+
+  if (category) {
+      sql += ' AND category = ?';
+      values.push(category);
+  }
+
+  if (rating) {
+      sql += ' AND ratings >= ?';
+      values.push(rating);
+  }
+
+  if (priceRange) {
+      sql += ' AND price BETWEEN ? AND ?';
+      values.push(priceRange[0], priceRange[1]);
+  }
+
+  const [rows] = await db.execute(sql, values);
+
+  // Parse JSON columns
+  rows.forEach((item) => {
       item.images = JSON.parse(item.images || '[]');
       if (item.reviews) {
-        item.reviews = JSON.parse(item.reviews);
+          item.reviews = JSON.parse(item.reviews);
       }
-    });
+  });
 
-    return rows;
-  },
+  return rows;
+}
 
 };
