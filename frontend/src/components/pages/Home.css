@@ -5,27 +5,34 @@ html, body {
     width: 100%;
     border: none;
   }
+  header, footer {
+    position: relative;
+    width: 100%;
+    z-index: 10; 
+}
+
   
   .home-background {
-      height: 380vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-  }
+    min-height: 100vh; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
   
   .background-container {
-      width: 100%;
-      height: 100%;
-      background-image: url('/public/images/background.png'); /* Ensure the file is correctly placed */
-      background-size: cover;
-      background-position: center;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      padding-left: 50px;
-      box-sizing: border-box;
-  }
+    width: 100vw;
+    height: 100vh;
+    background-image: url('/public/images/background.png');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 50px;
+    box-sizing: border-box;
+}
   
   .background-text {
       color: white;
@@ -36,11 +43,12 @@ html, body {
   }
       
       /* src/components/Home.css */
-  .container {
-      max-width: 1550px;
-      margin: 0 auto;
-      padding: 0px;
+      .container {
+        max-width: 100%;
+        padding: 0 20px; /* Prevents elements from overflowing */
+        box-sizing: border-box;
     }
+    
     
     header h1 {
       font-size: 2.5rem;
@@ -69,7 +77,21 @@ html, body {
       border-radius: 15px; /* Optional: Rounded corners for the section */
       box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow for better separation */
   }
-  
+
+  /* Responsive Styles */
+@media (max-width: 768px) {
+  .store-title {
+      font-size: 2rem; /* Adjust size for tablets */
+  }
+}
+
+@media (max-width: 480px) {
+  .store-title {
+      font-size: 1.5rem; /* Adjust size for mobile */
+      color: #ff8800; /* Change color for mobile */
+  }
+}
+
   /* Heading for the results section */
   .results-heading {
     font-size: 2rem; /* Adjust size as needed */

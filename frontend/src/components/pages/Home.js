@@ -4,7 +4,7 @@ import MetaData from '../layout/MetaData';
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
-    const navigate = useNavigate(); // For navigation to the Rezultatet page
+    const navigate = useNavigate(); 
 
     const topPerformers = [
         { 
