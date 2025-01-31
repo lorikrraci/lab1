@@ -24,3 +24,19 @@
     background-color: rgba(0, 0, 0, 0.4); /* Optional dark overlay to enhance readability */
     z-index: 0; /* Behind the content */
 }
+/* Smaller Logo as Background (Centered and Blurred) */
+.logo-overlay {
+    position: absolute;
+    width: 200px; /* Adjusted size for the logo */
+    height: 200px; /* Adjusted size for the logo */
+    background-image: url('/public/images/background.png'); /* Double-check this path */
+    background-size: contain; /* Ensure the whole image is visible */
+    background-repeat: no-repeat;
+    background-position: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.08; /* Light opacity for a subtle effect */
+    filter: blur(10px); /* Increase blur effect for stronger impact */
+    z-index: 1; /* Behind the form */
+}
