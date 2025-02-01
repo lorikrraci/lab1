@@ -35,8 +35,8 @@ export const Header = () => {
                 </h1>
             </div>
 
-            {/* Conditionally Render Search Bar */}
-            {location.pathname === '/store' && (
+           {/* Conditionally Render Search Bar */}
+           {(location.pathname === '/store' || location.pathname.startsWith('/store/search/')) && (
                 <div className="col-12 col-md-6 mt-2 mt-md-0">
                     <Search />
                 </div>
