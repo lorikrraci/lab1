@@ -29,15 +29,16 @@ const Store = () => {
     
     const handlePageClick = (data) => setCurrentPage(data.selected + 1);
     
-    const handleCategoryClick = (category) => {
-        setCategory(category);
-        setCurrentPage(1); // Reset to the first page when changing category
+    const handleCategoryClick = (selectedCategory) => {
+        setCategory(selectedCategory === category ? '' : selectedCategory); // Allow deselecting category
+        setCurrentPage(1);
     };
     
-    const handleRatingClick = (rating) => {
-        setRating(rating);
-        setCurrentPage(1); // Reset to the first page when changing rating
+    const handleRatingClick = (selectedRating) => {
+        setRating(selectedRating === rating ? 0 : selectedRating); // Allow deselecting rating
+        setCurrentPage(1); 
     };
+    
     
     return (
         <div className="store-background">

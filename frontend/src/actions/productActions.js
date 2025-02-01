@@ -14,11 +14,12 @@ export const getProducts = (keyword = '', currentPage = 1, price, category, rati
     try {
       dispatch({type: ALL_PRODUCTS_REQUEST});
   
-      let link = `http://localhost:5000/api/v1/products/?page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&ratings[gte]=${rating}`;
+      let link = `http://localhost:5000/api/v1/products/?page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}`;
   
       if (keyword) link += `&keyword=${keyword}`;
-      if (category) link += `&category=${category}`;
-      if (rating > 0) link += `&ratings[gte]=${rating}`;
+      if (category && category !== '') link += `&category=${encodeURIComponent(category)}`;
+      if (rating > 0) link += `&ratings[gte]=${rating}`; // Only include if rating > 0
+
   
       const { data }  = await axios.get(link);
   

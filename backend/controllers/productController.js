@@ -16,12 +16,13 @@ const {
 exports.getProducts = catchAsyncErrors(async (req, res, next) => {
   try {
       const keyword = req.query.keyword || '';
-      const category = req.query.category || '';
+      const category = req.query.category && req.query.category !== '' ? req.query.category : null;
+
       const price = [
           req.query.price?.[0] || 1, // Default min price
           req.query.price?.[1] || 5000, // Default max price
       ];
-      const rating = req.query.ratings?.[0] || 0; // Default rating
+      const rating = req.query['ratings[gte]'] ? parseInt(req.query['ratings[gte]']) : 0;
 
       // Fetch products with filters
       const products = await getAllProducts(keyword, price, category, rating);
