@@ -1,11 +1,18 @@
 import React from 'react';
-// import './Stats.css'; 
 import { Link, useLocation } from 'react-router-dom';
-import Search from './Search';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../actions/userActions';
+import Search from './Search';
 
 export const Header = () => {
     const location = useLocation();
+    const dispatch = useDispatch();
+    const { isAuthenticated } = useSelector((state) => state.auth);
+
+    const handleLogout = (e) => {
+        e.preventDefault();
+        dispatch(logout());
+    };
 
     return (
         <header
@@ -95,16 +102,19 @@ export const Header = () => {
                 >
                     Lajmet
                 </Link>
-                <Link
-                    to="/login"
-                    style={{
-                        color: '#fff',
-                        fontWeight: 'bold',
-                        textDecoration: 'none',
-                    }}
-                >
-                    Login
-                </Link>
+                {!isAuthenticated ? (
+                    <Link to="/login" style={{ color: '#fff', fontWeight: 'bold', textDecoration: 'none' }}>
+                        Login
+                    </Link>
+                ) : (
+                    <Link
+                        to="#"
+                        onClick={handleLogout}
+                        style={{ color: '#fff', fontWeight: 'bold', textDecoration: 'none' }}
+                    >
+                        Logout
+                    </Link>
+                )}
             </nav>
         </header>
     );

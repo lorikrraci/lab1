@@ -38,6 +38,10 @@ export const login = (email, password) => async (dispatch )=>{
             payload: data.user
         })
 
+        // Save user and token in localStorage
+        localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem('token', data.token);
+
     }catch(error){
         dispatch({
             type: LOGIN_FAIL,
@@ -46,7 +50,6 @@ export const login = (email, password) => async (dispatch )=>{
     }
 }
 
-// Register user
 // Register user
 export const register = (userData) => async (dispatch) => {
     try {
@@ -82,21 +85,24 @@ export const register = (userData) => async (dispatch) => {
 };
 
 //Logout user
-export const logout = () => async(dispatch) =>{
-    try{
-
-        await axios.get('/api/v1/logout')
+export const logout = () => async (dispatch) => {
+    try {
+        await axiosInstance.get('/api/v1/auth/logout'); 
 
         dispatch({
             type: LOGOUT_SUCCESS,
-        })
-    }catch(error){
+        });
+
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        
+    } catch (error) {
         dispatch({
-            type:LOGOUT_FAIL,
-            payload: error.response.data.message
-        })
+            type: LOGOUT_FAIL,
+            payload: error.response?.data?.message || "Logout failed",
+        });
     }
-}
+};
 
 
 //Clear errors
