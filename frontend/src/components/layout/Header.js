@@ -2,6 +2,7 @@ import React from 'react';
 // import './Stats.css'; 
 import { Link, useLocation } from 'react-router-dom';
 import Search from './Search';
+import { logout } from '../../actions/userActions';
 
 export const Header = () => {
     const location = useLocation();
