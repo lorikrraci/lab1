@@ -24,8 +24,8 @@ export const Header = () => {
                 justifyContent: 'space-between',
             }}
         >
-            {/* Left Section: Logo and Title */}
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            {/* Left Section: Logo and Title - Clickable to go Home */}
+            <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
                 <img
                     src="./images/KB-Vellaznimi-logo.png"
                     alt="KB Vëllaznimi"
@@ -41,7 +41,7 @@ export const Header = () => {
                 >
                     KB VËLLAZNIMI
                 </h1>
-            </div>
+            </Link>
 
            {/* Conditionally Render Search Bar */}
            {(location.pathname === '/store' || location.pathname.startsWith('/store/search/')) && (

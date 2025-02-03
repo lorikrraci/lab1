@@ -1,25 +1,61 @@
 .store-background {
     background-color: #f8f9fa;
     min-height: 100vh;
-    padding: 20px;
+    padding: 40px; /* More spacing */
 }
 
 .store-container {
-    max-width: 1200px;
-    margin: auto;
+    width: 100%; /* Full width inside .store-background */
+    max-width: none; /* Remove width restriction */
+    margin: 0; /* Remove margin to stretch */
+    padding: 0; /* Optional: Remove padding if needed */
 }
 
+
+/* Ensure filters and products are in a row */
+.store-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px; /* Spacing between filters and products */
+}
+
+/* Filters Section */
+.filters {
+    width: 25%; /* Takes up 25% of the screen */
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    min-height: 500px; /* Ensures height is aligned with products */
+}
+
+/* Products Section */
+.products {
+    width: 70%; /* Takes up the remaining space */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between products */
+}
+
+/* Heading */
 #products_heading {
     text-align: center;
-    margin-bottom: 30px;
-    font-size: 28px;
+    background-color: black;
+    color: #A50304;
+    padding: 15px;
+    margin-bottom: 40px;
+    font-size: 32px;
     font-weight: bold;
+    border-radius: 10px;
 }
 
+/* Category and Ratings */
 .category-item, .rating-item {
     list-style: none;
     cursor: pointer;
-    padding: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 18px;
     transition: 0.3s ease-in-out;
 }
 
@@ -28,20 +64,30 @@
     font-weight: bold;
 }
 
+/* Space out categories, reviews, and price filter */
+h4 {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 2px solid #ddd;
+}
+
+/* Pagination */
 .pagination {
     display: flex;
     justify-content: center;
     list-style: none;
     padding: 0;
+    margin-top: 40px;
 }
 
 .pagination li {
-    margin: 0 5px;
+    margin: 0 8px;
     cursor: pointer;
-    padding: 8px 12px;
+    padding: 10px 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
     transition: 0.3s ease-in-out;
+    font-size: 16px;
 }
 
 .pagination .active {
@@ -54,16 +100,17 @@
     background-color: #ddd;
 }
 
-/* Button Styling */
+/* Buttons */
 button,
 .btn {
     background-color: #A50304 !important;
     color: white !important;
     border: none !important;
-    padding: 8px 12px;
+    padding: 10px 15px;
     cursor: pointer;
     transition: 0.3s ease-in-out;
     border-radius: 5px;
+    font-size: 16px;
 }
 
 button:hover,

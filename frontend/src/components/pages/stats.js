@@ -93,7 +93,7 @@ const Stats = () => {
             {/* Team Standing Section */}
             <div className="team-standing-section">
                 <div className="team-standing-content">
-                    <h2 className="team-standing-heading">TEAM STANDING</h2>
+                    <h2 className="team-standing-heading">STANDINGS</h2>
                     <table className="team-standing-table">
                         <thead>
                             <tr>
