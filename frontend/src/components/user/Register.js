@@ -111,14 +111,14 @@ export const Register = () => {
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="avatar_upload">Avatar</label>
+                            <label htmlFor="avatar_upload">Photo</label>
                             <div className="d-flex align-items-center">
                                 <div>
                                     <figure className="avatar mr-3 item-rtl">
                                         <img 
                                             src={avatarPreview} 
                                             className="rounded-circle" 
-                                            alt="Avatar Preview" 
+                                            alt="Photo Preview" 
                                         />
                                     </figure>
                                 </div>
@@ -132,7 +132,7 @@ export const Register = () => {
                                         onChange={onChange} 
                                     />
                                     <label className="custom-file-label" htmlFor="customFile">
-                                        Choose Avatar
+                                        Choose a photo
                                     </label>
                                 </div>
                             </div>
@@ -145,6 +145,12 @@ export const Register = () => {
                         >
                             REGISTER 
                         </button>
+                        {/* Link to Login */}
+                        <div className="form-group text-center">
+                            <p className="new-user-link">
+                                Already have an account? <a href="/login">Login here</a>
+                            </p>
+                        </div>
                     </form>
                 </div>
             </div>

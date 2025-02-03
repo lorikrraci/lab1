@@ -15,7 +15,7 @@ const Store = () => {
     const [price, setPrice] = useState([1, 5000]);
     const [category, setCategory] = useState('');
     const [rating, setRating] = useState(0);
-
+    
     const categories = ['Jersey', 'Shorts', 'T-shirts','Hoodies', 'Hat', 'Accessories', 'Bottle', 'Retro', 'Track-suit','Socks'];
 
     const dispatch = useDispatch();
@@ -27,7 +27,11 @@ const Store = () => {
         dispatch(getProducts(keyword, currentPage, price, category, rating));
     }, [dispatch, error, keyword, currentPage, price, category, rating]);
     
-    const handlePageClick = (data) => setCurrentPage(data.selected + 1);
+    const handlePageClick = (data) => {
+        const selectedPage = data.selected + 1;
+        setCurrentPage(selectedPage);  // Update currentPage directly
+    };
+       
     
     const handleCategoryClick = (selectedCategory) => {
         setCategory(selectedCategory === category ? '' : selectedCategory); // Allow deselecting category
@@ -39,14 +43,15 @@ const Store = () => {
         setCurrentPage(1); 
     };
     
+    const displayedProducts = products?.slice((currentPage - 1) * resPerPage, currentPage * resPerPage);
     
     return (
         <div className="store-background">
             <div className="store-container">
                 {loading ? <Loader /> : (
                     <Fragment>
-                        <MetaData title={'KB Vellaznimi'} />
-                        <h1 id="products_heading">KB Vellaznimi Store</h1>
+                        <MetaData title={'KB Vëllaznimi'} />
+                        <h1 id="products_heading">KB Vëllaznimi Store</h1>
                         <section id="products" className="container mt-5">
                             <div className="row">
                                 <div className="col-6 col-md-3 mt-5 mb-5">
@@ -82,18 +87,20 @@ const Store = () => {
                                 </div>
                                 <div className="col-6 col-md-9">
                                     <div className="row">
-                                        {products?.map(product => <Product key={product._id} product={product} col={4} />)}
+                                    {displayedProducts?.map(product => <Product key={product._id} product={product} col={6} />)}
                                     </div>
                                 </div>
                             </div>
                         </section>
                         {resPerPage < productCount && (
-                            <ReactPaginate
+                                <ReactPaginate
                                 pageCount={Math.ceil(productCount / resPerPage)}
                                 onPageChange={handlePageClick}
                                 containerClassName="pagination"
                                 previousLabel="Previous"
                                 nextLabel="Next"
+                                activeClassName="active"
+                                forcePage={currentPage - 1}
                             />
                         )}
                     </Fragment>

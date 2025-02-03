@@ -7,8 +7,8 @@ import Home from './components/pages/Home';
 import ProductDetails from './components/product/ProductDetails';
 import Store from './components/pages/Store';
 import Stats from './components/pages/Stats';
-import Club from './components/pages/Club';  // Shto këtë linjë
-import News from './components/pages/News';  // Shto këtë linjë
+import Club from './components/pages/Club';  
+import News from './components/pages/News';  
 
 import Login from './components/user/Login';
 import { Register } from './components/user/Register';

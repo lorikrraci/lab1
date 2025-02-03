@@ -45,7 +45,7 @@ html, body {
       /* src/components/Home.css */
       .container {
         max-width: 100%;
-        padding: 0 20px; /* Prevents elements from overflowing */
+        /* padding: 0 20px; Prevents elements from overflowing */
         box-sizing: border-box;
     }
     

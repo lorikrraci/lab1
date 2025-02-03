@@ -1,6 +1,7 @@
 /* General Container for Register Form */
 .register-container {
     height: 100vh;
+    width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -11,6 +12,7 @@
     background-size: cover; /* Ensure the image covers the entire container */
     background-position: center;
     background-repeat: no-repeat; /* Prevents repeating the image */
+    margin-left: -15px;  /*spe bon ndryshe mi hek hapsinen ntmajt!!*/
 }
 
 /* Background Blur Effect */
@@ -108,4 +110,15 @@
 
 .register-button:hover {
     background-color: #b71c1c;
+}
+
+
+.new-user-link a {
+    text-decoration: none;
+    color: #e11b22;
+    font-weight: bold;
+}
+
+.new-user-link a:hover {
+    text-decoration: underline;
 }
