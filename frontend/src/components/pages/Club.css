@@ -1,0 +1,388 @@
+.club-container {
+  font-family:'Robot' sans-serif;
+}
+
+.club-header {
+  background: url('/public/images/background.png') no-repeat center center/cover;
+  background-size: 120%;
+  color: white;
+  text-align: center;
+  position: relative;
+}
+
+.overlay {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 50px;
+  border-radius: 10px;
+}
+
+.title {
+  font-size: 30px;
+  font-weight: bold;
+  text-transform: uppercase;
+  position: absolute;
+  top: 30px;
+  left: 50px;
+}
+
+.description {
+  font-size: 15px;
+  margin-top: 30px;
+  text-align: left;
+  width: 50%;
+}
+
+.squad-title {
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase
+}
+
+.team-subtitle {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffcccb;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.players {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.player-card {
+  background: black;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
+  color: white;
+  width: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.player-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.4);
+}
+
+.player-image {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 10px;
+  border: 2px solid white;
+}
+
+.number {
+  font-size: 22px;
+  font-weight: bold;
+  color: #ffcccb;
+}
+
+.name {
+  font-size: 15px;
+  font-weight: bold;
+  color: white;
+}
+
+.position {
+  font-size: 15px;
+  color: #ffcccb;
+}
+
+.player-1 .player-image {
+  background-image: url('/public/images/player1.png');
+}
+
+.player-44 .player-image {
+  background-image: url('/public/images/player44.png');
+}
+
+.player-9 .player-image {
+  background-image: url('/public/images/player9.png');
+}
+
+.player-3 .player-image {
+  background-image: url('/public/images/player3.png');
+}
+
+.player-33 .player-image {
+  background-image: url('/public/images/player33.png');
+}
+
+.name, .position {
+  font-size: 15px;
+  margin: 5px 0;
+}
+
+.club-content {
+  padding: 50px 20px;
+  background: #f0f0f0;
+  color: black;
+}
+
+section {
+  margin-bottom: 30px;
+}
+
+h1, h2 {
+  color: white !important;
+}
+
+h3 {
+  color: black !important;
+  font-weight: bold;
+  font-size: 30px;
+}
+
+.trophy-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: #ffffff;
+  padding: 40px 20px;
+  margin-top: 30px;
+}
+
+.trophy-left {
+  width: 55%; 
+  text-align: left;
+}
+
+.trophy-title {
+  font-size: 20px; 
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+  color: black;
+}
+
+.trophy-main-title {
+  font-size: 30px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  color: black;
+}
+
+.trophy-description {
+  font-size: 16px;
+  color: black;
+  margin-bottom: 30px;
+}
+
+.trophy-right {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.trophy {
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  width: 120px;
+  position: relative;
+}
+
+.trophy-image {
+  background-image: url('/public/images/ligaepare.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100px;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.trophy-kosovo-cup {
+  display: inline-block;
+  text-align: center;
+  width: 120px;
+  position: relative;
+}
+
+.kosovo-cup-image {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100px;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.trophy-kosovo-cup .kosovo-cup-image {
+  background-image: url('/public/images/kupaekosoves.png');
+}
+
+.trophy-super-cup {
+  display: inline-block;
+  text-align: center;
+  width: 120px;
+  position: relative;
+}
+
+.super-cup-image {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100px;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.trophy-super-cup .super-cup-image {
+  background-image: url('/public/images/superkupa.png');
+}
+
+.trophy-title, .trophy-year {
+  color: black;
+  font-size: 16px;
+  margin: 5px 0;
+}
+
+.trophy-title {
+  font-weight: bold;
+}
+
+.trophy-year {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.trophy p {
+  font-size: 16px;
+  font-weight: bold;
+  color: black;
+}
+
+/* Background i kuq për gjithë seksionin */
+.opinion-sponsor-container {
+  background: #d90429;
+  padding: 50px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/* Kutia gri që përfshin opinionet dhe sponsorët */
+.opinion-sponsor-box {
+  background: #f2f2f2;
+  padding: 40px;
+  border-radius: 12px;
+  text-align: center;
+  width: 80%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Titujt */
+.opinion-title, .sponsor-title {
+  font-size: 25px;
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 20px;
+}
+
+/* Stilizimi i mendimeve */
+.opinion-section {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.opinion-card {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 250px;
+}
+
+.opinion-card img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.fan-name {
+  font-size: 14px;
+  color: #555;
+  font-style: italic;
+  margin-top: 8px;
+}
+
+/* Sponsorët */
+.sponsors {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.sponsors img {
+  width: 100px;
+  height: 50px;
+  object-fit: contain;
+  background: white;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+  
