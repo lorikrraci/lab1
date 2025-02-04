@@ -1,7 +1,8 @@
 .store-background {
     background-color: #f8f9fa;
     min-height: 100vh;
-    padding: 40px; /* More spacing */
+    padding-left: 20px;
+    width: 100%;
 }
 
 .store-container {
@@ -9,44 +10,58 @@
     max-width: none; /* Remove width restriction */
     margin: 0; /* Remove margin to stretch */
     padding: 0; /* Optional: Remove padding if needed */
-}
-
-
-/* Ensure filters and products are in a row */
-.store-content {
     display: flex;
-    flex-wrap: wrap;
-    gap: 30px; /* Spacing between filters and products */
+    flex-direction: column; /* Make the container a column to stack elements */
 }
 
-/* Filters Section */
-.filters {
-    width: 25%; /* Takes up 25% of the screen */
-    padding: 20px;
-    background: white;
+/* Title */
+#products_heading {
+    text-align: center;
+    background-color: black;
+    color: #A50304 !important;
+    padding: 15px;
+    margin-bottom: 0; /* Remove bottom margin */
+    font-size: 32px;
+    font-weight: bold;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    min-height: 500px; /* Ensures height is aligned with products */
+}
+
+
+/* Sort Container (Placed below the title and above the products) */
+.sort-container {
+    width: 15%; /* Smaller width for the sort container */
+    padding: 20px;
+    background: f8f9fa;
+    border-radius: 10px;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    min-height: 100px;
+    margin-bottom: -120px; /* Space between sort-container and products */
+    align-self: flex-end; /* Align it to the right */
 }
 
 /* Products Section */
 .products {
-    width: 70%; /* Takes up the remaining space */
+    width: 80%; /* Full width for products */
     display: flex;
     flex-wrap: wrap;
     gap: 20px; /* Space between products */
 }
 
-/* Heading */
-#products_heading {
-    text-align: center;
-    background-color: black;
-    color: #A50304;
-    padding: 15px;
-    margin-bottom: 40px;
-    font-size: 32px;
-    font-weight: bold;
+.row{
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: 108px;
+
+}
+
+/* Filters Section */
+.filters {
+    width: 20%; /* Smaller width for filter section */
+    padding: 20px;
+    background: white;
     border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    min-height: 500px; /* Ensures height is aligned with products */
 }
 
 /* Category and Ratings */

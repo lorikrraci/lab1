@@ -15,8 +15,9 @@ const Store = () => {
     const [price, setPrice] = useState([1, 5000]);
     const [category, setCategory] = useState('');
     const [rating, setRating] = useState(0);
-    
-    const categories = ['Jersey', 'Shorts', 'T-shirts','Hoodies', 'Hat', 'Accessories', 'Bottle', 'Retro', 'Track-suit','Socks'];
+    const [sort, setSort] = useState('');
+
+    const categories = ['Jersey', 'Shorts', 'T-shirts','Hoodies', 'Hat', 'Accessories', 'Bottle', 'Track-suit','Socks'];
 
     const dispatch = useDispatch();
     const { loading, products, error, productCount, resPerPage } = useSelector(state => state.products);
@@ -24,15 +25,14 @@ const Store = () => {
 
     useEffect(() => {
         if (error) console.error(error);
-        dispatch(getProducts(keyword, currentPage, price, category, rating));
-    }, [dispatch, error, keyword, currentPage, price, category, rating]);
+        dispatch(getProducts(keyword, currentPage, price, category, rating, sort));
+    }, [dispatch, error, keyword, currentPage, price, category, rating, sort]);
     
     const handlePageClick = (data) => {
         const selectedPage = data.selected + 1;
         setCurrentPage(selectedPage);  // Update currentPage directly
     };
        
-    
     const handleCategoryClick = (selectedCategory) => {
         setCategory(selectedCategory === category ? '' : selectedCategory); // Allow deselecting category
         setCurrentPage(1);
@@ -51,10 +51,27 @@ const Store = () => {
                 {loading ? <Loader /> : (
                     <Fragment>
                         <MetaData title={'KB Vëllaznimi'} />
-                        <h1 id="products_heading">KB Vëllaznimi Store</h1>
+                        <h1 id="products_heading">Store</h1>
+                        
+                        {/* Sort Dropdown */}
+                        <div className="sort-container">
+                            <select 
+                                className="form-select" 
+                                value={sort} 
+                                onChange={(e) => setSort(e.target.value)}
+                            >
+                                <option value="">Most Relevant</option>
+                                <option value="price-asc">Price: Low to High</option>
+                                <option value="price-desc">Price: High to Low</option>
+                                <option value="name-asc">Name: A-Z</option>
+                            </select>
+                        </div>
+                        <hr className="my-3" />
+
                         <section id="products" className="container mt-5">
                             <div className="row">
                                 <div className="col-6 col-md-3 mt-5 mb-5">
+                                    
                                     <Slider
                                         range
                                         marks={{ 1: `$1`, 5000: `$5000` }}

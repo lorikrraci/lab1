@@ -613,3 +613,12 @@ ul.CTAs a {
   font-size: 0.8rem;
   color: grey;
 }
+
+.form-select {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+}

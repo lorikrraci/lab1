@@ -1,5 +1,4 @@
 const db = require('../config/database'); 
-// 'db' should be a MySQL connection or pool created via mysql2/promise
 
 module.exports = {
   // 1. Create a product
@@ -59,7 +58,6 @@ module.exports = {
 
   // 3. Update product
   updateProduct: async (id, updates) => {
-    // Dynamically build SET clause
     const fields = [];
     const values = [];
 
@@ -103,12 +101,7 @@ module.exports = {
       fields.push('reviews = ?');
       values.push(JSON.stringify(updates.reviews));
     }
-    // if (updates.userId !== undefined) {
-    //   fields.push('userId = ?');
-    //   values.push(updates.userId);
-    // }
-    
-    // Always update updatedAt
+
     fields.push('updatedAt = NOW()');
 
     const sql = `UPDATE products SET ${fields.join(', ')} WHERE id = ?`;
@@ -117,6 +110,7 @@ module.exports = {
     const [result] = await db.execute(sql, values);
     return result.affectedRows;
   },
+
   // 4. Delete product
   deleteProduct: async (id) => {
     const sql = 'DELETE FROM products WHERE id = ?';
@@ -124,44 +118,43 @@ module.exports = {
     return result.affectedRows;
   },
 
-  // 5. List or search products
-  //   For example, to get all products or search by name
-  // 5. List or search products
-getAllProducts: async (keyword = '', priceRange = [1, 5000], category = '', rating = 0) => {
-  let sql = 'SELECT * FROM products WHERE 1';
-  let values = [];
+  // 5. Get all products with filtering and sorting
+  getAllProducts: async (keyword = '', priceRange = [1, 5000], category = '', rating = 0, sortOption = 'id ASC') => {
+    let sql = 'SELECT * FROM products WHERE 1';
+    let values = [];
 
-  if (keyword) {
-      sql += ' AND name LIKE ?';
-      values.push(`%${keyword}%`);
-  }
+    if (keyword) {
+        sql += ' AND name LIKE ?';
+        values.push(`%${keyword}%`);
+    }
 
-  if (category) {
-      sql += ' AND category = ?';
-      values.push(category);
-  }
+    if (category) {
+        sql += ' AND category = ?';
+        values.push(category);
+    }
 
-  if (rating) {
-      sql += ' AND ratings >= ?';
-      values.push(rating);
-  }
+    if (rating) {
+        sql += ' AND ratings >= ?';
+        values.push(rating);
+    }
 
-  if (priceRange) {
-      sql += ' AND price BETWEEN ? AND ?';
-      values.push(priceRange[0], priceRange[1]);
-  }
+    if (priceRange) {
+        sql += ' AND price BETWEEN ? AND ?';
+        values.push(priceRange[0], priceRange[1]);
+    }
 
-  const [rows] = await db.execute(sql, values);
+    sql += ` ORDER BY ${sortOption}`;
 
-  // Parse JSON columns
-  rows.forEach((item) => {
-      item.images = JSON.parse(item.images || '[]');
-      if (item.reviews) {
-          item.reviews = JSON.parse(item.reviews);
-      }
-  });
+    const [rows] = await db.execute(sql, values);
 
-  return rows;
+    // Parse JSON columns
+    rows.forEach((item) => {
+        item.images = JSON.parse(item.images || '[]');
+        if (item.reviews) {
+            item.reviews = JSON.parse(item.reviews);
+        }
+    });
+
+    return rows;
 }
-
 };

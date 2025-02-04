@@ -24,8 +24,16 @@ exports.getProducts = catchAsyncErrors(async (req, res, next) => {
       ];
       const rating = req.query['ratings[gte]'] ? parseInt(req.query['ratings[gte]']) : 0;
 
+      // Sorting Logic
+      const sortOption = {
+          "price-asc": "price ASC",
+          "price-desc": "price DESC",
+          "name-asc": "name ASC"
+      }[req.query.sort] || "id ASC";  // Default sort by ID
+
+
       // Fetch products with filters
-      const products = await getAllProducts(keyword, price, category, rating);
+      const products = await getAllProducts(keyword, price, category, rating, sortOption);
 
       const productCount = products.length;
       const resPerPage = 4;

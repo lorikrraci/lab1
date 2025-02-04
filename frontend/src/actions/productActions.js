@@ -10,7 +10,7 @@ import { ALL_PRODUCTS_REQUEST,
 
 } from '../constants/productConstants'
 
-export const getProducts = (keyword = '', currentPage = 1, price, category, rating = 0) => async(dispatch) => {
+export const getProducts = (keyword = '', currentPage = 1, price, category, rating = 0, sort = 'id-asc') => async(dispatch) => {
     try {
       dispatch({type: ALL_PRODUCTS_REQUEST});
   
@@ -19,6 +19,7 @@ export const getProducts = (keyword = '', currentPage = 1, price, category, rati
       if (keyword) link += `&keyword=${keyword}`;
       if (category && category !== '') link += `&category=${encodeURIComponent(category)}`;
       if (rating > 0) link += `&ratings[gte]=${rating}`; // Only include if rating > 0
+      if (sort) link += `&sort=${sort}`;  // Added sorting
 
   
       const { data }  = await axios.get(link);
