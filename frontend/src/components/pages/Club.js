@@ -1,6 +1,7 @@
 import React from "react";
 import "./Club.css";
 
+
 const Club = () => {
   return (
     <div className="club-container">
@@ -9,7 +10,14 @@ const Club = () => {
           <h1 className="title">KLUBI YNË</h1>
           <p className="description">Klubi më i vjetër dhe më i suksesshëm i basketbollit në Gjakovë, duke përfaqësuar pasionin dhe traditën e qytetit.Një histori e pasur, një ekip i bashkuar, një qytet pas nesh. Vëllaznimi është më shumë se basketboll është një mënyrë jetese!</p>
           <h2 className="squad-title">SQUAD</h2>
-          <h2 className="team-subtitle">THE FIRST TEAM</h2>
+          <div className="manager">
+          <div className="manager-card">
+          <div className="name1">Sarin</div>
+          <div className="manager-image"></div>
+          <span className="manager1">Manager</span>
+          </div>
+          </div>
+
           <div className="players">
             <div className="player-card player-1"><span className="number">1</span> 
             <div className="player-image"></div> 
@@ -26,9 +34,25 @@ const Club = () => {
             <div className="player-card player-33"><span className="number">33</span> 
             <div className="player-image"></div> 
             <span className="name">Jitoboh</span> <span className="position">C</span></div>
+            <div className="player-card player-11"><span className="number">11</span> 
+            <div className="player-image"></div> 
+            <span className="name">Koshi</span> <span className="position">G</span></div>
+            <div className="player-card player-15"><span className="number">15</span> 
+            <div className="player-image"></div> 
+            <span className="name">Sinani</span> <span className="position">F</span></div>
+            <div className="player-card player-4"><span className="number">4</span> 
+            <div className="player-image"></div> 
+            <span className="name">Jones</span> <span className="position">G</span></div>
+            <div className="player-card player-0"><span className="number">0</span> 
+            <div className="player-image"></div> 
+            <span className="name">Walker</span> <span className="position">C</span></div>
+            <div className="player-card player-2"><span className="number">2</span> 
+            <div className="player-image"></div> 
+            <span className="name">Cingu</span> <span className="position">G</span></div>
           </div>
         </div>
       </header>
+
 
       <main className="club-content">
         <section>
