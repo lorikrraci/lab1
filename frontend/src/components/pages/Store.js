@@ -8,7 +8,7 @@ import Loader from '../layout/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../../actions/productActions';
 import ReactPaginate from 'react-paginate';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const Store = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -22,6 +22,7 @@ const Store = () => {
     const dispatch = useDispatch();
     const { loading, products, error, productCount, resPerPage } = useSelector(state => state.products);
     const { keyword } = useParams(); // Get keyword from the URL
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (error) console.error(error);
@@ -44,6 +45,7 @@ const Store = () => {
     };
     
     const displayedProducts = products?.slice((currentPage - 1) * resPerPage, currentPage * resPerPage);
+
     
     return (
         <div className="store-background">
@@ -104,7 +106,7 @@ const Store = () => {
                                 </div>
                                 <div className="col-6 col-md-9">
                                     <div className="row">
-                                    {displayedProducts?.map(product => <Product key={product._id} product={product} col={6} />)}
+                                    {displayedProducts?.map(product => <Product key={product.id} product={product} col={6} />)}
                                     </div>
                                 </div>
                             </div>
