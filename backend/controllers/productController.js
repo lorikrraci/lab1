@@ -1,158 +1,91 @@
 const ErrorHandler = require('../utils/errorHandler');
 const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
+const { createProduct, getProductById, updateProduct, deleteProduct, getAllProducts } = require('../models/products');
 
-// Import raw-MySQL-based model functions
-const {
-  createProduct,
-  getProductById,
-  updateProduct,
-  deleteProduct,
-  getAllProducts
-} = require('../models/products');
-
-// GET ALL PRODUCTS =>  /api/v1/products?keyword=apple
-// ─────────────────────────────────────────────────────────────────────────────
-// GET ALL PRODUCTS => /api/v1/products?keyword=apple&category=Jersey&price[lte]=5000&price[gte]=1&ratings[gte]=4
+// Merr të gjitha produktet
 exports.getProducts = catchAsyncErrors(async (req, res, next) => {
-  try {
-      const keyword = req.query.keyword || '';
-      const category = req.query.category && req.query.category !== '' ? req.query.category : null;
+    const keyword = req.query.keyword || '';
+    const category = req.query.category || '';
+    const priceRange = [req.query.price?.[0] || 1, req.query.price?.[1] || 5000];
+    const rating = req.query.ratings || 0;
+    const sortOption = req.query.sort || 'id ASC';
 
-      const price = [
-          req.query.price?.[0] || 1, // Default min price
-          req.query.price?.[1] || 5000, // Default max price
-      ];
-      const rating = req.query['ratings[gte]'] ? parseInt(req.query['ratings[gte]']) : 0;
+    const products = await getAllProducts(keyword, priceRange, category, rating, sortOption);
 
-      // Sorting Logic
-      const sortOption = {
-          "price-asc": "price ASC",
-          "price-desc": "price DESC",
-          "name-asc": "name ASC"
-      }[req.query.sort] || "id ASC";  // Default sort by ID
-
-
-      // Fetch products with filters
-      const products = await getAllProducts(keyword, price, category, rating, sortOption);
-
-      const productCount = products.length;
-      const resPerPage = 4;
-
-      res.status(200).json({
-          success: true,
-          message: "Fetched all products.",
-          productCount,
-          resPerPage,
-          products
-      });
-  } catch (error) {
-      return next(new ErrorHandler(error.message, 500));
-  }
+    res.status(200).json({
+        success: true,
+        products,
+    });
 });
 
-
-// GET SINGLE PRODUCT => /api/v1/products/:id
-// ─────────────────────────────────────────────────────────────────────────────
+// Merr një produkt sipas ID
 exports.getProductById = catchAsyncErrors(async (req, res, next) => {
-  try {
-    const productId = req.params.id;
-    const product = await getProductById(productId);
+    const product = await getProductById(req.params.id);
 
     if (!product) {
-      return next(new ErrorHandler('Product not found', 404));
+        return next(new ErrorHandler('Product not found', 404));
     }
 
     res.status(200).json({
-      success: true,
-      product
+        success: true,
+        product,
     });
-  } catch (error) {
-    console.error('Error fetching product:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Server Error',
-      error: error.message
-    });
-  }
 });
 
-// CREATE NEW PRODUCT => /api/v1/admin/products/new
-// ─────────────────────────────────────────────────────────────────────────────
+// Krijo një produkt të ri
 exports.createProduct = catchAsyncErrors(async (req, res, next) => {
-  try {
-    // Typically you’d track which user created the product:
-    req.body.userId = req.user ? req.user.id : null;
+    const { name, price, description, ratings, category, seller, stock, numOfReviews } = req.body;
 
-    // Insert into DB and get the new product ID
-    const newProductId = await createProduct(req.body);
+    const productId = await createProduct({
+        name,
+        price,
+        description,
+        ratings,
+        category,
+        seller,
+        stock,
+        numOfReviews,
+    });
 
-    // Fetch the newly created product
-    const newProduct = await getProductById(newProductId);
+    const product = await getProductById(productId);
 
     res.status(201).json({
-      success: true,
-      message: "Product created successfully",
-      product: newProduct
+        success: true,
+        product,
     });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Product creation failed',
-      error: error.message
-    });
-  }
 });
-// UPDATE PRODUCT => /api/v1/admin/products/:id
-// ─────────────────────────────────────────────────────────────────────────────
+
+// Përditëso një produkt
 exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
-  try {
     const productId = req.params.id;
-    // Attempt to update
-    const rowsAffected = await updateProduct(productId, req.body);
+    const updates = req.body;
+
+    const rowsAffected = await updateProduct(productId, updates);
 
     if (rowsAffected === 0) {
-      return next(new ErrorHandler('Product not found', 404));
+        return next(new ErrorHandler('Product not found', 404));
     }
 
-    // Fetch the updated record
-    const updated = await getProductById(productId);
+    const updatedProduct = await getProductById(productId);
 
     res.status(200).json({
-      success: true,
-      product: updated
+        success: true,
+        product: updatedProduct,
     });
-  } catch (error) {
-    console.error('Error updating product:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Server Error',
-      error: error.message
-    });
-  }
 });
-// DELETE PRODUCT => /api/v1/admin/products/:id
-// ─────────────────────────────────────────────────────────────────────────────
+
+// Fshi një produkt
 exports.deleteProduct = catchAsyncErrors(async (req, res, next) => {
-  try {
     const productId = req.params.id;
 
-    // Attempt to delete
     const rowsAffected = await deleteProduct(productId);
 
     if (rowsAffected === 0) {
-      return next(new ErrorHandler('Product not found', 404));
+        return next(new ErrorHandler('Product not found', 404));
     }
 
     res.status(200).json({
-      success: true,
-      message: 'Product is deleted.'
+        success: true,
+        message: 'Product deleted successfully',
     });
-  } catch (error) {
-    console.error('Error deleting product:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Server Error',
-      error: error.message
-    });
-  }
 });
