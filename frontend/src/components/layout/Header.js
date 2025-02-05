@@ -1,13 +1,13 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';  // Added Link import
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../actions/userActions';
-import Search from './Search';
+import { logout } from '../../actions/userActions';  // Ensure logout action is correctly imported
+import Search from './Search';  // Ensure Search component is imported
 
 export const Header = () => {
     const location = useLocation();
     const dispatch = useDispatch();
-    const { isAuthenticated } = useSelector((state) => state.auth);
+    const { isAuthenticated, user } = useSelector((state) => state.auth);
 
     const handleLogout = (e) => {
         e.preventDefault();
@@ -24,7 +24,6 @@ export const Header = () => {
                 justifyContent: 'space-between',
             }}
         >
-            {/* Left Section: Logo and Title - Clickable to go Home */}
             <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
                 <img
                     src="./images/KB-Vellaznimi-logo.png"
@@ -43,14 +42,12 @@ export const Header = () => {
                 </h1>
             </Link>
 
-           {/* Conditionally Render Search Bar */}
-           {(location.pathname === '/store' || location.pathname.startsWith('/store/search/')) && (
+            {(location.pathname === '/store' || location.pathname.startsWith('/store/search/')) && (
                 <div className="col-12 col-md-6 mt-2 mt-md-0">
                     <Search />
                 </div>
             )}
 
-            {/* Right Section: Navigation Links */}
             <nav style={{ display: 'flex', gap: '20px' }}>
                 <Link
                     to="/"
@@ -102,6 +99,22 @@ export const Header = () => {
                 >
                     Lajmet
                 </Link>
+                {/* Only show Dashboard link if user is authenticated */}
+                {isAuthenticated && user?.role === 'admin' && (
+                <Link
+                    to="/dashboard"
+                    style={{
+                    color: '#fff',
+                    fontWeight: 'bold',
+                    textDecoration: 'none',
+                }}
+                >
+                    Dashboard
+                </Link>
+                )}
+
+                
+
                 {!isAuthenticated ? (
                     <Link to="/login" style={{ color: '#fff', fontWeight: 'bold', textDecoration: 'none' }}>
                         Login
