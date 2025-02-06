@@ -22,16 +22,58 @@ const Products = () => {
     const deleteProduct = async (productId) => {
         if (!window.confirm('Are you sure you want to delete this product?')) return;
         try {
+            console.log(`Deleting product with ID: ${productId}`); // Debugging line to check the product ID
             const response = await fetch(`http://localhost:5000/api/v1/admin/products/${productId}`, {
                 method: 'DELETE',
+                credentials: 'include', // Nëse ke autentikim me cookie
             });
             const data = await response.json();
             if (data.success) {
                 alert('Product deleted successfully');
                 fetchProducts(); // Rifresko listën e produkteve
+            } else {
+                alert('Failed to delete product');
             }
         } catch (error) {
             console.error('Error deleting product:', error);
+            alert('An error occurred while deleting the product');
+        }
+    };
+
+    // Funksioni për të përditësuar një produkt
+    const updateProduct = async (productId) => {
+        const newName = prompt('Enter the new name for the product:');
+        const newPrice = prompt('Enter the new price for the product:');
+        const newDescription = prompt('Enter the new description for the product:');
+
+        if (!newName || !newPrice || !newDescription) {
+            alert('All fields are required!');
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:5000/api/v1/admin/products/${productId}`, {
+                method: 'PUT',
+                credentials: 'include', // Nëse ke autentikim me cookie
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: newName,
+                    price: newPrice,
+                    description: newDescription,
+                }),
+            });
+            const data = await response.json();
+            if (data.success) {
+                alert('Product updated successfully');
+                fetchProducts(); // Rifresko listën e produkteve
+            } else {
+                alert('Failed to update product');
+            }
+        } catch (error) {
+            console.error('Error updating product:', error);
+            alert('An error occurred while updating the product');
         }
     };
 
@@ -81,7 +123,6 @@ const Products = () => {
                                 <td style={{ padding: '15px' }}>{product.stock}</td>
                                 <td style={{ padding: '15px' }}>{product.numOfReviews}</td>
                                 <td style={{ padding: '15px' }}>
-                                    {/* Butoni për UPDATE */}
                                     <button
                                         style={{
                                             backgroundColor: '#4CAF50',
@@ -93,13 +134,11 @@ const Products = () => {
                                             marginRight: '10px',
                                             transition: 'background-color 0.2s',
                                         }}
-                                        onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#45a049')}
-                                        onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#4CAF50')}
+                                        onClick={() => updateProduct(product.id)}
                                     >
                                         Update
                                     </button>
 
-                                    {/* Butoni për DELETE */}
                                     <button
                                         style={{
                                             backgroundColor: '#f44336',
@@ -110,8 +149,6 @@ const Products = () => {
                                             cursor: 'pointer',
                                             transition: 'background-color 0.2s',
                                         }}
-                                        onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#d32f2f')}
-                                        onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#f44336')}
                                         onClick={() => deleteProduct(product.id)}
                                     >
                                         Delete
@@ -126,4 +163,4 @@ const Products = () => {
     );
 };
 
-export default Products; 
+export default Products;

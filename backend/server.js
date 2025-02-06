@@ -1,9 +1,18 @@
 require('dotenv').config();
 
+const express = require('express');
 const app = require('./app');
 const db = require('./config/database'); // MySQL pool from mysql2/promise
 const dotenv = require('dotenv');
+const usersRoutes = require('./routes/users');
 
+
+// Middleware për të lejuar JSON dhe CORS
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Rrugët e përdoruesve
+app.use('/api/v1', usersRoutes);
 
 // Handle Uncaught Exceptions
 process.on('uncaughtException', err => {

@@ -86,6 +86,9 @@ module.exports = {
         const sql = `UPDATE products SET ${fields.join(', ')} WHERE id = ?`;
         values.push(id);
 
+        console.log('Executing SQL:', sql);
+        console.log('With values:', values);
+
         const [result] = await db.execute(sql, values);
         return result.affectedRows; // Kthen numrin e rreshtave të ndikuar
     },
@@ -93,6 +96,9 @@ module.exports = {
     // 4. Fshi një produkt
     deleteProduct: async (id) => {
         const sql = 'DELETE FROM products WHERE id = ?';
+        console.log('Executing SQL:', sql);
+        console.log('With ID:', id);
+
         const [result] = await db.execute(sql, [id]);
         return result.affectedRows; // Kthen numrin e rreshtave të ndikuar
     },
@@ -123,6 +129,9 @@ module.exports = {
         }
 
         sql += ` ORDER BY ${sortOption}`;
+
+        console.log('Executing SQL:', sql);
+        console.log('With values:', values);
 
         const [rows] = await db.execute(sql, values);
         return rows; // Kthen një array me produkte

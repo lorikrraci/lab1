@@ -60,6 +60,9 @@ exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
     const productId = req.params.id;
     const updates = req.body;
 
+    console.log('Updating product with ID:', productId);
+    console.log('Updates:', updates);
+
     const rowsAffected = await updateProduct(productId, updates);
 
     if (rowsAffected === 0) {
@@ -77,6 +80,8 @@ exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
 // Fshi një produkt
 exports.deleteProduct = catchAsyncErrors(async (req, res, next) => {
     const productId = req.params.id;
+
+    console.log('Deleting product with ID:', productId);
 
     const rowsAffected = await deleteProduct(productId);
 

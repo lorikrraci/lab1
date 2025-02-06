@@ -3,13 +3,13 @@ const bcrypt = require('bcryptjs');
 
 module.exports = {
     // CREATE a new user
-    createUser: async ({ name, email, password }) => {
+    createUser: async ({ name, email, password, role }) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const sql = `
-            INSERT INTO users (name, email, password, createdAt, updatedAt)
-            VALUES (?, ?, ?, NOW(), NOW())
+            INSERT INTO users (name, email, password, role, createdAt, updatedAt)
+            VALUES (?, ?, ?, ?, NOW(), NOW())
         `;
-        const [result] = await db.execute(sql, [name, email, hashedPassword]);
+        const [result] = await db.execute(sql, [name, email, hashedPassword, role]);
         return result.insertId; // newly created user's ID
     },
 
@@ -27,8 +27,15 @@ module.exports = {
         return rows[0];
     },
 
+    // READ all users
+    getAllUsers: async () => {
+        const sql = 'SELECT * FROM users';
+        const [rows] = await db.execute(sql);
+        return rows;
+    },
+
     // UPDATE user
-    updateUser: async (id, { name, email, password }) => {
+    updateUser: async (id, { name, email, password, role }) => {
         const fields = [];
         const values = [];
 
@@ -44,6 +51,10 @@ module.exports = {
             const hashedPassword = await bcrypt.hash(password, 10);
             fields.push('password = ?');
             values.push(hashedPassword);
+        }
+        if (role !== undefined) {
+            fields.push('role = ?');
+            values.push(role);
         }
 
         // Always update updatedAt
@@ -61,12 +72,5 @@ module.exports = {
         const sql = 'DELETE FROM users WHERE id = ?';
         const [result] = await db.execute(sql, [id]);
         return result.affectedRows; // number of rows deleted
-    },
-
-    // Check if an email is already taken excluding a specific user ID
-    getUserByEmailExcludingId: async (email, excludeId) => {
-        const sql = `SELECT * FROM users WHERE email = ? AND id <> ?`;
-        const [rows] = await db.execute(sql, [email, excludeId]);
-        return rows[0];
     },
 };
