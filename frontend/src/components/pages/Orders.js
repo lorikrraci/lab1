@@ -6,7 +6,7 @@ const Orders = () => {
     // Merr të gjitha porositë nga backend-i
     const fetchOrders = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/v1/orders', { 
+            const response = await fetch('http://localhost:5000/api/v1/orders', { 
                 credentials: 'include' // Nëse ke autentikim me cookie
             });
             const data = await response.json();
@@ -22,7 +22,7 @@ const Orders = () => {
     const deleteOrder = async (orderId) => {
         if (!window.confirm('Are you sure you want to delete this order?')) return;
         try {
-            const response = await fetch(`http://localhost:3000/api/v1/order/${orderId}`, {
+            const response = await fetch(`http://localhost:5000/api/v1/order/${orderId}`, {
                 method: 'DELETE',
             });
             const data = await response.json();

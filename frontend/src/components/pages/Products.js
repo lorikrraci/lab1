@@ -6,7 +6,7 @@ const Products = () => {
     // Funksioni për të marrë produktet nga backend-i
     const fetchProducts = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/v1/products', { 
+            const response = await fetch('http://localhost:5000/api/v1/products', { 
                 credentials: 'include' // Nëse ke autentikim me cookie
             });
             const data = await response.json();
@@ -22,7 +22,7 @@ const Products = () => {
     const deleteProduct = async (productId) => {
         if (!window.confirm('Are you sure you want to delete this product?')) return;
         try {
-            const response = await fetch(`http://localhost:3000/api/v1/admin/products/${productId}`, {
+            const response = await fetch(`http://localhost:5000/api/v1/admin/products/${productId}`, {
                 method: 'DELETE',
             });
             const data = await response.json();
