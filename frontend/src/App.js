@@ -8,6 +8,8 @@ import Store from './components/pages/Store';
 import Stats from './components/pages/Stats';
 import Club from './components/pages/Club';  
 import News from './components/pages/News';  
+import NewsDetail from './components/pages/NewsDetail';
+import CreateNews from './components/pages/CreateNews'; // Shto komponentin e ri për krijimin e lajmit
 import Dashboard from './components/pages/Dashboard'; 
 import Orders from './components/pages/Orders'; 
 import Reviews from './components/pages/Reviews'; 
@@ -36,6 +38,8 @@ function App() {
           <Route path="/stats" element={<Stats />} />
           <Route path="/aboutUs" element={<Club />} /> 
           <Route path="/news" element={<News />} /> 
+          <Route path="/news/:id" element={<NewsDetail />} /> 
+          <Route path="/create-news" element={<CreateNews />} /> {/* Rruga e re për krijimin e lajmit */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/orders" element={<Orders />} /> 
           <Route path="/dashboard/reviews" element={<Reviews/>} /> 

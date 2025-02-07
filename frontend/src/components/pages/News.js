@@ -1,113 +1,136 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./news.css";
 
 const News = () => {
   const [activeTab, setActiveTab] = useState("NEW");
+  const [newsData, setNewsData] = useState({
+    NEW: [],
+    HIGHLIGHT: [],
+    INTERVIEWS: [],
+  });
+  const navigate = useNavigate();
 
-  const newsData = {
-    NEW: [
-      {
-        img: "/path/to/image1.jpg",
-        title: "Bauza: Higuain and Messi will start against Brazil",
-        date: "25 SEP 2016 BY LOGAN HOLMES",
-        description: "Snackwave tote bag fixie gluten-free...",
-      },
-      {
-        img: "/path/to/image2.jpg",
-        title: "When somersaulting Sanchez shouldered Mexico’s hopes",
-        date: "25 SEP 2016 BY CODY LARKINS",
-        description: "Activated charcoal trust fund ugh prism af...",
-      },
-      {
-        img: "/path/to/image2.jpg",
-        title: "When somersaulting Sanchez shouldered Mexico’s hopes",
-        date: "25 SEP 2016 BY CODY LARKINS",
-        description: "Activated charcoal trust fund ugh prism af...",
-      },
-      {
-        img: "/path/to/image2.jpg",
-        title: "When somersaulting Sanchez shouldered Mexico’s hopes",
-        date: "25 SEP 2016 BY CODY LARKINS",
-        description: "Activated charcoal trust fund ugh prism af...",
-      },
-      {
-        img: "/path/to/image2.jpg",
-        title: "When somersaulting Sanchez shouldered Mexico’s hopes",
-        date: "25 SEP 2016 BY CODY LARKINS",
-        description: "Activated charcoal trust fund ugh prism af...",
-      },
-      {
-        img: "/path/to/image2.jpg",
-        title: "When somersaulting Sanchez shouldered Mexico’s hopes",
-        date: "25 SEP 2016 BY CODY LARKINS",
-        description: "Activated charcoal trust fund ugh prism af...",
-      },
-    ],
-    HIGHLIGHT: [
-      {
-        img: "/path/to/image3.jpg",
-        title: "Deschamps explains Giroud inclusion, Martial omission",
-        date: "25 SEP 2016 BY HUNTER SHELDON",
-        description: "Banjo meggings narwhal hell of meditation...",
-      },
-      {
-        img: "/path/to/image3.jpg",
-        title: "Deschamps explains Giroud inclusion, Martial omission",
-        date: "25 SEP 2016 BY HUNTER SHELDON",
-        description: "Banjo meggings narwhal hell of meditation...",
-      },
-    ],
-    INTERVIEWS: [
-      {
-        img: "/path/to/image4.jpg",
-        title: "Exclusive Interview with Top Football Star",
-        date: "26 SEP 2016 BY JANE DOE",
-        description: "Deep dive into the career of a legendary player...",
-      },
-    ],
+  // Merr rolin e përdoruesit nga localStorage ose një sistem autentikimi
+  const user = JSON.parse(localStorage.getItem("user")); // Supozojmë se ruani të dhënat e përdoruesit në localStorage
+  const isAdmin = user && user.role === "admin"; // Kontrollo nëse përdoruesi është admin
+
+  // Lexojmë lajmet nga localStorage kur komponenti ngarkohet
+  useEffect(() => {
+    const savedNews = JSON.parse(localStorage.getItem("newsData")) || {
+      NEW: [],
+      HIGHLIGHT: [],
+      INTERVIEWS: [],
+    };
+    setNewsData(savedNews);
+  }, []);
+
+  // Funksioni për të fshirë një lajm
+  const handleDeleteNews = (id) => {
+    const confirmDelete = window.confirm("A jeni i sigurt që doni ta fshini këtë lajm?");
+    if (!confirmDelete) return;
+
+    const updatedNews = {
+      NEW: newsData.NEW.filter((news) => news.id !== id),
+      HIGHLIGHT: newsData.HIGHLIGHT.filter((news) => news.id !== id),
+      INTERVIEWS: newsData.INTERVIEWS.filter((news) => news.id !== id),
+    };
+
+    localStorage.setItem("newsData", JSON.stringify(updatedNews));
+    setNewsData(updatedNews);
+
+    alert("Lajmi u fshi me sukses!");
+  };
+
+  const handleCreateNews = () => {
+    navigate("/create-news");
   };
 
   return (
     <div className="news-container">
       <header className="news-header">
-        <h1 className="news-title">THE LATEST NEWS</h1>
+        <h1 className="news-title">LAJMET E FUNDIT</h1>
+
         <div className="news-highlights">
-          <div className="highlight">
-            <p className="date">AUGUST 4, 2018</p>
-            <h3>What to Expect in 2020 Season</h3>
-            <p>If you missed it, we got a great recap!</p>
-          </div>
-          <div className="highlight">
-            <p className="date">AUGUST 8, 2018</p>
-            <h3>American Basketball Traditions</h3>
-            <p>How this beautiful model met the courts of the streets...</p>
-          </div>
-          <div className="highlight video">
-            <p className="date">OCTOBER 28, 2018</p>
-            <h3>Video Footage of the Latest Game</h3>
-          </div>
+          {newsData.NEW.slice(0, 2).map((news) => (
+            <div key={news.id} className="highlight">
+              <p className="date">{news.date}</p>
+              <Link
+                to={`/news/${news.id}`}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <h3>{news.title}</h3>
+                <p>{news.description}</p>
+              </Link>
+            </div>
+          ))}
         </div>
       </header>
-      
+
       <section className="team-news">
-        <h2>TEAM NEWS</h2>
+        <h2>LAJME PËR SKUADRËN</h2>
         <div className="news-tabs">
-          <span className={activeTab === "NEW" ? "active" : ""} onClick={() => setActiveTab("NEW")}>NEW</span>
-          <span className={activeTab === "HIGHLIGHT" ? "active" : ""} onClick={() => setActiveTab("HIGHLIGHT")}>HIGHLIGHT</span>
-          <span className={activeTab === "INTERVIEWS" ? "active" : ""} onClick={() => setActiveTab("INTERVIEWS")}>INTERVIEWS</span>
+          <span
+            className={activeTab === "NEW" ? "active" : ""}
+            onClick={() => setActiveTab("NEW")}
+          >
+            E Re
+          </span>
+          <span
+            className={activeTab === "HIGHLIGHT" ? "active" : ""}
+            onClick={() => setActiveTab("HIGHLIGHT")}
+          >
+            Pikat Kryesore
+          </span>
+          <span
+            className={activeTab === "INTERVIEWS" ? "active" : ""}
+            onClick={() => setActiveTab("INTERVIEWS")}
+          >
+            Intervista
+          </span>
         </div>
-        
-        <div className="news-grid">
-          {newsData[activeTab].map((news, index) => (
-            <article key={index} className="news-item">
+
+        <div key={activeTab} className="news-grid">
+          {newsData[activeTab].map((news) => (
+            <article key={news.id} className="news-item">
               <img src={news.img} alt="news" />
               <h3>{news.title}</h3>
               <p className="date">{news.date}</p>
               <p>{news.description}</p>
+              <div className="news-actions">
+                <Link to={`/news/${news.id}`} className="read-more">
+                  Lexo më shumë
+                </Link>
+                {/* Shfaq butonin "Fshij" vetëm nëse përdoruesi është admin */}
+                {isAdmin && (
+                  <button
+                    className="delete-button"
+                    onClick={() => handleDeleteNews(news.id)}
+                  >
+                    Fshij
+                  </button>
+                )}
+              </div>
             </article>
           ))}
         </div>
       </section>
+
+      <section className="newsletter">
+        <h2>Regjistrohu për Newsletter-in tonë</h2>
+        <p>Merr lajmet më të fundit të basketbollit direkt në emailin tënd.</p>
+        <form>
+          <input type="email" placeholder="Shkruaj emailin tënd" required />
+          <button type="submit">Regjistrohu</button>
+        </form>
+      </section>
+
+      {/* Shfaq butonin "+" vetëm nëse përdoruesi është admin */}
+      {isAdmin && (
+        <button className="create-news-button" onClick={handleCreateNews}>
+          +
+        </button>
+      )}
     </div>
   );
 };
