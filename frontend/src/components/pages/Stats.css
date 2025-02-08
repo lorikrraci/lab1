@@ -1,4 +1,5 @@
-/* General Styling */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
 .results-container {
   margin: 50px auto;
   padding: 40px 20px;
@@ -91,15 +92,12 @@
 
 .stats-table td {
   background-color: #f9f9f9;
+  font-weight: bold;
+  color: #333;
 }
 
 .stats-table tr:nth-child(even) td {
   background-color: #f0f0f0;
-}
-
-.stats-table td {
-  font-weight: bold;
-  color: #333;
 }
 
 .pagination {
@@ -110,7 +108,7 @@
 }
 
 .pagination button {
-  background-color: #a50000; /* Ngjyra e kuqe e përdorur në dizajn */
+  background-color: #a50000;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -123,7 +121,7 @@
 }
 
 .pagination button:hover {
-  background-color: #8b0000; /* Një nuancë më e errët për efekt hover */
+  background-color: #8b0000;
   transform: scale(1.05);
 }
 
@@ -138,3 +136,165 @@
   font-weight: bold;
   color: #333;
 }
+
+.fab {
+  position: absolute;
+  bottom: 80px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #A50304;
+  color: white;
+  font-size: 24px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.fab:hover {
+  background-color: #8b0000;
+  transform: scale(1.1);
+}
+
+/* Kontejneri Kryesor */
+.create-stats-container {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: #f0f0f0;
+  border-radius: 15px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Titulli */
+.create-stats-container h1 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
+  color: #333 !important;
+  margin-bottom: 20px;
+}
+
+/* Kontejneri i Formularit */
+.form-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap; /* Përdoreni këtë për t’i bërë elementët të shfaqen nën njëri-tjetrin nëse janë shumë të ngjeshur */
+}
+
+/* Seksioni i Ekipit */
+.team-section {
+  width: 48%;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Titulli i Seksionit */
+.team-section h2 {
+  font-size: 1.5rem;
+  color: #A50304;
+  margin-bottom: 10px;
+}
+
+/* Inputet */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.form-group label {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+  border-color: #A50304;
+  outline: none;
+  box-shadow: 0px 0px 5px rgba(165, 3, 4, 0.5);
+}
+
+/* Seksioni i Rezultatit dhe Datës */
+.score-date-container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.score-date-container .form-group {
+  width: 100%;
+}
+
+/* Butoni Submit */
+.submit-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #A50304;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  width: 100%;
+}
+
+.submit-btn:hover {
+  background-color: #8b0000;
+  transform: scale(1.05);
+}
+
+/* Konteineri i Butonave Delete dhe Update */
+.buttons-container {
+  display: flex;
+  gap: 10px; /* Hapësira midis dy butonave */
+  justify-content: center; /* Qendro butonat në qendër */
+  margin-top: 10px;
+}
+
+/* Butoni Delete */
+.delete-btn {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.delete-btn:hover {
+  background-color: #ff1a1a;
+}
+
+/* Butoni Update */
+.update-btn {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.update-btn:hover {
+  background-color: #45a049;
+}
+

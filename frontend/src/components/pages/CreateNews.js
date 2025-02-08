@@ -1,30 +1,68 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "./news.css";
+import React, { useState, useEffect } from "react"; // Sigurohuni që të keni importuar `useEffect` nga `react`
+import { useNavigate, useLocation } from "react-router-dom"; // Sigurohuni që të keni importuar `useLocation` nga `react-router-dom`
 
 const CreateNews = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [formData, setFormData] = useState({
     title: "",
     date: "",
     description: "",
     fullContent: "",
-    img: null, // Do të përdorim një file object në vend të URL
+    img: null,
     category: "NEW",
   });
 
+  // Merrni ID-në e lajmit nga URL (query parameters)
+  const queryParams = new URLSearchParams(location.search);
+  const newsId = queryParams.get("id");
+
+  // Nëse ka një ID lajmi, e ngarkojmë nga localStorage
+  useEffect(() => {
+    if (newsId) {
+      const savedNews = JSON.parse(localStorage.getItem("newsData")) || {
+        NEW: [],
+        HIGHLIGHT: [],
+        INTERVIEWS: [],
+      };
+
+      // Kërkojmë lajmin në të gjitha kategoritë
+      let newsToEdit = null;
+      Object.keys(savedNews).forEach((category) => {
+        const news = savedNews[category].find((item) => item.id === parseInt(newsId));
+        if (news) {
+          newsToEdit = news;
+        }
+      });
+
+      if (newsToEdit) {
+        setFormData({
+          title: newsToEdit.title,
+          date: newsToEdit.date,
+          description: newsToEdit.description,
+          fullContent: newsToEdit.fullContent,
+          img: newsToEdit.img,
+          category: newsToEdit.category,
+        });
+      }
+    }
+  }, [newsId]);
+
+  // Funksioni për të ndryshuar të dhënat e formës
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  // Funksioni për të ndryshuar imazhin
   const handleImageChange = (e) => {
-    const file = e.target.files[0]; // Merrim file-in e parë të zgjedhur
+    const file = e.target.files[0];
     if (file) {
       setFormData({ ...formData, img: file });
     }
   };
 
+  // Funksioni për dërgimin e formës
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -80,7 +118,7 @@ const CreateNews = () => {
         <div className="form-group">
           <label htmlFor="date">Data</label>
           <input
-            type="date" // Përdorim input të tipit date
+            type="date"
             id="date"
             name="date"
             value={formData.date}
@@ -114,10 +152,10 @@ const CreateNews = () => {
         <div className="form-group">
           <label htmlFor="img">Ngarko Imazhin</label>
           <input
-            type="file" // Përdorim input të tipit file
+            type="file"
             id="img"
             name="img"
-            accept="image/*" // Lejojmë vetëm file të tipit image
+            accept="image/*"
             onChange={handleImageChange}
             required
           />

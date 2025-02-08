@@ -11,6 +11,11 @@ const News = () => {
   });
   const navigate = useNavigate();
 
+  const handleUpdateNews = (id) => {
+    navigate(`/create-news?id=${id}`);
+  };
+  
+
   // Merr rolin e përdoruesit nga localStorage ose një sistem autentikimi
   const user = JSON.parse(localStorage.getItem("user")); // Supozojmë se ruani të dhënat e përdoruesit në localStorage
   const isAdmin = user && user.role === "admin"; // Kontrollo nëse përdoruesi është admin
@@ -101,16 +106,25 @@ const News = () => {
                 <Link to={`/news/${news.id}`} className="read-more">
                   Lexo më shumë
                 </Link>
-                {/* Shfaq butonin "Fshij" vetëm nëse përdoruesi është admin */}
+                {/* Shfaq butonat "Update" dhe "Delete" vetëm nëse përdoruesi është admin */}
                 {isAdmin && (
-                  <button
-                    className="delete-button"
-                    onClick={() => handleDeleteNews(news.id)}
-                  >
-                    Fshij
-                  </button>
+                  <div className="buttons-container">
+                    <button
+                      className="update-button"
+                      onClick={() => handleUpdateNews(news.id)} // Funksioni për të përditësuar lajmin
+                    >
+                      Update
+                    </button>
+                    <button
+                      className="delete-button"
+                      onClick={() => handleDeleteNews(news.id)}
+                    >
+                      Fshij
+                    </button>
+                  </div>
                 )}
               </div>
+
             </article>
           ))}
         </div>

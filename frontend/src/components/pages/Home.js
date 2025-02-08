@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Home.css'; 
 import MetaData from '../layout/MetaData';
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+    const [gameResults, setGameResults] = useState([]); // Shto state për rezultatet
     const navigate = useNavigate(); 
+
+    // Merrni të dhënat nga localStorage dhe ruajeni vetëm 3 rezultatet më të fundit
+    useEffect(() => {
+        const savedGameResults = JSON.parse(localStorage.getItem('gameResults')) || [];
+        setGameResults(savedGameResults.slice(0, 3)); // Merrni vetëm 3 rezultatet më të fundit
+    }, []);
 
     const topPerformers = [
         { 
@@ -67,37 +74,20 @@ const Home = () => {
             <div className="results-container">
                 <h1 className="results-heading">Last Games Results</h1>
                 <div className="results-list">
-                    {/* Example result boxes */}
-                    <div className="result-box">
-                        <div className="logos">
-                            <img className="team-logo" src="./images/KB-Vellaznimi-logo.png" alt="Team 1" />
-                            <span className="vs-text">VS</span>
-                            <img className="team-logo" src="./images/KB-Vellaznimi-logo.png" alt="Team 2" />
+                    {gameResults.map((game, index) => ( // Tani përdorim gameResults për të shfaqur vetëm 3 rezultatet
+                        <div className="result-box" key={index}>
+                            <div className="logos">
+                                <img className="team-logo" src={game.teamLogos[0]} alt={game.teams[0]} />
+                                <span className="vs-text">VS</span>
+                                <img className="team-logo" src={game.teamLogos[1]} alt={game.teams[1]} />
+                            </div>
+                            <p className="game-score">{game.score.team1} - {game.score.team2}</p>
+                            <p className="game-date">{game.date}</p>
                         </div>
-                        <p className="game-score">87 - 72</p>
-                        <p className="game-date">January 20, 2025</p>
-                    </div>
-                    <div className="result-box">
-                        <div className="logos">
-                            <img className="team-logo" src="./images/KB-Vellaznimi-logo.png" alt="Team 3" />
-                            <span className="vs-text">VS</span>
-                            <img className="team-logo" src="./images/KB-Vellaznimi-logo.png" alt="Team 4" />
-                        </div>
-                        <p className="game-score">95 - 89</p>
-                        <p className="game-date">January 18, 2025</p>
-                    </div>
-                    <div className="result-box">
-                        <div className="logos">
-                            <img className="team-logo" src="./images/KB-Vellaznimi-logo.png" alt="Team 5" />
-                            <span className="vs-text">VS</span>
-                            <img className="team-logo" src="./images/KB-Vellaznimi-logo.png" alt="Team 6" />
-                        </div>
-                        <p className="game-score">78 - 82</p>
-                        <p className="game-date">January 15, 2025</p>
-                    </div>
+                    ))}
                 </div>
 
-                {/* Button to navigate to Rezultatet */}
+                {/* Button to navigate to Stats page */}
                 <div className="results-button-container">
                     <button
                         className="results-button"
@@ -107,8 +97,9 @@ const Home = () => {
                     </button>
                 </div>
             </div>
-             {/* Top Performers Section */}
-             <div className="performers-section">
+            
+            {/* Top Performers Section */}
+            <div className="performers-section">
                 <h1 className="performers-heading">Top Performers</h1>
                 <div className="performers-cards">
                     {topPerformers.map((player, index) => (
@@ -128,9 +119,9 @@ const Home = () => {
                     Squad
                 </button>
             </div>
-            <br></br><br></br>
-             {/* Team Standing Section */}
-                        <div className="team-standing-section">
+
+            {/* Team Standing Section */}
+            <div className="team-standing-section">
                 <div className="team-standing-content">
                     <h2 className="team-standing-heading">TEAM STANDING</h2>
                     <table className="team-standing-table">
@@ -173,6 +164,7 @@ const Home = () => {
                     </div>
                 </div>
             </div>
+
             {/* STORE SECTION */}
             <div className="store-section">
                 <h2 className="store-title">STORE</h2>
@@ -203,4 +195,5 @@ const Home = () => {
         </div>
     );
 };
+
 export default Home;

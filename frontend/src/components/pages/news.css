@@ -273,8 +273,8 @@ h2 {
 
 /* Stilizimi për butonin "+" */
 .create-news-button {
-  position: fixed;
-  bottom: 20px;
+  position: absolute;  /* Ndrysho nga fixed në absolute */
+  bottom: 80px;        /* Përshtatni këtë vlerë për pozicionin lart */
   right: 20px;
   background-color: #d8232a;
   color: white;
@@ -292,6 +292,7 @@ h2 {
   background-color: #b30000;
   transform: scale(1.1);
 }
+
 
 /* Stilizimi për formën e krijimit të lajmit */
 .create-news-container {

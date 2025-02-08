@@ -15,6 +15,7 @@ import Orders from './components/pages/Orders';
 import Reviews from './components/pages/Reviews'; 
 import Products from './components/pages/Products'; 
 import Users from './components/pages/Users'; 
+import CreateStats from './components/pages/CreateStats';
 
 import Login from './components/user/Login';
 import { Register } from './components/user/Register';
@@ -40,6 +41,7 @@ function App() {
           <Route path="/news" element={<News />} /> 
           <Route path="/news/:id" element={<NewsDetail />} /> 
           <Route path="/create-news" element={<CreateNews />} /> {/* Rruga e re për krijimin e lajmit */}
+          <Route path="/create-stats" element={<CreateStats />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/orders" element={<Orders />} /> 
           <Route path="/dashboard/reviews" element={<Reviews/>} /> 
