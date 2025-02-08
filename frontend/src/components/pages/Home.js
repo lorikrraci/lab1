@@ -16,38 +16,38 @@ const Home = () => {
     const topPerformers = [
         { 
             title: 'Best Overall Stats', 
-            name: 'Lorik Rraci', 
-            position: 'Forward', 
+            name: 'Azemi', 
+            position: 'G', 
             stat: '40 Index Per Game', 
-            image: '' 
+            image: '/images/player1.png' 
         },
         { 
             title: 'Most Points Per Game', 
-            name: 'Alb Zhubi', 
-            position: 'Guard', 
+            name: 'Polloshka', 
+            position: 'PG', 
             stat: '20.3 PPG', 
-            image: '' 
+             image: '/images/player44.png'
         },
         { 
             title: 'Most Assists Per Game', 
-            name: 'Arb Sahatqija', 
-            position: 'Point Guard', 
+            name: 'Hellems', 
+            position: 'F', 
             stat: '8.7 APG', 
-            image: '' 
+            image: '/images/player9.png' 
         },
         { 
             title: 'Most Rebounds Per Game', 
-            name: 'Ledion Kurhasku', 
-            position: 'Center', 
+            name: 'Anderson', 
+            position: 'PF', 
             stat: '12.4 RPG', 
-            image: '' 
+            image: '/images/player3.png'
         },
         { 
             title: 'Most Blocks Per Game', 
-            name: 'Art Pozhegu', 
-            position: 'Power Forward', 
+            name: 'Jitoboh', 
+            position: 'C', 
             stat: '3.2 BPG', 
-            image: '' 
+            image: '/images/player33.png'
         }
     ];
     
