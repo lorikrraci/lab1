@@ -1,108 +1,380 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+/* General Styles */
+body {
+  font-family: 'Poppins', sans-serif; /* Përdorimi i fontit Poppins për të gjithë tekstin */
+  margin: 0;
+  padding: 0;
+  background-color: #f8f8f8; /* Mund të shtoni ngjyrën e background-it, siç është në kodin tuaj */
+}
+
 .news-container {
-    font-family: Arial, sans-serif;
-    max-width: 100%;
-    margin: 0;
-    padding: 0;
-  }
+  font-family: 'Poppins', sans-serif;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  background: #f8f8f8;
+}
+
+.news-header {
+  background: linear-gradient(135deg, #a00000, #d8232a);
+  color: white;
+  padding: 40px;
+  text-align: center;
+  width: 100vw;
+  min-height: 300px;
+}
+
+.news-title {
+  font-size: 42px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.news-highlights {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.highlight {
+  background: white;
+  color: black;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  width: 30%;
+  transition: 0.3s;
+}
+
+.highlight:hover {
+  transform: scale(1.05);
+}
+
+.team-news {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.news-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.news-tabs span {
+  cursor: pointer;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+.news-tabs .active {
+  background: #d8232a;
+  color: white;
+  border-radius: 20px;
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+  padding: 0 20px;
+}
+
+
+
+/* New Football History Section */
+.football-history {
+  margin-top: 40px;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  opacity: 0; /* Fillimisht është i fshehur */
+  animation: fadeIn 1s forwards; /* Animacion për shfaqjen */
+}
+
+.football-history h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+  text-align: center;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+/* Newsletter Section */
+.newsletter {
+  margin-top: 40px;
+  padding: 30px;
+  background: #d8232a;
+  color: white;
+  text-align: center;
+  border-radius: 8px;
+}
+
+.newsletter h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.newsletter form {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.newsletter input {
+  padding: 10px;
+  width: 250px;
+  border-radius: 5px;
+  border: none;
+}
+
+.newsletter button {
+  background: white;
+  color: #d8232a;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.newsletter button:hover {
+  background: #f5f5f5;
+}
+
+/* Për titujt h2 */
+h2 {
+  font-size: 30px !important; /* Madhësia e fontit */
+  font-weight: bold !important; /* Bëjeni të guximshëm */
+  color: #161515 !important; /* Ngjyrë e dukshme */
+  text-transform: uppercase !important; /* Bëjeni gjithmonë me shkronja të mëdha */
+  margin-bottom: 20px !important; /* Hapesirë poshtë titujve */
+  text-align: center !important; /* Centroni titujt */
+  letter-spacing: 2px !important; /* Hapësirë midis shkronjave */
+}
+
+
+/* Përmbajtja e lajmit të plotë */
+.news-detail {
+  margin-top: 50px;
+  margin-bottom: 50px;
   
-  .news-header {
-    background: #d8232a;
-    color: white;
-    padding: 40px;
-    text-align: left;
-    width: 100vw;
-    min-height: 300px;
-  }
+  padding: 20px;
+  max-width: 900px; /* Ose mund ta rrisni sipas dëshirës */
+  margin-left: auto;
+  margin-right: auto; /* Qendron në mes */
   
-  .news-title {
-    font-size: 48px;
-    font-weight: bold;
-  }
-  
-  .news-highlights {
-    display: flex;
-    gap: 20px;
-    margin-top: 20px;
-    max-width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .highlight {
-    background: white;
-    color: black;
-    padding: 20px;
-    border-radius: 10px;
-    width: 30%;
-  }
-  
-  .video {
-    position: relative;
-  }
-  
-  .video::after {
-    content: '\25B6';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 40px;
-    color: red;
-  }
-  
-  .team-news {
-    margin-top: 40px;
-    max-width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .news-tabs {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    max-width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .news-tabs span {
-    cursor: pointer;
-  }
-  
-  .news-tabs .active {
-    font-weight: bold;
-    text-decoration: underline;
-  }
-  
-  .news-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    margin-top: 20px;
-    max-width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .news-item {
-    background: white;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .news-item img {
-    width: 100%;
-    border-radius: 8px;
-  }
-  
-  .news-item h3 {
-    margin-top: 10px;
-  }
-  
-  .news-item .date {
-    color: gray;
-    font-size: 14px;
-  }
-  
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  line-height: 1.8; /* Shumë më i qartë dhe i lehtë për t'u lexuar */
+}
+.news-detail button{
+  background-color: blue;
+}
+
+
+.news-detail h1 {
+  font-size: 2.5rem; /* Madhësi më e madhe për titujt */
+  margin-bottom: 20px;
+  color: #161515;
+}
+
+.news-detail .date {
+  color: #666;
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.news-detail img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.news-detail p {
+  font-size: 1.2rem; /* Madhësi më e madhe për tekstin */
+  line-height: 1.8;
+  color: #333;
+}
+.news-item {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+  cursor: pointer;
+  display: flex; /* Aktivizo flexbox */
+  flex-direction: column; /* Organizo përmbajtjen vertikalisht */
+  min-height: 350px; /* Vendos një lartësi minimale */
+  padding-bottom: 20px; /* Shto hapësirë në fund */
+}
+
+.news-item:hover {
+  transform: translateY(-5px);
+}
+
+.news-item img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.news-item h3 {
+  margin-top: 10px;
+  font-size: 20px;
+}
+
+.news-item .date {
+  color: gray;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.news-item p {
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.news-actions {
+  margin-top: auto; /* Shtyn butonin në fund të kutisë */
+  text-align: center; /* Qendro butonin horizontalisht */
+}
+
+.read-more {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #e60000; /* Ngjyra e kuqe */
+  color: white;
+  text-decoration: none !important; /* Hiq vijën poshtë tek linkjet */
+  border: none; /* Hiq borderin */
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.read-more:hover {
+  background-color: #b30000; /* Ngjyra më e errët kur hover */
+  transform: scale(1.05); /* Zmadhim i lehtë */
+  color: white;
+}
+
+/* Stilizimi për butonin "+" */
+.create-news-button {
+  position: absolute;  /* Ndrysho nga fixed në absolute */
+  bottom: 80px;        /* Përshtatni këtë vlerë për pozicionin lart */
+  right: 20px;
+  background-color: #d8232a;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.create-news-button:hover {
+  background-color: #b30000;
+  transform: scale(1.1);
+}
+
+
+/* Stilizimi për formën e krijimit të lajmit */
+.create-news-container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.create-news-container h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #161515;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.create-news-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.create-news-container .form-group {
+  margin-bottom: 15px;
+}
+
+
+.create-news-container label {
+  font-weight: bold;
+  color: #161515;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.create-news-container input,
+.create-news-container textarea,
+.create-news-container select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.create-news-container input[type="date"] {
+  padding: 8px;
+}
+
+.create-news-container input[type="file"] {
+  padding: 5px;
+}
+
+.create-news-container textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.create-news-container button {
+  background-color: #d8232a;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s, transform 0.3s;
+  margin-top: 10px;
+}
+
+.create-news-container button:hover {
+  background-color: #b30000;
+  transform: scale(1.05);
+}
+
+/* Stilizimi për mesazhet e gabimit (opsionale) */
+.create-news-container .error-message {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}

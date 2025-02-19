@@ -17,6 +17,7 @@ import  Payment   from './components/cart/Payment';
 
 import Store from './components/pages/Store';
 import Stats from './components/pages/Stats';
+<<<<<<< HEAD
 import Club from './components/pages/Club';
 import News from './components/pages/News';
 import Dashboard from './components/pages/Dashboard';
@@ -24,6 +25,18 @@ import Orders from './components/pages/Orders';
 import Reviews from './components/pages/Reviews';
 import Products from './components/pages/Products';
 
+=======
+import Club from './components/pages/Club';  
+import News from './components/pages/News';  
+import NewsDetail from './components/pages/NewsDetail';
+import CreateNews from './components/pages/CreateNews'; // Shto komponentin e ri për krijimin e lajmit
+import Dashboard from './components/pages/Dashboard'; 
+import Orders from './components/pages/Orders'; 
+import Reviews from './components/pages/Reviews'; 
+import Products from './components/pages/Products'; 
+import Users from './components/pages/Users'; 
+import CreateStats from './components/pages/CreateStats';
+>>>>>>> e71f179932aad17a0a570331e790143522ff2e8c
 
 import Login from './components/user/Login';
 import { Register } from './components/user/Register';
@@ -143,8 +156,21 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/stats" element={<Stats />} />
+<<<<<<< HEAD
           <Route path="/aboutUs" element={<Club />} />
           <Route path="/news" element={<News />} />
+=======
+          <Route path="/aboutUs" element={<Club />} /> 
+          <Route path="/news" element={<News />} /> 
+          <Route path="/news/:id" element={<NewsDetail />} /> 
+          <Route path="/create-news" element={<CreateNews />} /> {/* Rruga e re për krijimin e lajmit */}
+          <Route path="/create-stats" element={<CreateStats />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/orders" element={<Orders />} /> 
+          <Route path="/dashboard/reviews" element={<Reviews/>} /> 
+          <Route path="/dashboard/products" element={<Products />} /> 
+          <Route path="/dashboard/users" element={<Users />} /> 
+>>>>>>> e71f179932aad17a0a570331e790143522ff2e8c
         </Routes>
       </div>
 

@@ -4,7 +4,7 @@
 
 .club-header {
   background: url('/public/images/background.png') no-repeat center center/cover;
-  background-size: 120%;
+  background-size: 170%;
   color: white;
   text-align: center;
   position: relative;
@@ -32,21 +32,62 @@
   width: 50%;
 }
 
-.squad-title {
-  text-align: center;
-  font-size: 15px;
-  font-weight: bold;
-  color: white;
-  text-transform: uppercase
-}
-
-.team-subtitle {
+.squad-subtitle {
   text-align: center;
   font-size: 1.5rem;
   font-weight: bold;
   color: #ffcccb;
   margin-bottom: 20px;
   text-transform: uppercase;
+}
+
+.manager {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.manager-card {
+  background: black;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
+  color: white;
+  width: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.manager-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.4);
+}
+
+.name1 {
+  font-size: 18px;
+  font-weight: bold;
+  order: -1;
+}
+
+.manager-image {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 10px;
+  border: 2px solid white;
+  background-image: url('/public/images/manager.png');
+}
+
+.manager1 {
+  font-size: 15px;
+  color: #ffcccb;
+  order: 1;
 }
 
 .players {
@@ -121,6 +162,26 @@
 
 .player-33 .player-image {
   background-image: url('/public/images/player33.png');
+}
+
+.player-11 .player-image {
+  background-image: url('/public/images/player11.png');
+}
+
+.player-15 .player-image {
+  background-image: url('/public/images/player15.png');
+}
+
+.player-4 .player-image {
+  background-image: url('/public/images/player4.png');
+}
+
+.player-0 .player-image {
+  background-image: url('/public/images/player0.png');
+}
+
+.player-2 .player-image {
+  background-image: url('/public/images/player2.png');
 }
 
 .name, .position {

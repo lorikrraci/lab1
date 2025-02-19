@@ -1,34 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios'; // Përdorim axios për të bërë kërkesa HTTP
 
 const Reviews = () => {
-    // Të dhënat e shembullit për vlerësimet (mund të zëvendësohen me të dhëna reale nga një API)
-    const reviews = [
-        {
-            id: 1,
-            productId: 101,
-            userId: 201,
-            rating: 4,
-            comment: 'Great product, really satisfied!',
-            reviewDate: '2025-01-12',
-        },
-        {
-            id: 2,
-            productId: 102,
-            userId: 202,
-            rating: 5,
-            comment: 'Amazing quality, exceeded my expectations.',
-            reviewDate: '2025-01-14',
-        },
-        {
-            id: 3,
-            productId: 103,
-            userId: 203,
-            rating: 3,
-            comment: 'It’s okay, but could be better.',
-            reviewDate: '2025-01-16',
-        },
-    ];
+    const [reviews, setReviews] = useState([]); // Ruajmë vlerësimet
+    const [loading, setLoading] = useState(true); // Statusi për ngarkimin
+    const [error, setError] = useState(null); // Për menaxhimin e gabimeve
 
+    // Merr të dhënat nga API kur komponenti ngarkohet
+    useEffect(() => {
+        const fetchReviews = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/v1/reviews');
+                setReviews(response.data.reviews); // Përdorim të dhënat nga API për të vendosur vlerësimet
+            } catch (error) {
+                console.error('Error fetching reviews:', error.response ? error.response.data : error.message);
+                setError('Error fetching reviews'); // Menaxhojmë gabimet
+            } finally {
+                setLoading(false); // Ndalohet ngarkimi pas përfundimit të kërkesës
+            }
+        };
+
+        fetchReviews();
+    }, []); // Ky `useEffect` do të ekzekutohet një herë, kur komponenti ngarkohet
+
+    // Shfaqja e një mesazhi ngarkimi nëse të dhënat janë duke u ngarkuar
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    // Shfaqja e një mesazhi gabimi nëse ka ndodhur një gabim
+    if (error) {
+        return <div>{error}</div>;
+    }
+
+    // Shfaqja e tabelës së vlerësimeve
     return (
         <div style={{ padding: '20px' }}>
             <h1 style={{ color: '#A50304', marginBottom: '20px' }}>Manage Reviews</h1>
