@@ -38,11 +38,13 @@ app.use(function (req, res, next) {
 // Import all the routes
 const products = require('./routes/product');
 const auth = require('./routes/auth');
+const payment = require('./routes/payment');
 const order = require('./routes/order');
 
 // Route Handling
 app.use('/api/v1/products', products); // Products routes
 app.use('/api/v1/auth', auth);         // Authentication routes
+app.use('/api/v1/payment', payment);         // Authentication routes
 app.use('/api/v1/orders', order);      // Orders routes
 
 // Middleware to handle errors

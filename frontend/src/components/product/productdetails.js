@@ -1,15 +1,13 @@
-import React ,{ Fragment, useEffect }from 'react'
-
+import React ,{ Fragment, useEffect , useState}from 'react'
 import { useParams } from 'react-router-dom'; 
-
 import { Carousel } from 'react-bootstrap'
-
 import Loader from '../layout/Loader';
 import MetaData from '../layout/MetaData';
-
-//import { useAlert } from 'react-alert's
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from 'react-redux'
 import { getProductDetails, clearErrors } from '../../actions/productActions'
+import { addItemToCart } from '../../actions/cartActions';
 
 export const ProductDetails = ({ match }) => {
     const { id } = useParams();
@@ -17,6 +15,8 @@ export const ProductDetails = ({ match }) => {
     //const alert = useAlert();
 
     const { loading, error, product } = useSelector(state => state.productDetails)
+
+    const [quantity, setQuantity] = useState(1);
 
     useEffect(() => {
         dispatch(getProductDetails(id))
@@ -27,6 +27,23 @@ export const ProductDetails = ({ match }) => {
         }
 
     }, [dispatch, error, id])
+
+    const increaseQty = () => {
+        if (quantity < product.stock) {
+            setQuantity(quantity + 1);
+        }
+    };
+
+    const decreaseQty = () => {
+        if (quantity > 1) {
+            setQuantity(quantity - 1);
+        }
+    };
+
+    const addToCart = () =>{
+        dispatch(addItemToCart(id, quantity));
+        toast.success('Items Added to Cart')
+    }
   return (
     <Fragment>
     {loading? <Loader /> : (
@@ -45,7 +62,7 @@ export const ProductDetails = ({ match }) => {
     
         <div className="col-12 col-lg-5 mt-5">
             <h3>{product.name}</h3>
-            <p id="product_id">Product # {product.id}</p>
+            <p id="product_id">Product ID :  {product.id}</p>
     
             <hr />
     
@@ -59,13 +76,14 @@ export const ProductDetails = ({ match }) => {
     
             <p id="product_price">${product.price}</p>
             <div className="stockCounter d-inline">
-                <span className="btn btn-danger minus">-</span>
+                <span className="btn btn-danger minus" onClick={decreaseQty}>-</span>
     
-                <input type="number" className="form-control count d-inline" value="1" readOnly />
+                <input type="number" className="form-control count d-inline" value={quantity} readOnly />
     
-                <span className="btn btn-primary plus">+</span>
+                <span className="btn btn-primary plus" onClick={increaseQty}>+</span>
             </div>
-             <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4">Add to Cart</button>
+             <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4" 
+             disabled={product.stock === 0} onClick={addToCart}>Add to Cart</button>
     
             <hr />
     
@@ -76,7 +94,7 @@ export const ProductDetails = ({ match }) => {
             <h4 className="mt-2">Description:</h4>
             <p>{product.description}</p>
             <hr />
-            <p id="product_seller mb-3">Sold by: <strong>{product.seller}</strong></p>
+            <p id="product_seller mb-3">Seller: <strong>{product.seller}</strong></p>
             
             <button id="review_btn" type="button" className="btn btn-primary mt-4" data-toggle="modal" data-target="#ratingModal">
                         Submit Your Review

@@ -7,65 +7,63 @@ import {
     REGISTER_USER_FAIL,
     LOGOUT_SUCCESS,
     LOGOUT_FAIL,
-    CLEAR_ERRORS
-} from '../constants/userConstants'
+    LOAD_USER_REQUEST,
+    LOAD_USER_SUCCESS,
+    LOAD_USER_FAIL,
+} from '../constants/userConstants';
 
 const initialState = {
-    user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
     isAuthenticated: localStorage.getItem('token') ? true : false,
+    user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
     loading: false,
-};
+    error: null,
+  };
 
-
-export const authReducer = (state = initialState, action ) => {
-    switch(action.type) {
-
+export const authReducer = (state = initialState, action) => {
+    switch (action.type) {
         case LOGIN_REQUEST:
         case REGISTER_USER_REQUEST:
-            return{
+        case LOAD_USER_REQUEST:
+            return {
+                ...state,
                 loading: true,
-                isAuthenticated: false,
-            }
-        
+            };
+
         case LOGIN_SUCCESS:
         case REGISTER_USER_SUCCESS:
-            return{
+        case LOAD_USER_SUCCESS:
+            return {
                 ...state,
                 loading: false,
                 isAuthenticated: true,
-                user: action.payload
-            }
+                user: action.payload,
+            };
 
-        case LOGOUT_SUCCESS:
-            return {
-                loading: false,
-                isAuthenticated: false,
-                user: null
-            }
-
-        case LOGOUT_FAIL:
-            return{
-                ...state,
-                error: action.payload
-            }
         case LOGIN_FAIL:
         case REGISTER_USER_FAIL:
-            return{
+        case LOAD_USER_FAIL:
+            return {
                 ...state,
                 loading: false,
                 isAuthenticated: false,
                 user: null,
-                error: action.payload
-            }
+                error: action.payload,
+            };
 
-
-        case CLEAR_ERRORS :
+        case LOGOUT_SUCCESS:
             return {
                 ...state,
-                error: null
-            }
+                isAuthenticated: false,
+                user: null,
+            };
+
+        case LOGOUT_FAIL:
+            return {
+                ...state,
+                error: action.payload,
+            };
 
         default:
-            return state
+            return state;
     }
-}
+};

@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 import {
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
@@ -8,7 +9,10 @@ import {
     REGISTER_USER_FAIL,
     LOGOUT_SUCCESS,
     LOGOUT_FAIL,
-    CLEAR_ERRORS
+    CLEAR_ERRORS,
+    LOAD_USER_REQUEST,
+    LOAD_USER_SUCCESS,
+    LOAD_USER_FAIL,
 } from '../constants/userConstants'
 
 const axiosInstance =  axios.create({
@@ -83,11 +87,40 @@ export const register = (userData) => async (dispatch) => {
         });
     }
 };
+// Load user
+export const loadUser = () => async (dispatch) => {
+    try {
+      dispatch({ type: LOAD_USER_REQUEST });
+  
+      const token = localStorage.getItem('token');
+      if (!token) throw new Error('No token found');
+  
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      };
+  
+      const { data } = await axios.get('http://localhost:5000/api/v1/auth/me', config);
+  
+      dispatch({
+        type: LOAD_USER_SUCCESS,
+        payload: data.user,
+      });
+    } catch (error) {
+      dispatch({
+        type: LOAD_USER_FAIL,
+        payload: error.response?.data?.message || 'Failed to load user',
+      });
+    }
+  };
+  
 
 //Logout user
 export const logout = () => async (dispatch) => {
     try {
-        await axiosInstance.get('/api/v1/auth/logout'); 
+        await axiosInstance.get('http://localhost:5000/api/v1/auth/logout'); 
 
         dispatch({
             type: LOGOUT_SUCCESS,
@@ -104,6 +137,19 @@ export const logout = () => async (dispatch) => {
     }
 };
 
+// // load user
+// export const loadUser = () => async (dispatch) => {
+//     try {
+//         const { data } = await axios.get('/api/v1/me');
+
+//         dispatch({
+//             type: USER_LOADED,
+//             payload: data.user,
+//         });
+//     } catch (error) {
+//         console.error('Error loading user:', error);
+//     }
+// };
 
 //Clear errors
 export const clearErrors = () => async (dispatch) =>{
