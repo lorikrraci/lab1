@@ -23,11 +23,13 @@ export const getProducts = (keyword = '', currentPage = 1, price, category, rati
 
   
       const { data }  = await axios.get(link);
-  
+      console.log("API Response:", data);
+      
       dispatch({
         type: ALL_PRODUCTS_SUCCESS,
         payload: data
       });
+      
     } catch (error) {
       dispatch({
         type: ALL_PRODUCTS_FAIL,

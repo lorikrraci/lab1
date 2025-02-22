@@ -45,6 +45,10 @@ const Store = () => {
     };
     
     const displayedProducts = products?.slice((currentPage - 1) * resPerPage, currentPage * resPerPage);
+    console.log("Displayed prods: ", displayedProducts)
+    console.log(" prods: ", products)
+    console.log(" current page : ", currentPage)
+    console.log(" resPerPage  : ", resPerPage)
 
     
     return (
@@ -52,7 +56,7 @@ const Store = () => {
             <div className="store-container">
                 {loading ? <Loader /> : (
                     <Fragment>
-                        <MetaData title={'KB Vëllaznimi'} />
+                        <MetaData title={'KB Vëllaznimi - Store'} />
                         <h1 id="products_heading">Store</h1>
                         
                         {/* Sort Dropdown */}
@@ -62,7 +66,7 @@ const Store = () => {
                                 value={sort} 
                                 onChange={(e) => setSort(e.target.value)}
                             >
-                                <option value="">Most Relevant</option>
+                                <option value="most-relevant">Most Relevant</option>
                                 <option value="price-asc">Price: Low to High</option>
                                 <option value="price-desc">Price: High to Low</option>
                                 <option value="name-asc">Name: A-Z</option>

@@ -10,7 +10,19 @@ exports.getProducts = catchAsyncErrors(async (req, res, next) => {
     const rating = req.query.ratings || 0;
     const sortOption = req.query.sort || 'id ASC';
 
-    const products = await getAllProducts(keyword, priceRange, category, rating, sortOption);
+
+    const sortMap = {
+        'price-asc': 'price ASC',
+        'price-desc': 'price DESC',
+        'name-asc': 'name ASC',
+        'most-relevant': 'id ASC'
+    };
+    
+       
+    const sortValue = sortMap[sortOption] || 'id ASC';
+    
+
+    const products = await getAllProducts(keyword, priceRange, category, rating, sortValue);
 
     res.status(200).json({
         success: true,

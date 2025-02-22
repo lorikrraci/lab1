@@ -7,7 +7,7 @@ const Product = ({ key, product, col }) => {
          <div className="card p-3 rounded">
              <img
                 className="card-img-top mx-auto"
-                src={product?.images[0]?.url}
+                src={product?.images?.url}
                 alt={product?.name} 
             />
             <div className="card-body d-flex flex-column">
