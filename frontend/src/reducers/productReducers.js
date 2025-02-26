@@ -21,8 +21,10 @@ switch(action.type) {
         return{
             loading: false,
             products: action.payload.products,
-            productCount: action.payload.productCount, 
-            resPerPage: action.payload.resPerPage || 4
+            productCount: action.payload.totalProducts, 
+            resPerPage: action.payload.resPerPage, 
+            totalPages: action.payload.totalPages,
+            // currentPage: action.payload.currentPage
             // filteredProcutsCount: action.payload.filteredProcutsCount
         }
     case ALL_PRODUCTS_FAIL:

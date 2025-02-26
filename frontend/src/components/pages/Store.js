@@ -10,6 +10,7 @@ import { getProducts } from '../../actions/productActions';
 import ReactPaginate from 'react-paginate';
 import { useParams, useNavigate } from 'react-router-dom';
 
+
 const Store = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [price, setPrice] = useState([1, 5000]);
@@ -20,19 +21,22 @@ const Store = () => {
     const categories = ['Jersey', 'Shorts', 'T-shirts','Hoodies', 'Hat', 'Accessories', 'Bottle', 'Track-suit','Socks'];
 
     const dispatch = useDispatch();
-    const { loading, products, error, productCount, resPerPage } = useSelector(state => state.products);
+    const { loading, products, error, productCount, resPerPage, totalPages } = useSelector(state => state.products);
     const { keyword } = useParams(); // Get keyword from the URL
     const navigate = useNavigate();
+
+
+
 
     useEffect(() => {
         if (error) console.error(error);
         dispatch(getProducts(keyword, currentPage, price, category, rating, sort));
     }, [dispatch, error, keyword, currentPage, price, category, rating, sort]);
     
-    const handlePageClick = (data) => {
-        const selectedPage = data.selected + 1;
-        setCurrentPage(selectedPage);  // Update currentPage directly
+    const handlePageClick = (event) => {
+        setCurrentPage(event.selected + 1);
     };
+    
        
     const handleCategoryClick = (selectedCategory) => {
         setCategory(selectedCategory === category ? '' : selectedCategory); // Allow deselecting category
@@ -45,10 +49,12 @@ const Store = () => {
     };
     
     const displayedProducts = products?.slice((currentPage - 1) * resPerPage, currentPage * resPerPage);
+    
     console.log("Displayed prods: ", displayedProducts)
     console.log(" prods: ", products)
     console.log(" current page : ", currentPage)
     console.log(" resPerPage  : ", resPerPage)
+    console.log("totalPages:", totalPages, "resPerPage:", resPerPage, "productCount:", productCount);
 
     
     return (
@@ -117,14 +123,16 @@ const Store = () => {
                         </section>
                         {resPerPage < productCount && (
                                 <ReactPaginate
-                                pageCount={Math.ceil(productCount / resPerPage)}
-                                onPageChange={handlePageClick}
-                                containerClassName="pagination"
-                                previousLabel="Previous"
-                                nextLabel="Next"
-                                activeClassName="active"
-                                forcePage={currentPage - 1}
-                            />
+                                    previousLabel={'Prev'}
+                                    nextLabel={'Next'}
+                                    breakLabel={'...'}
+                                    pageCount={totalPages} // Fix: Use totalPages from Redux
+                                    marginPagesDisplayed={2}
+                                    pageRangeDisplayed={5}
+                                    onPageChange={handlePageClick}
+                                    containerClassName={'pagination'}
+                                    activeClassName={'active'}
+                                />
                         )}
                     </Fragment>
                 )}
