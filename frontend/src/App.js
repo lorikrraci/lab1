@@ -31,6 +31,10 @@ import './App.css';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import axios from 'axios';
+import CreateNews from './components/pages/CreateNews';
+import CreateStats from './components/pages/CreateStats';
+import NewsDetail from './components/pages/NewsDetail';
+
 
 
 function App() {
@@ -113,6 +117,11 @@ function App() {
             <Route path="/dashboard/reviews" element={<Reviews />} />
             <Route path="/dashboard/products" element={<Products />} />
             <Route path="/payment" element={<PaymentPage />} />
+            <Route path="/create-news" element={<CreateNews />} /> 
+            <Route path="/news/:id" element={<NewsDetail />} />
+            <Route path="/create-stats" element={<CreateStats />} />
+
+
             
             {/* <Route
                 path="/payment"
