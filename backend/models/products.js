@@ -104,36 +104,41 @@ module.exports = {
     },
 
     // 5. Merr të gjitha produktet me filtrim dhe sortim
-    getAllProducts: async (keyword = '', priceRange = [1, 5000], category = '', rating = 0, sortOption = 'id ASC') => {
+    getAllProducts: async (keyword = '', priceRange = [1, 5000], category = '', rating = 0, sortOption = 'id ASC', limit = 10, offset = 0) => {
         let sql = 'SELECT * FROM products WHERE 1';
         let values = [];
-
+    
         if (keyword) {
             sql += ' AND name LIKE ?';
             values.push(`%${keyword}%`);
         }
-
+    
         if (category) {
             sql += ' AND category = ?';
             values.push(category);
         }
-
+    
         if (rating) {
             sql += ' AND ratings >= ?';
             values.push(rating);
         }
-
+    
         if (priceRange) {
             sql += ' AND price BETWEEN ? AND ?';
             values.push(priceRange[0], priceRange[1]);
         }
-
-        sql += ` ORDER BY ${sortOption}`;
-
-        console.log('Executing SQL:', sql);
-        console.log('With values:', values);
-
+    
+        sql += ` ORDER BY ${sortOption} LIMIT ? OFFSET ?`;
+        values.push(limit, offset);
+    
         const [rows] = await db.execute(sql, values);
-        return rows; // Kthen një array me produkte
+    
+        // Get total product count (without limit)
+        const countSql = 'SELECT COUNT(*) as total FROM products WHERE 1';
+        const [countRows] = await db.execute(countSql);
+        const totalProducts = countRows[0].total;
+    
+        return { products: rows, totalProducts };
     },
+    
 };

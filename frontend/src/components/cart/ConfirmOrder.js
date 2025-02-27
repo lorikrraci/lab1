@@ -38,7 +38,7 @@ export const ConfirmOrder = () => {
         <Fragment>
             <MetaData title={'Confirm Order'} />
             
-                    <CheckoutSteps shipping ConfirmOrder />
+                    <CheckoutSteps shipping confirmOrder />
 
                     <div className="row d-flex justify-content-between">
             <div className="col-12 col-lg-8 mt-5 order-confirm">

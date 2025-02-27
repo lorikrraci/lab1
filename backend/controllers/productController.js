@@ -9,12 +9,31 @@ exports.getProducts = catchAsyncErrors(async (req, res, next) => {
     const priceRange = [req.query.price?.[0] || 1, req.query.price?.[1] || 5000];
     const rating = req.query.ratings || 0;
     const sortOption = req.query.sort || 'id ASC';
+    const page = Number(req.query.page) || 1;
+    const limit = 6;
+    const offset = (page - 1) * limit;
 
-    const products = await getAllProducts(keyword, priceRange, category, rating, sortOption);
+
+    const sortMap = {
+        'price-asc': 'price ASC',
+        'price-desc': 'price DESC',
+        'name-asc': 'name ASC',
+        'most-relevant': 'id ASC'
+    };
+    
+       
+    const sortValue = sortMap[sortOption] || 'id ASC';
+    
+
+    const { products, totalProducts } = await getAllProducts(keyword, priceRange, category, rating, sortValue, limit, offset);
 
     res.status(200).json({
         success: true,
         products,
+        totalProducts,
+        totalPages: Math.ceil(totalProducts / limit),
+        resPerPage: limit,
+        currentPage: page
     });
 });
 

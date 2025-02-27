@@ -17,11 +17,14 @@ switch(action.type) {
         }
 
     case ALL_PRODUCTS_SUCCESS:
+        console.log("Reducer Payload:", action.payload); 
         return{
             loading: false,
             products: action.payload.products,
-            productCount: action.payload.productCount,
-            resPerPage: action.payload.resPerPage
+            productCount: action.payload.totalProducts, 
+            resPerPage: action.payload.resPerPage, 
+            totalPages: action.payload.totalPages,
+            // currentPage: action.payload.currentPage
             // filteredProcutsCount: action.payload.filteredProcutsCount
         }
     case ALL_PRODUCTS_FAIL:
