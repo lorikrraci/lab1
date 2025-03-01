@@ -1,9 +1,51 @@
+/* Club.css */
 .club-container {
-  font-family:'Robot' sans-serif;
+  font-family: "Roboto", sans-serif; /* Fixed font-family */
 }
 
+/* Scoped global tags */
+.club-container h1,
+.club-container h2,
+.club-container h3,
+.club-container h4,
+.club-container p {
+  margin: 0;
+  padding: 0;
+}
+
+.club-container h1 {
+  font-size: 30px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: white;
+}
+
+.club-container h2 {
+  font-size: 25px;
+  font-weight: bold;
+  color: white;
+}
+
+.club-container h3 {
+  font-size: 30px;
+  font-weight: bold;
+  color: black;
+}
+
+.club-container h4 {
+  font-size: 20px;
+  font-weight: bold;
+  color: black;
+}
+
+.club-container p {
+  font-size: 16px;
+  color: black;
+}
+
+/* Rest of your CSS */
 .club-header {
-  background: url('/public/images/background.png') no-repeat center center/cover;
+  background: url("/public/images/background.png") no-repeat center center/cover;
   background-size: 170%;
   color: white;
   text-align: center;
@@ -81,7 +123,7 @@
   background-position: center;
   margin-bottom: 10px;
   border: 2px solid white;
-  background-image: url('/public/images/manager.png');
+  background-image: url("/public/images/manager.png");
 }
 
 .manager1 {
@@ -145,46 +187,47 @@
 }
 
 .player-1 .player-image {
-  background-image: url('/public/images/player1.png');
+  background-image: url("/public/images/player1.png");
 }
 
 .player-44 .player-image {
-  background-image: url('/public/images/player44.png');
+  background-image: url("/public/images/player44.png");
 }
 
 .player-9 .player-image {
-  background-image: url('/public/images/player9.png');
+  background-image: url("/public/images/player9.png");
 }
 
 .player-3 .player-image {
-  background-image: url('/public/images/player3.png');
+  background-image: url("/public/images/player3.png");
 }
 
 .player-33 .player-image {
-  background-image: url('/public/images/player33.png');
+  background-image: url("/public/images/player33.png");
 }
 
 .player-11 .player-image {
-  background-image: url('/public/images/player11.png');
+  background-image: url("/public/images/player11.png");
 }
 
 .player-15 .player-image {
-  background-image: url('/public/images/player15.png');
+  background-image: url("/public/images/player15.png");
 }
 
 .player-4 .player-image {
-  background-image: url('/public/images/player4.png');
+  background-image: url("/public/images/player4.png");
 }
 
 .player-0 .player-image {
-  background-image: url('/public/images/player0.png');
+  background-image: url("/public/images/player0.png");
 }
 
 .player-2 .player-image {
-  background-image: url('/public/images/player2.png');
+  background-image: url("/public/images/player2.png");
 }
 
-.name, .position {
+.name,
+.position {
   font-size: 15px;
   margin: 5px 0;
 }
@@ -199,16 +242,6 @@ section {
   margin-bottom: 30px;
 }
 
-h1, h2 {
-  color: white !important;
-}
-
-h3 {
-  color: black !important;
-  font-weight: bold;
-  font-size: 30px;
-}
-
 .trophy-section {
   display: flex;
   justify-content: space-between;
@@ -219,12 +252,12 @@ h3 {
 }
 
 .trophy-left {
-  width: 55%; 
+  width: 55%;
   text-align: left;
 }
 
 .trophy-title {
-  font-size: 20px; 
+  font-size: 20px;
   font-weight: bold;
   text-transform: uppercase;
   margin-bottom: 5px;
@@ -260,7 +293,7 @@ h3 {
 }
 
 .trophy-image {
-  background-image: url('/public/images/ligaepare.png');
+  background-image: url("/public/images/ligaepare.png");
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
@@ -286,7 +319,7 @@ h3 {
 }
 
 .trophy-kosovo-cup .kosovo-cup-image {
-  background-image: url('/public/images/kupaekosoves.png');
+  background-image: url("/public/images/kupaekosoves.png");
 }
 
 .trophy-super-cup {
@@ -306,10 +339,11 @@ h3 {
 }
 
 .trophy-super-cup .super-cup-image {
-  background-image: url('/public/images/superkupa.png');
+  background-image: url("/public/images/superkupa.png");
 }
 
-.trophy-title, .trophy-year {
+.trophy-title,
+.trophy-year {
   color: black;
   font-size: 16px;
   margin: 5px 0;
@@ -351,7 +385,8 @@ h3 {
 }
 
 /* Titujt */
-.opinion-title, .sponsor-title {
+.opinion-title,
+.sponsor-title {
   font-size: 25px;
   font-weight: bold;
   color: #222;
@@ -406,44 +441,3 @@ h3 {
   padding: 5px;
   border-radius: 5px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-  
