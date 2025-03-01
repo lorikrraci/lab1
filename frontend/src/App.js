@@ -34,6 +34,7 @@ import axios from 'axios';
 import CreateNews from './components/pages/CreateNews';
 import CreateStats from './components/pages/CreateStats';
 import NewsDetail from './components/pages/NewsDetail';
+import CreateProducts from './components/pages/CreateProducts';
 
 
 
@@ -120,6 +121,7 @@ function App() {
             <Route path="/create-news" element={<CreateNews />} /> 
             <Route path="/news/:id" element={<NewsDetail />} />
             <Route path="/create-stats" element={<CreateStats />} />
+            <Route path="/create-product" element={<CreateProducts />} />
 
 
             
