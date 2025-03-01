@@ -6,7 +6,7 @@ import Loader from "../layout/Loader";
 import ReactPaginate from "react-paginate";
 import "./Store.css"; // Ensure this CSS file includes pagination styles
 
-const ProductsDashboard = () => {
+const Products = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isAuthenticated, user } = useSelector((state) => state.auth);
@@ -50,9 +50,15 @@ const ProductsDashboard = () => {
   });
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div
+      style={{
+        padding: "20px",
+        minHeight: "calc(100vh - 60px)", // Adjust based on footer height (e.g., 60px)
+        paddingBottom: "60px", // Ensure content doesn't overlap footer
+      }}
+    >
       <h1 style={{ color: "#A50304", marginBottom: "20px" }}>
-        Manage Products ({productCount || 0})
+        Manage Products
       </h1>
 
       {loading ? (
@@ -177,4 +183,4 @@ const ProductsDashboard = () => {
   );
 };
 
-export default ProductsDashboard;
+export default Products;
