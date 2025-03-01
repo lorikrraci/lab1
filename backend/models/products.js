@@ -106,7 +106,7 @@ module.exports = {
   // 5. Merr të gjitha produktet me filtrim dhe sortim
   getAllProducts: async (
     keyword = "",
-    priceRange = [1, 5000],
+    priceRange = [1, 1000],
     category = "",
     rating = 0,
     sortOption = "id ASC",

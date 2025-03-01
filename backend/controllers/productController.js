@@ -12,8 +12,8 @@ const {
 exports.getProducts = catchAsyncErrors(async (req, res, next) => {
   const keyword = req.query.keyword || "";
   const category = req.query.category || "";
-  const priceRange = [req.query.price?.gte || 1, req.query.price?.lte || 5000];
-  const rating = req.query.ratings?.gte || 0;
+  const priceRange = [req.query.price?.gte || 1, req.query.price?.lte || 1000];
+  const rating = req.query.rating ? Number(req.query.rating) : 0;
   const sortOption = req.query.sort || "id ASC";
   const page = Number(req.query.page) || 1;
   const limit = Number(req.query.limit) || 6; // Allow limit to be overridden via query

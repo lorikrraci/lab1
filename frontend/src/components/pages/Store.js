@@ -12,7 +12,7 @@ import { useParams, useNavigate } from "react-router-dom";
 
 const Store = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [price, setPrice] = useState([1, 5000]);
+  const [price, setPrice] = useState([1, 1000]);
   const [category, setCategory] = useState("");
   const [rating, setRating] = useState(0);
   const [sort, setSort] = useState("");
@@ -88,10 +88,10 @@ const Store = () => {
                 <div className="col-6 col-md-3 mt-5 mb-5">
                   <Slider
                     range
-                    marks={{ 1: `$1`, 5000: `$5000` }}
+                    // marks={{ 1: `$1`, 1000: `$1000` }}
                     min={1}
-                    max={5000}
-                    defaultValue={[1, 5000]}
+                    max={1000}
+                    defaultValue={[1, 1000]}
                     tipFormatter={(value) => `$${value}`}
                     tipProps={{ placement: "top", visible: true }}
                     value={price}
@@ -100,6 +100,9 @@ const Store = () => {
                       setCurrentPage(1);
                     }}
                   />
+                  <p>
+                    Prices: ${price[0]} - ${price[1]}
+                  </p>
                   <hr className="my-5" />
                   <h4 className="mb-3">Categories</h4>
                   <ul>

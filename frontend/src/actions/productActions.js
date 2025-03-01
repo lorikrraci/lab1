@@ -30,7 +30,7 @@ export const getProducts =
       if (keyword) link += `&keyword=${keyword}`;
       if (category && category !== "")
         link += `&category=${encodeURIComponent(category)}`;
-      if (rating > 0) link += `&ratings[gte]=${rating}`;
+      if (rating > 0) link += `&rating=${rating}`;
       if (sort) link += `&sort=${sort}`;
 
       const { data } = await axios.get(link);
