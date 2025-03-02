@@ -1,11 +1,13 @@
 html,
 body {
-  font-family: 'Amazon Ember';
+  font-family: "Amazon Ember";
   width: 100%;
   height: 100%;
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Scroll Bar */
@@ -27,7 +29,7 @@ body {
 }
 
 nav {
-  background-color: #A50304;
+  background-color: #a50304;
   padding: 1rem 1rem;
 }
 
@@ -116,8 +118,11 @@ nav {
 /* Footer */
 footer {
   color: grey;
-  bottom: 0;
   width: 100%;
+  margin-top: auto; /* Push the footer to the bottom of the page */
+  padding: 1rem;
+  text-align: center;
+  position: relative;
 }
 
 /* Ratings */
@@ -130,7 +135,7 @@ footer {
 }
 
 .rating-outer::before {
-  content: '\f006 \f006 \f006 \f006 \f006';
+  content: "\f006 \f006 \f006 \f006 \f006";
 }
 
 .rating-inner {
@@ -143,7 +148,7 @@ footer {
 }
 
 .rating-inner::before {
-  content: '\f005 \f005 \f005 \f005 \f005';
+  content: "\f005 \f005 \f005 \f005 \f005";
   color: #f8ce0b;
 }
 
@@ -200,7 +205,7 @@ footer {
   padding-left: 0;
 }
 .loader:after {
-  content: ' ';
+  content: " ";
   display: block;
   width: 64px;
   height: 64px;
@@ -531,11 +536,11 @@ footer {
 }
 
 #sidebar ul li.active > a,
-a[aria-expanded='true'] {
+a[aria-expanded="true"] {
   color: #fff;
   background: #232f3e;
 }
-a[data-toggle='collapse'] {
+a[data-toggle="collapse"] {
   position: relative;
 }
 .dropdown-toggle::after {

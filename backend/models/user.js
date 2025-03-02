@@ -1,76 +1,89 @@
-const db = require('../config/database'); // MySQL pool from mysql2/promise
-const bcrypt = require('bcryptjs');
+const db = require("../config/database"); // MySQL pool from mysql2/promise
+const bcrypt = require("bcryptjs");
 
 module.exports = {
-    // CREATE a new user
-    createUser: async ({ name, email, password, role }) => {
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const sql = `
+  // CREATE a new user
+  createUser: async ({ name, email, password, role = "user" }) => {
+    // Default role to 'user'
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const sql = `
             INSERT INTO users (name, email, password, role, createdAt, updatedAt)
             VALUES (?, ?, ?, ?, NOW(), NOW())
         `;
-        const [result] = await db.execute(sql, [name, email, hashedPassword, role]);
-        return result.insertId; // newly created user's ID
-    },
+    const [result] = await db.execute(sql, [name, email, hashedPassword, role]);
+    return result.insertId;
+  },
 
-    // READ user by ID
-    getUserById: async (id) => {
-        const sql = 'SELECT * FROM users WHERE id = ?';
-        const [rows] = await db.execute(sql, [id]);
-        return rows[0]; // single user or undefined
-    },
+  getUserById: async (id) => {
+    const sql = "SELECT * FROM users WHERE id = ?";
+    const [rows] = await db.execute(sql, [id]);
+    return rows[0];
+  },
 
-    // READ user by email
-    getUserByEmail: async (email) => {
-        const sql = 'SELECT * FROM users WHERE email = ?';
-        const [rows] = await db.execute(sql, [email]);
-        return rows[0];
-    },
+  getUserByEmail: async (email) => {
+    const sql = "SELECT * FROM users WHERE email = ?";
+    const [rows] = await db.execute(sql, [email]);
+    return rows[0];
+  },
 
-    // READ all users
-    getAllUsers: async () => {
-        const sql = 'SELECT * FROM users';
-        const [rows] = await db.execute(sql);
-        return rows;
-    },
+  // READ user by ID
+  getUserById: async (id) => {
+    const sql = "SELECT * FROM users WHERE id = ?";
+    const [rows] = await db.execute(sql, [id]);
+    return rows[0]; // single user or undefined
+  },
 
-    // UPDATE user
-    updateUser: async (id, { name, email, password, role }) => {
-        const fields = [];
-        const values = [];
+  // READ user by email
+  getUserByEmail: async (email) => {
+    const sql = "SELECT * FROM users WHERE email = ?";
+    const [rows] = await db.execute(sql, [email]);
+    return rows[0];
+  },
 
-        if (name !== undefined) {
-            fields.push('name = ?');
-            values.push(name);
-        }
-        if (email !== undefined) {
-            fields.push('email = ?');
-            values.push(email);
-        }
-        if (password !== undefined) {
-            const hashedPassword = await bcrypt.hash(password, 10);
-            fields.push('password = ?');
-            values.push(hashedPassword);
-        }
-        if (role !== undefined) {
-            fields.push('role = ?');
-            values.push(role);
-        }
+  // READ all users
+  getAllUsers: async () => {
+    const sql = "SELECT * FROM users";
+    const [rows] = await db.execute(sql);
+    return rows;
+  },
 
-        // Always update updatedAt
-        fields.push('updatedAt = NOW()');
+  // UPDATE user
+  updateUser: async (id, { name, email, password, role }) => {
+    const fields = [];
+    const values = [];
 
-        const sql = `UPDATE users SET ${fields.join(', ')} WHERE id = ?`;
-        values.push(id);
+    if (name !== undefined) {
+      fields.push("name = ?");
+      values.push(name);
+    }
+    if (email !== undefined) {
+      fields.push("email = ?");
+      values.push(email);
+    }
+    if (password !== undefined) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      fields.push("password = ?");
+      values.push(hashedPassword);
+    }
+    if (role !== undefined) {
+      fields.push("role = ?");
+      values.push(role);
+    }
 
-        const [result] = await db.execute(sql, values);
-        return result.affectedRows; // number of updated rows
-    },
+    // Always update updatedAt
+    fields.push("updatedAt = NOW()");
 
-    // DELETE user
-    deleteUser: async (id) => {
-        const sql = 'DELETE FROM users WHERE id = ?';
-        const [result] = await db.execute(sql, [id]);
-        return result.affectedRows; // number of rows deleted
-    },
+    const sql = `UPDATE users SET ${fields.join(", ")} WHERE id = ?`;
+    values.push(id);
+
+    const [result] = await db.execute(sql, values);
+    return result.affectedRows; // number of updated rows
+  },
+
+  // DELETE user
+  deleteUser: async (id) => {
+    const sql = "DELETE FROM users WHERE id = ?";
+    const [result] = await db.execute(sql, [id]);
+    return result.affectedRows; // number of rows deleted
+  },
 };

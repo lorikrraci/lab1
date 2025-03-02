@@ -1,159 +1,173 @@
-import React ,{ Fragment, useState, useEffect }from 'react'
-
-import MetaData from '../layout/MetaData';
-
-//import { useAlert } from 'react-alert'
-import { useDispatch, useSelector } from 'react-redux'
-import {register, clearErrors }from '../../actions/userActions'
-
-import { useNavigate } from 'react-router-dom';
-import { login } from '../../actions/userActions';
-
-import './Register.css'
-
+// Register.js
+import React, { Fragment, useState, useEffect } from "react";
+import MetaData from "../layout/MetaData";
+import { useDispatch, useSelector } from "react-redux";
+import { register, clearErrors } from "../../actions/userActions";
+import { useNavigate } from "react-router-dom";
+import "./Register.css";
 
 export const Register = () => {
-    const [user, setUser] = useState({
-        name: '',
-        email: '',
-        password: ''
-    });
-    const { name, email, password } = user;
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const [isRegistering, setIsRegistering] = useState(false);
 
-    const [avatar, setAvatar] = useState('');
-    const [avatarPreview, setAvatarPreview] = useState('/public/images/default-avatar.png');
+  const { name, email, password } = user;
 
-    const dispatch = useDispatch();
-    const { isAuthenticated, error, loading } = useSelector(state => state.auth);
+  const dispatch = useDispatch();
+  const {
+    errors,
+    loading,
+    isAuthenticated,
+    user: registeredUser,
+  } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  useEffect(() => {
+    // Check if registration was successful
+    if (
+      !loading &&
+      registeredUser &&
+      !errors.general &&
+      !Object.keys(errors).length
+    ) {
+      setTimeout(() => {
+        setIsRegistering(false);
+        navigate("/register-success");
+      }, 2000);
+    }
+    // Reset registering state if there are errors
+    if (errors && Object.keys(errors).length > 0) {
+      setIsRegistering(false);
+    }
+  }, [loading, errors, registeredUser, navigate]);
 
-    useEffect(() => {
-        if (isAuthenticated) {
-            navigate('/');
-        }
+  const submitHandler = async (e) => {
+    e.preventDefault();
 
-        if (error) {
-            dispatch(clearErrors());
-        }
-    }, [dispatch, isAuthenticated, error]);
+    const userData = { name, email, password };
 
-    const submitHandler = (e) => {
-        e.preventDefault();
+    setIsRegistering(true);
+    await dispatch(register(userData));
+    // Navigation will now be handled in useEffect based on success
+  };
 
-        const formData = new FormData();
-        formData.set('name', name);
-        formData.set('email', email);
-        formData.set('password', password);
-        formData.set('avatar', avatar);
+  const onChange = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+    dispatch(clearErrors()); // Clear errors when user starts typing
+  };
 
-        dispatch(register(formData));
-    };
+  return (
+    <Fragment>
+      <MetaData title={"Register User"} />
+      <div className="register-container">
+        <div className="logo-overlay"></div>
+        <div className="register-wrapper">
+          <form className="register-form" onSubmit={submitHandler}>
+            <h1 className="register-title">Create Account</h1>
 
-    const onChange = e => {
-        if (e.target.name === 'avatar') {
-            const reader = new FileReader();
-            reader.onload = () => {
-                if (reader.readyState === 2) {
-                    setAvatarPreview(reader.result);
-                    setAvatar(reader.result);
-                }
-            };
-            reader.readAsDataURL(e.target.files[0]);
-        } else {
-            setUser({ ...user, [e.target.name]: e.target.value });
-        }
-    };
+            {isRegistering && (
+              <div
+                style={{
+                  textAlign: "center",
+                  marginBottom: "15px",
+                  color: "#007bff",
+                }}
+              >
+                Registering...
+              </div>
+            )}
 
-    return (
-        <Fragment>
-            <MetaData title={'Register User'} />
-            <div className="register-container">
-                <div className="logo-overlay"></div>
-                <div className="register-wrapper">
-                    <form className="register-form" onSubmit={submitHandler} encType='multipart/form-data'>
-                        <h1 className="register-title">Create Account</h1>
-                        
-                        <div className="form-group">
-                            <label htmlFor="name_field">Name</label>
-                            <input 
-                                type="text" 
-                                id="name_field" 
-                                className="form-control" 
-                                name="name" 
-                                value={name} 
-                                onChange={onChange} 
-                            />
-                        </div>
+            {errors.general && (
+              <div
+                style={{
+                  textAlign: "center",
+                  marginBottom: "15px",
+                  color: "red",
+                }}
+              >
+                {errors.general}
+              </div>
+            )}
 
-                        <div className="form-group">
-                            <label htmlFor="email_field">Email</label>
-                            <input 
-                                type="email" 
-                                id="email_field" 
-                                className="form-control" 
-                                name="email" 
-                                value={email} 
-                                onChange={onChange} 
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="password_field">Password</label>
-                            <input 
-                                type="password" 
-                                id="password_field" 
-                                className="form-control" 
-                                name="password" 
-                                value={password} 
-                                onChange={onChange} 
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="avatar_upload">Photo</label>
-                            <div className="d-flex align-items-center">
-                                <div>
-                                    <figure className="avatar mr-3 item-rtl">
-                                        <img 
-                                            src={avatarPreview} 
-                                            className="rounded-circle" 
-                                            alt="Photo Preview" 
-                                        />
-                                    </figure>
-                                </div>
-                                <div className="custom-file">
-                                    <input 
-                                        type="file" 
-                                        name="avatar" 
-                                        className="custom-file-input" 
-                                        id="customFile" 
-                                        accept="images/*" 
-                                        onChange={onChange} 
-                                    />
-                                    <label className="custom-file-label" htmlFor="customFile">
-                                        Choose a photo
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button 
-                            type="submit" 
-                            className="register-button" 
-                            disabled={loading ? true : false}
-                        >
-                            REGISTER 
-                        </button>
-                        {/* Link to Login */}
-                        <div className="form-group text-center">
-                            <p className="new-user-link">
-                                Already have an account? <a href="/login">Login here</a>
-                            </p>
-                        </div>
-                    </form>
+            <div className="form-group">
+              <label htmlFor="name_field">Name</label>
+              <input
+                type="text"
+                id="name_field"
+                className="form-control"
+                name="name"
+                value={name}
+                onChange={onChange}
+                placeholder="e.g., John"
+              />
+              {errors.name && (
+                <div
+                  style={{ color: "red", fontSize: "0.9rem", marginTop: "5px" }}
+                >
+                  {errors.name}
                 </div>
+              )}
             </div>
-        </Fragment>
-    );
+
+            <div className="form-group">
+              <label htmlFor="email_field">Email</label>
+              <input
+                type="email"
+                id="email_field"
+                className="form-control"
+                name="email"
+                value={email}
+                onChange={onChange}
+                placeholder="e.g., john@gmail.com"
+              />
+              {errors.email && (
+                <div
+                  style={{ color: "red", fontSize: "0.9rem", marginTop: "5px" }}
+                >
+                  {errors.email}
+                </div>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="password_field">Password</label>
+              <input
+                type="password"
+                id="password_field"
+                className="form-control"
+                name="password"
+                value={password}
+                onChange={onChange}
+                placeholder="Min 8 characters"
+              />
+              {errors.password && (
+                <div
+                  style={{ color: "red", fontSize: "0.9rem", marginTop: "5px" }}
+                >
+                  {errors.password}
+                </div>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              className="register-button"
+              disabled={loading || isRegistering}
+            >
+              REGISTER
+            </button>
+
+            <div className="form-group text-center">
+              <p className="new-user-link">
+                Already have an account? <a href="/login">Login here</a>
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </Fragment>
+  );
 };
