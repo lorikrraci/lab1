@@ -148,3 +148,75 @@ exports.updateUserProfile = catchAsyncErrors(async (req, res, next) => {
     user: userData,
   });
 });
+
+// 6. Get all users (Admin only)
+exports.getAllUsers = catchAsyncErrors(async (req, res, next) => {
+  if (req.user.role !== "admin") {
+    return next(new ErrorHandler("Access denied. Admins only.", 403));
+  }
+
+  const users = await User.getAllUsers();
+  // Remove passwords from response
+  const sanitizedUsers = users.map(({ password, ...userData }) => userData);
+
+  res.status(200).json({
+    success: true,
+    users: sanitizedUsers,
+  });
+});
+
+// 7. Update user by admin (Admin only)
+exports.updateUserByAdmin = catchAsyncErrors(async (req, res, next) => {
+  if (req.user.role !== "admin") {
+    return next(new ErrorHandler("Access denied. Admins only.", 403));
+  }
+
+  const { id } = req.params;
+  const { name, email, password, role } = req.body;
+
+  // Check if email is being updated and if it's already taken
+  if (email) {
+    const existingUser = await User.getUserByEmailExcludingId(email, id);
+    if (existingUser) {
+      return next(new ErrorHandler("Email already in use", 400));
+    }
+  }
+
+  const updates = {};
+  if (name) updates.name = name;
+  if (email) updates.email = email;
+  if (password) updates.password = password;
+  if (role) updates.role = role;
+
+  const affectedRows = await User.updateUser(id, updates);
+  if (affectedRows === 0) {
+    return next(new ErrorHandler("User not found", 404));
+  }
+
+  const updatedUser = await User.getUserById(id);
+  const { password: pwd, ...userData } = updatedUser;
+
+  res.status(200).json({
+    success: true,
+    user: userData,
+  });
+});
+
+// 8. Delete user (Admin only)
+exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
+  if (req.user.role !== "admin") {
+    return next(new ErrorHandler("Access denied. Admins only.", 403));
+  }
+
+  const { id } = req.params;
+  const affectedRows = await User.deleteUser(id);
+
+  if (affectedRows === 0) {
+    return next(new ErrorHandler("User not found", 404));
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "User deleted successfully",
+  });
+});

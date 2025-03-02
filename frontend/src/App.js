@@ -14,39 +14,10 @@ import Profile from "./components/user/Profile";
 import Home from "./components/pages/Home";
 import ProductDetails from "./components/product/ProductDetails";
 
-<<<<<<< HEAD
 import { Cart } from "./components/cart/Cart";
 import { Shipping } from "./components/cart/Shipping";
 import ConfirmOrder from "./components/cart/ConfirmOrder";
 import Payment from "./components/cart/Payment";
-=======
-import { Cart } from './components/cart/Cart';
-import { Shipping } from './components/cart/Shipping';
-import ConfirmOrder from './components/cart/ConfirmOrder';
-import  Payment   from './components/cart/Payment';
-
-
-import Store from './components/pages/Store';
-import Stats from './components/pages/Stats'
-import Club from './components/pages/Club';
-import News from './components/pages/News';
-import Dashboard from './components/pages/Dashboard';
-import Orders from './components/pages/Orders';
-import Reviews from './components/pages/Reviews';
-import Products from './components/pages/Products';
-
-
-import Login from './components/user/Login';
-import { Register } from './components/user/Register';
-import './App.css';
-import { loadStripe } from '@stripe/stripe-js';
-import { Elements } from '@stripe/react-stripe-js';
-import axios from 'axios';
-import CreateNews from './components/pages/CreateNews';
-import CreateStats from './components/pages/CreateStats';
-import NewsDetail from './components/pages/NewsDetail';
-import CreateProducts from './components/pages/CreateProducts';
->>>>>>> e234d946b8202b6d90374a3121f73381a9c62f1d
 
 import Store from "./components/pages/Store";
 import Stats from "./components/pages/Stats";
@@ -56,6 +27,7 @@ import Dashboard from "./components/pages/Dashboard";
 import Orders from "./components/pages/Orders";
 import Reviews from "./components/pages/Reviews";
 import Products from "./components/pages/Products";
+import UsersDashboard from "./components/pages/UsersDashboard";
 
 import Login from "./components/user/Login";
 import { Register } from "./components/user/Register";
@@ -68,6 +40,8 @@ import CreateNews from "./components/pages/CreateNews";
 import CreateStats from "./components/pages/CreateStats";
 import NewsDetail from "./components/pages/NewsDetail";
 
+import { loadUser } from "./actions/userActions";
+
 function App() {
   const location = useLocation();
   const dispatch = useDispatch();
@@ -76,6 +50,10 @@ function App() {
 
   const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo")) || {};
   const totalPrice = orderInfo.totalPrice || 0; // Default to 0 if not found
+
+  useEffect(() => {
+    dispatch(loadUser()); // Load user on app start
+  }, [dispatch]);
 
   // const getClientSecret = async () => {
   //   try {
@@ -141,7 +119,6 @@ function App() {
 
           {/* Protected Routes */}
           {/* <Route element={<ProtectedRoute />}> */}
-<<<<<<< HEAD
           <Route path="/shipping" element={<Shipping />} />
           <Route path="/order/confirm" element={<ConfirmOrder />} />
           <Route path="/me" element={<Profile />} />
@@ -149,24 +126,11 @@ function App() {
           <Route path="/dashboard/orders" element={<Orders />} />
           <Route path="/dashboard/reviews" element={<Reviews />} />
           <Route path="/dashboard/products" element={<Products />} />
+          <Route path="/dashboard/users" element={<UsersDashboard />} />
           <Route path="/payment" element={<PaymentPage />} />
           <Route path="/create-news" element={<CreateNews />} />
           <Route path="/news/:id" element={<NewsDetail />} />
           <Route path="/create-stats" element={<CreateStats />} />
-=======
-            <Route path="/shipping" element={<Shipping />} />
-            <Route path="/order/confirm" element={<ConfirmOrder />} />
-            <Route path="/me" element={<Profile />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/dashboard/orders" element={<Orders />} />
-            <Route path="/dashboard/reviews" element={<Reviews />} />
-            <Route path="/dashboard/products" element={<Products />} />
-            <Route path="/payment" element={<PaymentPage />} />
-            <Route path="/create-news" element={<CreateNews />} /> 
-            <Route path="/news/:id" element={<NewsDetail />} />
-            <Route path="/create-stats" element={<CreateStats />} />
-            <Route path="/create-product" element={<CreateProducts />} />
->>>>>>> e234d946b8202b6d90374a3121f73381a9c62f1d
 
           {/* <Route
                 path="/payment"

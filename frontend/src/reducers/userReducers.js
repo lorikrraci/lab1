@@ -12,6 +12,15 @@ import {
   LOAD_USER_SUCCESS,
   LOAD_USER_FAIL,
   CLEAR_ERRORS,
+  ALL_USERS_REQUEST,
+  ALL_USERS_SUCCESS,
+  ALL_USERS_FAIL,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAIL,
+  DELETE_USER_REQUEST,
+  DELETE_USER_SUCCESS,
+  DELETE_USER_FAIL,
 } from "../constants/userConstants";
 
 const initialState = {
@@ -20,7 +29,9 @@ const initialState = {
     ? JSON.parse(localStorage.getItem("user"))
     : null,
   loading: false,
-  errors: {}, // Changed from error to errors (object)
+  errors: {},
+  users: [], // Add users array for admin
+  usersLoading: false,
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -79,6 +90,52 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         errors: {}, // Clear all errors
+      };
+
+    case ALL_USERS_REQUEST:
+      return {
+        ...state,
+        usersLoading: true,
+      };
+    case ALL_USERS_SUCCESS:
+      return {
+        ...state,
+        usersLoading: false,
+        users: action.payload,
+      };
+    case ALL_USERS_FAIL:
+      return {
+        ...state,
+        usersLoading: false,
+        errors: action.payload,
+      };
+
+    case UPDATE_USER_REQUEST:
+    case DELETE_USER_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case UPDATE_USER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        users: state.users.map((user) =>
+          user.id === action.payload.id ? action.payload : user
+        ),
+      };
+    case DELETE_USER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        users: state.users.filter((user) => user.id !== action.payload),
+      };
+    case UPDATE_USER_FAIL:
+    case DELETE_USER_FAIL:
+      return {
+        ...state,
+        loading: false,
+        errors: action.payload,
       };
 
     default:
