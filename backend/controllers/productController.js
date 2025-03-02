@@ -95,21 +95,22 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// Përditëso një produkt
+// In productActions.js (temporary workaround)
 exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
   const productId = req.params.id;
   const updates = req.body;
 
-  console.log("Updating product with ID:", productId);
-  console.log("Updates:", updates);
+  console.log("Received update request for product:", productId, updates);
 
   const rowsAffected = await updateProduct(productId, updates);
+  console.log(" Rows affected:", rowsAffected);
 
   if (rowsAffected === 0) {
     return next(new ErrorHandler("Product not found", 404));
   }
 
   const updatedProduct = await getProductById(productId);
+  console.log("Updated product:", updatedProduct);
 
   res.status(200).json({
     success: true,
@@ -117,13 +118,13 @@ exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// Fshi një produkt
 exports.deleteProduct = catchAsyncErrors(async (req, res, next) => {
   const productId = req.params.id;
 
-  console.log("Deleting product with ID:", productId);
+  console.log("Received delete request for product:", productId);
 
   const rowsAffected = await deleteProduct(productId);
+  console.log("Rows affected:", rowsAffected);
 
   if (rowsAffected === 0) {
     return next(new ErrorHandler("Product not found", 404));

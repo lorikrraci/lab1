@@ -4,7 +4,6 @@ const bcrypt = require("bcryptjs");
 module.exports = {
   // CREATE a new user
   createUser: async ({ name, email, password, role = "user" }) => {
-    // Default role to 'user'
     const hashedPassword = await bcrypt.hash(password, 10);
     const sql = `
             INSERT INTO users (name, email, password, role, createdAt, updatedAt)
@@ -14,23 +13,11 @@ module.exports = {
     return result.insertId;
   },
 
-  getUserById: async (id) => {
-    const sql = "SELECT * FROM users WHERE id = ?";
-    const [rows] = await db.execute(sql, [id]);
-    return rows[0];
-  },
-
-  getUserByEmail: async (email) => {
-    const sql = "SELECT * FROM users WHERE email = ?";
-    const [rows] = await db.execute(sql, [email]);
-    return rows[0];
-  },
-
   // READ user by ID
   getUserById: async (id) => {
     const sql = "SELECT * FROM users WHERE id = ?";
     const [rows] = await db.execute(sql, [id]);
-    return rows[0]; // single user or undefined
+    return rows[0];
   },
 
   // READ user by email
@@ -38,6 +25,13 @@ module.exports = {
     const sql = "SELECT * FROM users WHERE email = ?";
     const [rows] = await db.execute(sql, [email]);
     return rows[0];
+  },
+
+  // READ user by email excluding a specific ID
+  getUserByEmailExcludingId: async (email, excludeId) => {
+    const sql = "SELECT * FROM users WHERE email = ? AND id != ?";
+    const [rows] = await db.execute(sql, [email, excludeId]);
+    return rows[0]; // Returns the user if found, or undefined if no match
   },
 
   // READ all users
@@ -70,20 +64,19 @@ module.exports = {
       values.push(role);
     }
 
-    // Always update updatedAt
     fields.push("updatedAt = NOW()");
 
     const sql = `UPDATE users SET ${fields.join(", ")} WHERE id = ?`;
     values.push(id);
 
     const [result] = await db.execute(sql, values);
-    return result.affectedRows; // number of updated rows
+    return result.affectedRows;
   },
 
   // DELETE user
   deleteUser: async (id) => {
     const sql = "DELETE FROM users WHERE id = ?";
     const [result] = await db.execute(sql, [id]);
-    return result.affectedRows; // number of rows deleted
+    return result.affectedRows;
   },
 };
