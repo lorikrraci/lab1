@@ -39,6 +39,10 @@ const Products = () => {
     window.scrollTo(0, 0); // Matches Store.js behavior
   };
 
+  const handleCreateProduct = () => {
+    navigate("/create-product");
+  };
+
   if (!isAuthenticated || user?.role !== "admin") return null;
 
   console.log("Rendering - Current state:", {
@@ -178,6 +182,29 @@ const Products = () => {
             />
           )}
         </>
+      )}
+
+      {/* Shfaq butonin "+" vetëm nëse përdoruesi është admin */}
+      {isAuthenticated && user?.role === "admin" && (
+        <button
+          style={{
+            position: "fixed",
+            bottom: "20px",
+            right: "20px",
+            backgroundColor: "#A50304",
+            color: "#fff",
+            border: "none",
+            borderRadius: "50%",
+            width: "50px",
+            height: "50px",
+            fontSize: "24px",
+            cursor: "pointer",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+          }}
+          onClick={handleCreateProduct}
+        >
+          +
+        </button>
       )}
     </div>
   );
