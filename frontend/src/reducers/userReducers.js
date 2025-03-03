@@ -1,4 +1,3 @@
-// userReducers.js
 import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -21,6 +20,9 @@ import {
   DELETE_USER_REQUEST,
   DELETE_USER_SUCCESS,
   DELETE_USER_FAIL,
+  UPDATE_PROFILE_REQUEST,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_FAIL,
 } from "../constants/userConstants";
 
 const initialState = {
@@ -30,7 +32,7 @@ const initialState = {
     : null,
   loading: false,
   errors: {},
-  users: [], // Add users array for admin
+  users: [],
   usersLoading: false,
 };
 
@@ -39,10 +41,11 @@ export const authReducer = (state = initialState, action) => {
     case LOGIN_REQUEST:
     case REGISTER_USER_REQUEST:
     case LOAD_USER_REQUEST:
+    case UPDATE_PROFILE_REQUEST:
       return {
         ...state,
         loading: true,
-        errors: {}, // Clear errors on new request
+        errors: {},
       };
 
     case LOGIN_SUCCESS:
@@ -62,15 +65,24 @@ export const authReducer = (state = initialState, action) => {
         isAuthenticated: false,
       };
 
+    case UPDATE_PROFILE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isAuthenticated: true,
+        user: action.payload,
+      };
+
     case LOGIN_FAIL:
     case REGISTER_USER_FAIL:
     case LOAD_USER_FAIL:
+    case UPDATE_PROFILE_FAIL:
       return {
         ...state,
         loading: false,
         isAuthenticated: false,
         user: null,
-        errors: action.payload, // Store field-specific errors
+        errors: action.payload,
       };
 
     case LOGOUT_SUCCESS:
@@ -84,12 +96,6 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         errors: action.payload,
-      };
-
-    case CLEAR_ERRORS:
-      return {
-        ...state,
-        errors: {}, // Clear all errors
       };
 
     case ALL_USERS_REQUEST:
@@ -136,6 +142,12 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         errors: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        errors: {},
       };
 
     default:

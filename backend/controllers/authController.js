@@ -110,10 +110,30 @@ exports.getUserProfile = catchAsyncErrors(async (req, res, next) => {
 
 // 5. Update user profile
 exports.updateUserProfile = catchAsyncErrors(async (req, res, next) => {
-  const { name, email, password } = req.body;
+  const { name, email, oldPassword, newPassword } = req.body;
+
+  // Fetch the current user
+  const currentUser = await User.getUserById(req.user.id);
+  if (!currentUser) {
+    return next(new ErrorHandler("User not found", 404));
+  }
+
+  // Validate old password if newPassword is provided
+  if (newPassword) {
+    if (!oldPassword) {
+      return next(new ErrorHandler("Please provide your old password", 400));
+    }
+    const isPasswordMatched = await bcrypt.compare(
+      oldPassword,
+      currentUser.password
+    );
+    if (!isPasswordMatched) {
+      return next(new ErrorHandler("Old password is incorrect", 401));
+    }
+  }
 
   // Check if email is being updated and if it's already taken
-  if (email) {
+  if (email && email !== currentUser.email) {
     const existingUser = await User.getUserByEmailExcludingId(
       email,
       req.user.id
@@ -129,9 +149,13 @@ exports.updateUserProfile = catchAsyncErrors(async (req, res, next) => {
   const updates = {};
   if (name) updates.name = name;
   if (email) updates.email = email;
-  if (password) updates.password = password;
+  if (newPassword) updates.password = newPassword;
 
-  // Update user in MySQL
+  // Update user in MySQL if there are changes
+  if (Object.keys(updates).length === 0) {
+    return next(new ErrorHandler("No changes provided", 400));
+  }
+
   const affectedRows = await User.updateUser(req.user.id, updates);
   if (affectedRows === 0) {
     return next(new ErrorHandler("No changes made or user not found", 400));
@@ -139,8 +163,6 @@ exports.updateUserProfile = catchAsyncErrors(async (req, res, next) => {
 
   // Retrieve updated user
   const updatedUser = await User.getUserById(req.user.id);
-
-  // Remove password before sending
   const { password: pwd, ...userData } = updatedUser;
 
   res.status(200).json({

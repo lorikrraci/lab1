@@ -22,12 +22,13 @@ import {
   DELETE_USER_REQUEST,
   DELETE_USER_SUCCESS,
   DELETE_USER_FAIL,
+  UPDATE_PROFILE_REQUEST,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_FAIL,
 } from "../constants/userConstants";
 
-// Use a consistent base URL
 const BASE_URL = "http://localhost:5000/api/v1";
 
-// Create axios instance with base URL
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
   timeout: 10000,
@@ -91,8 +92,7 @@ export const register = (userData) => async (dispatch) => {
     }
 
     if (!password || password.length < 8) {
-      errors.password =
-        "Password must be at least 8 characters long and can include letters, numbers, and symbols";
+      errors.password = "Password must be at least 8 characters long";
     }
 
     if (Object.keys(errors).length > 0) {
@@ -120,10 +120,7 @@ export const register = (userData) => async (dispatch) => {
       payload: data.user,
     });
   } catch (error) {
-    const errorMessage =
-      error.response?.data?.errMesage ||
-      error.response?.data?.message ||
-      "Registration failed";
+    const errorMessage = error.response?.data?.message || "Registration failed";
     dispatch({
       type: REGISTER_USER_FAIL,
       payload: { general: errorMessage },
@@ -179,7 +176,40 @@ export const logout = () => async (dispatch) => {
   }
 };
 
-// Get all users (Admin) - Updated to match productActions.js style
+// Update profile
+export const updateProfile = (userData) => async (dispatch) => {
+  try {
+    dispatch({ type: UPDATE_PROFILE_REQUEST });
+
+    const token = localStorage.getItem("token");
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const { data } = await axios.put(
+      `${BASE_URL}/auth/me/update`,
+      userData,
+      config
+    );
+
+    dispatch({
+      type: UPDATE_PROFILE_SUCCESS,
+      payload: data.user,
+    });
+
+    localStorage.setItem("user", JSON.stringify(data.user));
+  } catch (error) {
+    dispatch({
+      type: UPDATE_PROFILE_FAIL,
+      payload: error.response?.data?.message || "Failed to update profile",
+    });
+  }
+};
+
+// Get all users (Admin)
 export const getAllUsers = () => async (dispatch) => {
   try {
     dispatch({ type: ALL_USERS_REQUEST });
