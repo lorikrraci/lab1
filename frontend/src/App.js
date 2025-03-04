@@ -4,21 +4,20 @@ import {
   Routes,
   useLocation,
 } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
-
 import Profile from "./components/user/Profile";
 import Home from "./components/pages/Home";
 import ProductDetails from "./components/product/ProductDetails";
-
 import { Cart } from "./components/cart/Cart";
 import { Shipping } from "./components/cart/Shipping";
 import ConfirmOrder from "./components/cart/ConfirmOrder";
 import Payment from "./components/cart/Payment";
-
 import Store from "./components/pages/Store";
 import Stats from "./components/pages/Stats";
 import Club from "./components/pages/Club";
@@ -28,76 +27,31 @@ import Orders from "./components/pages/Orders";
 import Reviews from "./components/pages/Reviews";
 import Products from "./components/pages/Products";
 import UsersDashboard from "./components/pages/UsersDashboard";
-
 import Login from "./components/user/Login";
 import { Register } from "./components/user/Register";
 import RegisterSuccess from "./components/user/RegisterSuccess";
 import "./App.css";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import axios from "axios";
 import CreateNews from "./components/pages/CreateNews";
 import CreateStats from "./components/pages/CreateStats";
 import NewsDetail from "./components/pages/NewsDetail";
-
+import Success from "./components/cart/Success";
 import { loadUser } from "./actions/userActions";
 
 function App() {
   const location = useLocation();
   const dispatch = useDispatch();
   const { isAuthenticated, loading } = useSelector((state) => state.auth);
-  const [clientSecret, setClientSecret] = useState("");
-
-  const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo")) || {};
-  const totalPrice = orderInfo.totalPrice || 0; // Default to 0 if not found
 
   useEffect(() => {
-    dispatch(loadUser()); // Load user on app start
+    dispatch(loadUser());
   }, [dispatch]);
-
-  // const getClientSecret = async () => {
-  //   try {
-  //     const token = localStorage.getItem('token');
-  //     if (!totalPrice || totalPrice <= 0) {
-  //       console.warn("Total price is invalid, skipping API request.");
-  //       return;
-  //     }
-
-  //     const { data } = await axios.post(
-  //       'http://localhost:5000/api/v1/payment/process',
-  //       { amount: totalPrice * 100 }, // Convert dollars to cents
-  //       { headers: { Authorization: `Bearer ${token}` } }
-  //     );
-
-  //     console.log('Client Secret:', data.clientSecret); // Debugging
-  //     setClientSecret(data.clientSecret);
-  //   } catch (error) {
-  //     console.error('Error fetching client secret:', error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (location.pathname === '/payment') {
-  //     getClientSecret();
-  //   }
-  // }, [location.pathname]);
 
   const stripePromise = loadStripe(
     "pk_test_51QpeSHB1HXaV2amnJOjHa0ZRLeg7mN8NGyBlaVFR5WJZ6fhFTrc8amwBOo5AAK2BJr2ATurUjGkZdnCTeQJKaxHo00x2xlGmWG"
   );
 
-  const options = {
-    style: {
-      base: {
-        fontSize: "16px",
-      },
-      invalid: {
-        color: "#9e2146",
-      },
-    },
-  };
-
-  console.log("Client secret:", clientSecret);
   const PaymentPage = () => (
     <Elements stripe={stripePromise}>
       <Payment />
@@ -107,19 +61,15 @@ function App() {
   return (
     <div className="App">
       {location.pathname !== "/dashboard" && <Header />}
-
       <div className="container container-fluid">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/store" element={<Store />} />
           <Route path="/store/search/:keyword" element={<Store />} />
-
           <Route path="/cart" element={<Cart />} />
-
-          {/* Protected Routes */}
-          {/* <Route element={<ProtectedRoute />}> */}
-          <Route path="/shipping" element={<Shipping />} />
+          <Route path="/shipping" element={<Shipping />} />{" "}
+          {/* No protection here */}
           <Route path="/order/confirm" element={<ConfirmOrder />} />
           <Route path="/me" element={<Profile />} />
           <Route path="/dashboard" element={<Dashboard />} />
@@ -128,36 +78,10 @@ function App() {
           <Route path="/dashboard/products" element={<Products />} />
           <Route path="/dashboard/users" element={<UsersDashboard />} />
           <Route path="/payment" element={<PaymentPage />} />
+          <Route path="/success" element={<Success />} />
           <Route path="/create-news" element={<CreateNews />} />
           <Route path="/news/:id" element={<NewsDetail />} />
           <Route path="/create-stats" element={<CreateStats />} />
-
-          {/* <Route
-                path="/payment"
-                element={
-                  clientSecret ? (
-                    <Elements stripe={stripePromise} options={{ clientSecret }}>
-                      <Payment />
-                    </Elements>
-                  ) : (
-                    <div>Loading payment details...</div>
-                  )
-                }
-            /> */}
-          {/* Payment Route
-          {stripeApiKey && (
-            <Route
-              path="/payment"
-              element={
-                <Elements stripe={loadStripe(stripeApiKey)}>
-                  <ProtectedRoute>
-                    <Payment />
-                  </ProtectedRoute>
-                </Elements>
-              }
-            />
-          )} */}
-
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/register-success" element={<RegisterSuccess />} />
@@ -166,8 +90,18 @@ function App() {
           <Route path="/news" element={<News />} />
         </Routes>
       </div>
-
       <Footer />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }

@@ -1,27 +1,36 @@
-const catchAsyncErrors = require('../middlewares/catchAsyncErrors')
+const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
 const express = require("express");
 const Stripe = require("stripe");
 
-const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-exports.processPayment = async (req, res) => {
-    try {
-      const { amount } = req.body;
-  
-      const paymentIntent = await stripe.paymentIntents.create({
-        amount,
-        currency: "usd",
-        metadata: { integration_check: "accept_a_payment" },
-      });
-  
-      res.status(200).json({ clientSecret: paymentIntent.client_secret });
-    } catch (error) {
-      console.error("Error creating payment intent:", error);
-      res.status(500).json({ error: "Payment processing failed" });
+exports.processPayment = async (req, res, next) => {
+  try {
+    const { amount } = req.body;
+
+    if (!amount || amount <= 0) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid amount" });
     }
-  };
 
-//Process stripe payments => /api/v1/payment/process 
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: amount, // Amount in cents
+      currency: "usd",
+      metadata: { integration_check: "accept_a_payment" },
+    });
+
+    res.status(200).json({
+      success: true,
+      clientSecret: paymentIntent.client_secret,
+    });
+  } catch (error) {
+    console.error("Error creating payment intent:", error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+//Process stripe payments => /api/v1/payment/process
 //E kalunja
 // exports.processPayment = async (req, res, next) => {
 //     try {
@@ -30,7 +39,7 @@ exports.processPayment = async (req, res) => {
 //         currency: 'usd',
 //         metadata: { integration_check: 'accept_a_payment' },
 //       });
-  
+
 //       res.status(200).json({
 //         success: true,
 //         clientSecret: paymentIntent.client_secret,

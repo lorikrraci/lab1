@@ -1,65 +1,65 @@
-import { ADD_TO_CART, REMOVE_ITEM_FROM_CART, SAVE_SHIPPING_INFO } from "../constants/cartConstants";
+import {
+  ADD_TO_CART,
+  REMOVE_ITEM_FROM_CART,
+  SAVE_SHIPPING_INFO,
+  CLEAR_CART,
+} from "../constants/cartConstants";
 
 const initialState = {
-    cartItems: localStorage.getItem("cartItems") 
-        ? JSON.parse(localStorage.getItem("cartItems")) 
-        : [],
-    shippingInfo: localStorage.getItem("shippingInfo") 
-        ? JSON.parse(localStorage.getItem("shippingInfo")) 
-        : {}
+  cartItems: [],
+  shippingInfo: {},
 };
 
 export const cartReducer = (state = initialState, action) => {
-    let updatedState;
+  switch (action.type) {
+    case ADD_TO_CART:
+      const item = action.payload;
+      if (!item.product) {
+        console.warn("Trying to add invalid item to cart", item);
+        return state;
+      }
 
-    switch (action.type) {
-        case ADD_TO_CART:
-            const item = action.payload;
-            if (!item.product) {
-                console.warn("Trying to add invalid item to cart", item);
-                return state;
-            }
+      const isItemExist = state.cartItems.find(
+        (i) => i.product === item.product
+      );
 
-            const isItemExist = state.cartItems.find(i => i.product === item.product);
+      if (isItemExist) {
+        return {
+          ...state,
+          cartItems: state.cartItems.map((i) =>
+            i.product === isItemExist.product
+              ? { ...i, quantity: i.quantity + item.quantity }
+              : i
+          ),
+        };
+      } else {
+        return {
+          ...state,
+          cartItems: [...state.cartItems, item],
+        };
+      }
 
-            if (isItemExist) {
-                updatedState = {
-                    ...state,
-                    cartItems: state.cartItems.map(i =>
-                        i.product === isItemExist.product
-                            ? { ...i, quantity: i.quantity + item.quantity }
-                            : i
-                    ),
-                };
-            } else {
-                updatedState = {
-                    ...state,
-                    cartItems: [...state.cartItems, item],
-                };
-            }
+    case REMOVE_ITEM_FROM_CART:
+      return {
+        ...state,
+        cartItems: state.cartItems.filter(
+          (item) => item.product !== action.payload
+        ),
+      };
 
-            localStorage.setItem("cartItems", JSON.stringify(updatedState.cartItems));
-            return updatedState;
+    case SAVE_SHIPPING_INFO:
+      return {
+        ...state,
+        shippingInfo: action.payload,
+      };
 
-        case REMOVE_ITEM_FROM_CART:
-            updatedState = {
-                ...state,
-                cartItems: state.cartItems.filter(item => item.product !== action.payload),
-            };
+    case CLEAR_CART:
+      return {
+        ...state,
+        cartItems: [],
+      };
 
-            localStorage.setItem("cartItems", JSON.stringify(updatedState.cartItems));
-            return updatedState;
-
-        case SAVE_SHIPPING_INFO:
-            updatedState = {
-                ...state,
-                shippingInfo: action.payload,
-            };
-
-            localStorage.setItem("shippingInfo", JSON.stringify(updatedState.shippingInfo));
-            return updatedState;
-
-        default:
-            return state;
-    }
+    default:
+      return state;
+  }
 };

@@ -15,12 +15,11 @@ const {
 const { isAuthenticatedUser, authorizeRoles } = require("../middlewares/auth");
 
 router.route("/register").post(registerUser);
-router.route("/login").post(loginUser);
+router.route("/login").post(loginUser); // Should resolve to /api/v1/auth/login
 router.route("/logout").get(logoutUser);
 router.route("/me").get(isAuthenticatedUser, getUserProfile);
 router.route("/me/update").put(isAuthenticatedUser, updateUserProfile);
 
-// Admin routes with role check
 router
   .route("/admin/users")
   .get(isAuthenticatedUser, authorizeRoles("admin"), getAllUsers);

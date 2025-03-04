@@ -27,6 +27,8 @@ import {
   UPDATE_PROFILE_FAIL,
 } from "../constants/userConstants";
 
+import { ADD_TO_CART, CLEAR_CART } from "../constants/cartConstants"; // Import cart constants
+
 const BASE_URL = "http://localhost:5000/api/v1";
 
 const axiosInstance = axios.create({
@@ -49,7 +51,7 @@ export const login = (email, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      `${BASE_URL}/auth/login`,
+      `${BASE_URL}/auth/login`, // Should match /api/v1/auth/login
       { email, password },
       config
     );
@@ -61,14 +63,25 @@ export const login = (email, password) => async (dispatch) => {
 
     localStorage.setItem("user", JSON.stringify(data.user));
     localStorage.setItem("token", data.token);
+
+    const storedCartItems = localStorage.getItem(`cartItems_${data.user.id}`);
+    if (storedCartItems) {
+      dispatch({
+        type: ADD_TO_CART,
+        payload: JSON.parse(storedCartItems),
+      });
+    }
   } catch (error) {
+    console.error(
+      "Login error:",
+      error.response?.data?.message || error.message
+    );
     dispatch({
       type: LOGIN_FAIL,
-      payload: error.response.data.message,
+      payload: error.response?.data?.message || "Login failed",
     });
   }
 };
-
 // Register user
 export const register = (userData) => async (dispatch) => {
   try {
@@ -134,7 +147,9 @@ export const loadUser = () => async (dispatch) => {
     dispatch({ type: LOAD_USER_REQUEST });
 
     const token = localStorage.getItem("token");
-    if (!token) throw new Error("No token found");
+    if (!token) {
+      throw new Error("No token found");
+    }
 
     const config = {
       headers: {
@@ -149,22 +164,39 @@ export const loadUser = () => async (dispatch) => {
       type: LOAD_USER_SUCCESS,
       payload: data.user,
     });
+
+    const storedCartItems = localStorage.getItem(`cartItems_${data.user.id}`);
+    if (storedCartItems) {
+      dispatch({
+        type: ADD_TO_CART,
+        payload: JSON.parse(storedCartItems),
+      });
+    }
   } catch (error) {
+    console.error("Load user error:", error.message);
     dispatch({
       type: LOAD_USER_FAIL,
-      payload: error.response?.data?.message || "Failed to load user",
+      payload: error.message,
     });
   }
 };
 
 // Logout user
-export const logout = () => async (dispatch) => {
+export const logout = () => async (dispatch, getState) => {
   try {
     await axiosInstance.get(`${BASE_URL}/auth/logout`);
+
+    const userId = getState().auth.user?.id;
+    if (userId) {
+      localStorage.removeItem(`cartItems_${userId}`);
+      localStorage.removeItem(`shippingInfo_${userId}`);
+    }
 
     dispatch({
       type: LOGOUT_SUCCESS,
     });
+
+    dispatch({ type: CLEAR_CART });
 
     localStorage.removeItem("user");
     localStorage.removeItem("token");
@@ -175,7 +207,6 @@ export const logout = () => async (dispatch) => {
     });
   }
 };
-
 // Update profile
 export const updateProfile = (userData) => async (dispatch) => {
   try {
