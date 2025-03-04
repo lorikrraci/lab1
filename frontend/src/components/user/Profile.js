@@ -87,7 +87,7 @@ const Profile = () => {
   return (
     <Fragment>
       <MetaData title={"Your Profile"} />
-      <div style={{ padding: "100px 20px 20px", minHeight: "85vh" }}>
+      <div style={{ padding: "150px 20px 20px", minHeight: "85vh" }}>
         <h2 className="mt-5 ml-5">My Profile</h2>
         <div className="row justify-content-around mt-5 user-info">
           <div className="col-12 col-md-3">
