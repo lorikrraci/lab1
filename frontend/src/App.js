@@ -10,7 +10,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import Header from "./components/layout/Header";
-import Footer from "./components/layout/Footer";
+import Footer from "./components/layout/Footer"; // Ensure this import is correct
 import Profile from "./components/user/Profile";
 import Home from "./components/pages/Home";
 import ProductDetails from "./components/product/ProductDetails";
@@ -43,7 +43,7 @@ import Players  from "./components/pages/player";
 function App() {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { isAuthenticated, loading } = useSelector((state) => state.auth);
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(loadUser());
@@ -69,8 +69,7 @@ function App() {
           <Route path="/store" element={<Store />} />
           <Route path="/store/search/:keyword" element={<Store />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/shipping" element={<Shipping />} />{" "}
-          {/* No protection here */}
+          <Route path="/shipping" element={<Shipping />} />
           <Route path="/order/confirm" element={<ConfirmOrder />} />
           <Route path="/me" element={<Profile />} />
           <Route path="/dashboard" element={<Dashboard />} />

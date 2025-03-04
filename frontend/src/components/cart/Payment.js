@@ -34,7 +34,7 @@ const Payment = () => {
   useEffect(() => {
     const getClientSecret = async () => {
       if (!orderInfo.totalPrice || orderInfo.totalPrice <= 0) {
-        toast.error("Invalid order total. Please check your cart.");
+        toast("Please check your cart.");
         return;
       }
 
