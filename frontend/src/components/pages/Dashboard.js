@@ -217,6 +217,39 @@ const Dashboard = () => {
               </p>
             </div>
           </Link>
+
+          {/* Player Card */}
+          <Link
+            to="/dashboard/player"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <div
+              style={{
+                backgroundColor: "#fff",
+                borderRadius: "10px",
+                padding: "20px",
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                textAlign: "center",
+                transition: "transform 0.2s, box-shadow 0.2s",
+                cursor: "pointer",
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.transform = "scale(1.05)";
+                e.currentTarget.style.boxShadow = "0 8px 16px rgba(0, 0, 0, 0.2)";
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.transform = "scale(1)";
+                e.currentTarget.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
+              }}
+            >
+              <h3 style={{ margin: 0, color: "#A50304" }}>Player</h3>
+              <p style={{ margin: "10px 0 0 0", color: "#666" }}>
+                Manage all Players from here.
+              </p>
+            </div>
+          </Link>
+
+
         </div>
       </div>
     </div>
