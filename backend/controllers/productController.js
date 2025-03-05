@@ -66,7 +66,6 @@ exports.getProductById = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// Krijo një produkt të ri
 exports.createProduct = catchAsyncErrors(async (req, res, next) => {
   const {
     name,
@@ -77,6 +76,7 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
     seller,
     stock,
     numOfReviews,
+    images, // Changed to images
   } = req.body;
 
   const productId = await createProduct({
@@ -88,6 +88,7 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
     seller,
     stock,
     numOfReviews,
+    images, // Use images
   });
 
   const product = await getProductById(productId);
@@ -98,10 +99,9 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// In productActions.js (temporary workaround)
 exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
   const productId = req.params.id;
-  const updates = req.body;
+  const updates = req.body; // Includes imageUrl if provided
 
   console.log("Received update request for product:", productId, updates);
 

@@ -1,35 +1,27 @@
-import {
-  ADD_TO_CART,
-  REMOVE_ITEM_FROM_CART,
-  SAVE_SHIPPING_INFO,
-  CLEAR_CART,
-} from "../constants/cartConstants";
-
 const initialState = {
   cartItems: [],
-  shippingInfo: {},
+  userId: null,
+  shippingInfo: {
+    // Add default shippingInfo
+    address: "",
+    city: "",
+    postalCode: "",
+    phoneNo: "",
+    country: "",
+  },
 };
 
 export const cartReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_TO_CART:
+    case "ADD_TO_CART": {
       const item = action.payload;
-      if (!item.product) {
-        console.warn("Trying to add invalid item to cart", item);
-        return state;
-      }
+      const existItem = state.cartItems.find((x) => x.product === item.product);
 
-      const isItemExist = state.cartItems.find(
-        (i) => i.product === item.product
-      );
-
-      if (isItemExist) {
+      if (existItem) {
         return {
           ...state,
-          cartItems: state.cartItems.map((i) =>
-            i.product === isItemExist.product
-              ? { ...i, quantity: i.quantity + item.quantity }
-              : i
+          cartItems: state.cartItems.map((x) =>
+            x.product === item.product ? item : x
           ),
         };
       } else {
@@ -38,27 +30,31 @@ export const cartReducer = (state = initialState, action) => {
           cartItems: [...state.cartItems, item],
         };
       }
-
-    case REMOVE_ITEM_FROM_CART:
+    }
+    case "UPDATE_CART_ITEM_QUANTITY": {
+      const { product, quantity } = action.payload;
       return {
         ...state,
-        cartItems: state.cartItems.filter(
-          (item) => item.product !== action.payload
+        cartItems: state.cartItems.map((item) =>
+          item.product === product ? { ...item, quantity } : item
         ),
       };
-
-    case SAVE_SHIPPING_INFO:
+    }
+    case "REMOVE_ITEM_CART":
+      return {
+        ...state,
+        cartItems: state.cartItems.filter((x) => x.product !== action.payload),
+      };
+    case "SAVE_SHIPPING_INFO":
       return {
         ...state,
         shippingInfo: action.payload,
       };
-
-    case CLEAR_CART:
+    case "SET_USER_ID":
       return {
         ...state,
-        cartItems: [],
+        userId: action.payload,
       };
-
     default:
       return state;
   }

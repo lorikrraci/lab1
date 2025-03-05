@@ -30,6 +30,7 @@ const Products = () => {
     ratings: 0,
     seller: "",
     numOfReviews: 0,
+    images: "", // Changed to images
   });
 
   useEffect(() => {
@@ -57,6 +58,7 @@ const Products = () => {
       ratings: 0,
       seller: "",
       numOfReviews: 0,
+      images: "", // Changed to images
     });
   };
 
@@ -227,6 +229,16 @@ const Products = () => {
                     style={{ width: "100%", padding: "5px" }}
                   />
                 </div>
+                <div style={{ marginBottom: "10px" }}>
+                  <label>Image URL: </label>
+                  <input
+                    name="images" // Changed to images
+                    value={newProduct.images}
+                    onChange={handleCreateChange}
+                    placeholder="Enter image URL"
+                    style={{ width: "100%", padding: "5px" }}
+                  />
+                </div>
                 <button
                   type="submit"
                   style={{
@@ -265,6 +277,7 @@ const Products = () => {
                   <th style={{ padding: "10px" }}>Price</th>
                   <th style={{ padding: "10px" }}>Category</th>
                   <th style={{ padding: "10px" }}>Stock</th>
+                  <th style={{ padding: "10px" }}>Image</th>
                   <th style={{ padding: "10px" }}>Actions</th>
                 </tr>
               </thead>
@@ -324,6 +337,29 @@ const Products = () => {
                           />
                         ) : (
                           product.stock
+                        )}
+                      </td>
+                      <td style={{ padding: "10px" }}>
+                        {editProduct?.id === product.id ? (
+                          <input
+                            name="images" // Changed to images
+                            value={editProduct.images || ""}
+                            onChange={handleChange}
+                            placeholder="Enter image URL"
+                            style={{ width: "100%" }}
+                          />
+                        ) : product.images ? (
+                          <img
+                            src={product.images}
+                            alt={product.name}
+                            style={{
+                              width: "50px",
+                              height: "50px",
+                              objectFit: "cover",
+                            }}
+                          />
+                        ) : (
+                          "No Image"
                         )}
                       </td>
                       <td style={{ padding: "10px" }}>
@@ -388,7 +424,7 @@ const Products = () => {
                 ) : (
                   <tr>
                     <td
-                      colSpan="6"
+                      colSpan="7"
                       style={{ padding: "10px", textAlign: "center" }}
                     >
                       No products found
@@ -421,7 +457,7 @@ const Products = () => {
         <button
           style={{
             position: "fixed",
-            bottom: "80px", // Adjusted to be above a typical 60px footer
+            bottom: "80px",
             right: "20px",
             backgroundColor: "#A50304",
             color: "#fff",
@@ -432,7 +468,7 @@ const Products = () => {
             fontSize: "24px",
             cursor: "pointer",
             boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-            zIndex: 1000, // Ensures it stays above other elements
+            zIndex: 1000,
           }}
           onClick={handleCreateProductToggle}
         >

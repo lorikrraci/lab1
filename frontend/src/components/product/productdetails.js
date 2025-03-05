@@ -58,18 +58,23 @@ export const ProductDetails = () => {
           <MetaData title={product.name} />
           <div className="row f-flex justify-content-around">
             <div className="col-12 col-lg-5 img-fluid" id="product_image">
-              <Carousel pause="hover">
-                {product.images &&
-                  product.images.map((image) => (
-                    <Carousel.Item key={image.public_id}>
-                      <img
-                        className="d-block w-100"
-                        src={image.url}
-                        alt={product.title}
-                      />
-                    </Carousel.Item>
-                  ))}
-              </Carousel>
+              {product.images ? (
+                <Carousel pause="hover">
+                  <Carousel.Item>
+                    <img
+                      className="d-block w-100"
+                      src={product.images || "/images/default-product.jpg"}
+                      alt={product.name}
+                    />
+                  </Carousel.Item>
+                </Carousel>
+              ) : (
+                <img
+                  className="d-block w-100"
+                  src="/images/default-product.jpg"
+                  alt={product.name}
+                />
+              )}
             </div>
             <div className="col-12 col-lg-5 mt-5">
               <h3>{product.name}</h3>
@@ -152,7 +157,6 @@ export const ProductDetails = () => {
                           <button
                             type="button"
                             className="close"
-                            en
                             data-dismiss="modal"
                             aria-label="Close"
                           >

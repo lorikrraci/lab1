@@ -83,13 +83,14 @@ const Payment = () => {
 
       if (result.error) {
         toast.error(result.error.message);
+        setLoading(false);
         return;
       }
 
       if (result.paymentIntent.status === "succeeded") {
         const order = {
           orderItems: cartItems,
-          shippingInfo,
+          shippingInfo: shippingInfo || {}, // Fallback to empty object
           paymentInfo: {
             id: result.paymentIntent.id,
             status: result.paymentIntent.status,
@@ -98,10 +99,10 @@ const Payment = () => {
           taxPrice: orderInfo.taxPrice,
           shippingPrice: orderInfo.shippingPrice,
           totalPrice: orderInfo.totalPrice,
-          userId: user.id,
+          userId: user?.id,
         };
 
-        console.log("Order data sent:", order); // Debug log
+        console.log("Order data sent:", order);
         await dispatch(createOrder(order));
 
         if (!error) {

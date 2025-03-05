@@ -2,29 +2,26 @@ import React, { Fragment, useState } from "react";
 import { countries } from "countries-list";
 import MetaData from "../layout/MetaData";
 import { CheckoutSteps } from "./CheckoutSteps";
-
 import { useDispatch, useSelector } from "react-redux";
 import { saveShippingInfo } from "../../actions/cartActions";
 import { useNavigate } from "react-router-dom";
 
 export const Shipping = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { shippingInfo } = useSelector((state) => state.cart);
+
+  // Use default empty strings if shippingInfo properties are undefined
+  const [address, setAddress] = useState(shippingInfo?.address || "");
+  const [city, setCity] = useState(shippingInfo?.city || "");
+  const [postalCode, setPostalCode] = useState(shippingInfo?.postalCode || "");
+  const [phoneNo, setPhoneNo] = useState(shippingInfo?.phoneNo || "");
+  const [country, setCountry] = useState(shippingInfo?.country || "");
 
   const countriesList = Object.values(countries);
 
-  const { shippingInfo } = useSelector((state) => state.cart);
-
-  const [address, setAddress] = useState(shippingInfo.address);
-  const [city, setCity] = useState(shippingInfo.city);
-  const [postalCode, setPostalCode] = useState(shippingInfo.postalCode);
-  const [phoneNo, setPhoneNo] = useState(shippingInfo.phoneNo);
-  const [country, setCountry] = useState(shippingInfo.country);
-
-  const dispatch = useDispatch();
-
   const submitHandler = (e) => {
     e.preventDefault();
-
     dispatch(saveShippingInfo({ address, city, phoneNo, postalCode, country }));
     navigate("/order/confirm");
   };
@@ -32,9 +29,7 @@ export const Shipping = () => {
   return (
     <Fragment>
       <MetaData title={"Shipping Info"} />
-
       <CheckoutSteps shipping />
-
       <div className="row wrapper">
         <div className="col-10 col-lg-6">
           <form
@@ -44,10 +39,10 @@ export const Shipping = () => {
               width: "80%",
               padding: "2rem",
               margin: "0 auto",
-              boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)", // Custom shadow
+              boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
               marginBottom: "3rem",
-              borderRadius: "20px", // 20px radius
-              padding: "30px", // Optional: Add some padding to make it look better
+              borderRadius: "20px",
+              padding: "30px",
             }}
           >
             <h1 className="mb-4">Shipping Info</h1>
@@ -62,7 +57,6 @@ export const Shipping = () => {
                 required
               />
             </div>
-
             <div className="form-group">
               <label htmlFor="city_field">City</label>
               <input
@@ -74,7 +68,6 @@ export const Shipping = () => {
                 required
               />
             </div>
-
             <div className="form-group">
               <label htmlFor="phone_field">Phone Number</label>
               <input
@@ -86,7 +79,6 @@ export const Shipping = () => {
                 required
               />
             </div>
-
             <div className="form-group">
               <label htmlFor="postal_code_field">Postal Code</label>
               <input
@@ -98,7 +90,6 @@ export const Shipping = () => {
                 required
               />
             </div>
-
             <div className="form-group">
               <label htmlFor="country_field">Country</label>
               <select
@@ -116,7 +107,6 @@ export const Shipping = () => {
                 ))}
               </select>
             </div>
-
             <button
               id="shipping_btn"
               type="submit"

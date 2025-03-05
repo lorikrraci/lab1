@@ -1,81 +1,86 @@
 import axios from "axios";
-import {
-  ADD_TO_CART,
-  REMOVE_ITEM_FROM_CART,
-  SAVE_SHIPPING_INFO,
-  CLEAR_CART,
-} from "../constants/cartConstants";
 
-export const addItemToCart = (id, quantity) => async (dispatch, getState) => {
-  try {
-    const { data } = await axios.get(
-      `http://localhost:5000/api/v1/products/${id}`
-    );
+const BASE_URL = "http://localhost:5000/api/v1";
 
-    if (!data.product) throw new Error("Product data is missing");
+// Add Item to Cart or Update Quantity
+export const addItemToCart =
+  (id, quantityChange) => async (dispatch, getState) => {
+    try {
+      const { cartItems } = getState().cart;
+      const existingItem = cartItems.find((item) => item.product === id);
 
-    const imageUrl =
-      data.product.images && data.product.images.length > 0
-        ? data.product.images[0].url
-        : "/images/default-product.png";
+      if (existingItem) {
+        // Update existing item's quantity
+        const newQuantity = existingItem.quantity + quantityChange;
+        if (newQuantity <= 0) {
+          // Remove item if quantity drops to 0 or below
+          dispatch(removeItemFromCart(id));
+        } else if (newQuantity <= existingItem.stock) {
+          // Update quantity within stock limits
+          dispatch({
+            type: "UPDATE_CART_ITEM_QUANTITY",
+            payload: {
+              product: id,
+              quantity: newQuantity,
+            },
+          });
+        }
+      } else if (quantityChange > 0) {
+        // Add new item if incrementing and it doesn’t exist
+        const { data } = await axios.get(`${BASE_URL}/products/${id}`);
+        const product = data.product;
 
-    const item = {
-      product: data.product.id,
-      name: data.product.name,
-      price: data.product.price,
-      image: imageUrl,
-      stock: data.product.stock,
-      quantity,
-    };
+        dispatch({
+          type: "ADD_TO_CART",
+          payload: {
+            product: product.id,
+            name: product.name,
+            price: product.price,
+            images: product.images,
+            stock: product.stock,
+            quantity: quantityChange,
+          },
+        });
+      }
 
-    dispatch({
-      type: ADD_TO_CART,
-      payload: item,
-    });
-
-    const userId = getState().auth.user?.id;
-    const updatedCartItems = getState().cart.cartItems;
-    if (userId) {
-      localStorage.setItem(
-        `cartItems_${userId}`,
-        JSON.stringify(updatedCartItems)
+      // Save updated cart to localStorage
+      const { cartItems: updatedCartItems, userId } = getState().cart;
+      if (userId) {
+        localStorage.setItem(
+          `cartItems_${userId}`,
+          JSON.stringify(updatedCartItems)
+        );
+      }
+    } catch (error) {
+      console.error(
+        "Error adding item to cart:",
+        error.response?.data || error.message
       );
     }
-    console.log("Cart items after adding:", updatedCartItems); // Debug log
-  } catch (error) {
-    console.error("Error adding to cart:", error.message);
-  }
-};
+  };
 
+// Remove Item from Cart
 export const removeItemFromCart = (id) => (dispatch, getState) => {
   dispatch({
-    type: REMOVE_ITEM_FROM_CART,
+    type: "REMOVE_ITEM_CART",
     payload: id,
   });
 
-  const userId = getState().auth.user?.id;
+  const { cartItems, userId } = getState().cart;
   if (userId) {
-    localStorage.setItem(
-      `cartItems_${userId}`,
-      JSON.stringify(getState().cart.cartItems)
-    );
+    localStorage.setItem(`cartItems_${userId}`, JSON.stringify(cartItems));
   }
 };
 
+// Save Shipping Info
 export const saveShippingInfo = (data) => (dispatch, getState) => {
   dispatch({
-    type: SAVE_SHIPPING_INFO,
+    type: "SAVE_SHIPPING_INFO",
     payload: data,
   });
 
-  const userId = getState().auth.user?.id;
+  const { userId } = getState().cart;
   if (userId) {
     localStorage.setItem(`shippingInfo_${userId}`, JSON.stringify(data));
   }
-};
-
-export const clearCart = () => (dispatch) => {
-  dispatch({
-    type: CLEAR_CART,
-  });
 };

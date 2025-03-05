@@ -12,13 +12,14 @@ module.exports = {
       seller,
       stock,
       numOfReviews,
+      images, // Already uses images
     } = productData;
 
     const sql = `
-            INSERT INTO products 
-                (name, price, description, ratings, category, seller, stock, numOfReviews, createdAt, updatedAt)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
-        `;
+      INSERT INTO products 
+        (name, price, description, ratings, category, seller, stock, numOfReviews, images, createdAt, updatedAt)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+    `;
 
     const [result] = await db.execute(sql, [
       name,
@@ -29,9 +30,10 @@ module.exports = {
       seller,
       stock,
       numOfReviews,
+      images || null,
     ]);
 
-    return result.insertId; // Kthen ID-në e produktit të sapokrijuar
+    return result.insertId;
   },
 
   // 2. Merr një produkt sipas ID
@@ -80,6 +82,11 @@ module.exports = {
       fields.push("numOfReviews = ?");
       values.push(updates.numOfReviews);
     }
+    if (updates.images !== undefined) {
+      // Changed to images
+      fields.push("images = ?");
+      values.push(updates.images);
+    }
 
     fields.push("updatedAt = NOW()");
 
@@ -90,7 +97,7 @@ module.exports = {
     console.log("With values:", values);
 
     const [result] = await db.execute(sql, values);
-    return result.affectedRows; // Kthen numrin e rreshtave të ndikuar
+    return result.affectedRows;
   },
 
   // 4. Fshi një produkt

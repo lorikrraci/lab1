@@ -15,6 +15,7 @@ export const Cart = () => {
       const storedCartItems = localStorage.getItem(`cartItems_${user.id}`);
       if (storedCartItems) {
         const parsedItems = JSON.parse(storedCartItems);
+        // Only dispatch if parsedItems differs from current cartItems and hasn’t been synced yet
         if (JSON.stringify(parsedItems) !== JSON.stringify(cartItems)) {
           dispatch({
             type: "ADD_TO_CART",
@@ -23,8 +24,8 @@ export const Cart = () => {
         }
       }
     }
-    console.log("Current cart items:", cartItems);
-  }, [dispatch, isAuthenticated, user, cartItems]);
+    // Remove cartItems from dependencies to prevent infinite loop
+  }, [dispatch, isAuthenticated, user]); // Only depend on auth-related changes
 
   const increaseQuantity = (productId, currentQuantity, stock) => {
     if (currentQuantity < stock) {
@@ -35,18 +36,20 @@ export const Cart = () => {
   const decreaseQuantity = (productId, currentQuantity) => {
     if (currentQuantity > 1) {
       dispatch(addItemToCart(productId, -1));
+    } else {
+      dispatch(removeItemFromCart(productId));
     }
   };
 
-  const removeItem = (id) => {
-    dispatch(removeItemFromCart(id));
+  const removeItem = (productId) => {
+    dispatch(removeItemFromCart(productId));
   };
 
   const checkoutHandler = () => {
     if (isAuthenticated) {
-      navigate("/shipping"); // Go directly to shipping if logged in
+      navigate("/shipping");
     } else {
-      navigate("/login?redirect=shipping"); // Redirect to login if not authenticated
+      navigate("/login?redirect=shipping");
     }
   };
 
@@ -69,8 +72,8 @@ export const Cart = () => {
                     <div className="row">
                       <div className="col-4 col-lg-3">
                         <img
-                          src={item.image}
-                          alt="image"
+                          src={item.images || "/images/default-product.jpg"}
+                          alt={item.name}
                           height="90"
                           width="115"
                         />

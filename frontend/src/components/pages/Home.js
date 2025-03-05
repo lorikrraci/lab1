@@ -44,7 +44,7 @@ const Home = () => {
       name: "Polloshka",
       position: "PG",
       stat: "20.3 PPG",
-      image: "/images/player44.png",
+      image: "images/player44.png",
     },
     {
       title: "Most Assists Per Game",
@@ -204,7 +204,7 @@ const Home = () => {
                   onClick={() => navigate(`/product/${product.id}`)}
                 >
                   <img
-                    src={product.image || "/images/default-product.png"}
+                    src={product.images || "/images/default-product.jpg"} // Changed to product.images
                     alt={product.name}
                     className="product-image-home"
                   />
