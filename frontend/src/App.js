@@ -38,7 +38,7 @@ import CreateStats from "./components/pages/CreateStats";
 import NewsDetail from "./components/pages/NewsDetail";
 import Success from "./components/cart/Success";
 import { loadUser } from "./actions/userActions";
-import Players  from "./components/pages/player";
+import Players from "./components/pages/player";
 
 function App() {
   const location = useLocation();
@@ -77,6 +77,7 @@ function App() {
           <Route path="/dashboard/reviews" element={<Reviews />} />
           <Route path="/dashboard/products" element={<Products />} />
           <Route path="/dashboard/users" element={<UsersDashboard />} />
+          <Route path="/dashboard/players" element={<Players />} />
           <Route path="/payment" element={<PaymentPage />} />
           <Route path="/success" element={<Success />} />
           <Route path="/create-news" element={<CreateNews />} />

@@ -8,6 +8,7 @@ import {
 import { authReducer } from "./reducers/userReducers";
 import { cartReducer } from "./reducers/cartReducers";
 import { orderReducer } from "./reducers/orderReducers";
+import { playerReducer } from "./reducers/playerReducers";
 
 // If you need a combined reducer, just do it inline or import from another file:
 const store = configureStore({
@@ -17,6 +18,7 @@ const store = configureStore({
     order: orderReducer,
     auth: authReducer,
     cart: cartReducer,
+    player: playerReducer,
   },
 
   // By default, RTK adds Redux Thunk. If you want to add more middleware:

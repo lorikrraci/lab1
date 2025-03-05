@@ -10,13 +10,10 @@ export const addItemToCart =
       const existingItem = cartItems.find((item) => item.product === id);
 
       if (existingItem) {
-        // Update existing item's quantity
         const newQuantity = existingItem.quantity + quantityChange;
         if (newQuantity <= 0) {
-          // Remove item if quantity drops to 0 or below
           dispatch(removeItemFromCart(id));
         } else if (newQuantity <= existingItem.stock) {
-          // Update quantity within stock limits
           dispatch({
             type: "UPDATE_CART_ITEM_QUANTITY",
             payload: {
@@ -26,7 +23,6 @@ export const addItemToCart =
           });
         }
       } else if (quantityChange > 0) {
-        // Add new item if incrementing and it doesn’t exist
         const { data } = await axios.get(`${BASE_URL}/products/${id}`);
         const product = data.product;
 
@@ -43,7 +39,6 @@ export const addItemToCart =
         });
       }
 
-      // Save updated cart to localStorage
       const { cartItems: updatedCartItems, userId } = getState().cart;
       if (userId) {
         localStorage.setItem(
@@ -82,5 +77,17 @@ export const saveShippingInfo = (data) => (dispatch, getState) => {
   const { userId } = getState().cart;
   if (userId) {
     localStorage.setItem(`shippingInfo_${userId}`, JSON.stringify(data));
+  }
+};
+
+// Clear Cart
+export const clearCart = () => (dispatch, getState) => {
+  dispatch({
+    type: "CLEAR_CART",
+  });
+
+  const { userId } = getState().cart;
+  if (userId) {
+    localStorage.removeItem(`cartItems_${userId}`);
   }
 };

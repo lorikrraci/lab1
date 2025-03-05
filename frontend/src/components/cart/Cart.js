@@ -15,7 +15,6 @@ export const Cart = () => {
       const storedCartItems = localStorage.getItem(`cartItems_${user.id}`);
       if (storedCartItems) {
         const parsedItems = JSON.parse(storedCartItems);
-        // Only dispatch if parsedItems differs from current cartItems and hasn’t been synced yet
         if (JSON.stringify(parsedItems) !== JSON.stringify(cartItems)) {
           dispatch({
             type: "ADD_TO_CART",
@@ -23,9 +22,13 @@ export const Cart = () => {
           });
         }
       }
+    } else if (!isAuthenticated) {
+      // Ensure cart is cleared when not authenticated
+      if (cartItems.length > 0) {
+        dispatch({ type: "CLEAR_CART" });
+      }
     }
-    // Remove cartItems from dependencies to prevent infinite loop
-  }, [dispatch, isAuthenticated, user]); // Only depend on auth-related changes
+  }, [dispatch, isAuthenticated, user, cartItems]);
 
   const increaseQuantity = (productId, currentQuantity, stock) => {
     if (currentQuantity < stock) {

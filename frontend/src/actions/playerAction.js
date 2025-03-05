@@ -1,4 +1,5 @@
 import axios from "axios";
+
 import {
   ALL_PLAYERS_REQUEST,
   ALL_PLAYERS_SUCCESS,
@@ -18,44 +19,57 @@ import {
   CLEAR_ERRORS,
 } from "../constants/playerConstants";
 
+const BASE_URL = "http://localhost:5000/api/v1";
+
 // Get all players
-export const getPlayers = (keyword = "", position = "", jerseyRange = [0, 99], sort = "id ASC", page = 1, limit = 6) => async (dispatch) => {
-  try {
-    dispatch({ type: ALL_PLAYERS_REQUEST });
+export const getPlayers =
+  (
+    keyword = "",
+    position = "",
+    jerseyRange = [0, 99],
+    sort = "id ASC",
+    page = 1,
+    limit = 6
+  ) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: ALL_PLAYERS_REQUEST });
 
-    const token = localStorage.getItem('token');
-    const config = {
-      headers: { Authorization: `Bearer ${token}` },
-    };
+      const token = localStorage.getItem("token");
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
 
-    const { data } = await axios.get(
-      `/api/players?keyword=${keyword}&position=${position}&jersey[gte]=${jerseyRange[0]}&jersey[lte]=${jerseyRange[1]}&sort=${sort}&page=${page}&limit=${limit}`,
-      config
-    );
+      const { data } = await axios.get(
+        `${BASE_URL}/players?page=${page}&limit=${limit}&keyword=${keyword}&position=${position}&jerseyRange=${JSON.stringify(
+          jerseyRange
+        )}&sort=${sort}`,
+        config
+      );
 
-    dispatch({
-      type: ALL_PLAYERS_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: ALL_PLAYERS_FAIL,
-      payload: error.response.data.error || "Error fetching players",
-    });
-  }
-};
+      dispatch({
+        type: ALL_PLAYERS_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ALL_PLAYERS_FAIL,
+        payload: error.response?.data?.error || "Error fetching players",
+      });
+    }
+  };
 
 // Get player details by ID
 export const getPlayerDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: PLAYER_DETAILS_REQUEST });
 
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
 
-    const { data } = await axios.get(`/api/players/${id}`, config);
+    const { data } = await axios.get(`${BASE_URL}/players/${id}`, config);
 
     dispatch({
       type: PLAYER_DETAILS_SUCCESS,
@@ -64,7 +78,7 @@ export const getPlayerDetails = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: PLAYER_DETAILS_FAIL,
-      payload: error.response.data.error || "Error fetching player",
+      payload: error.response?.data?.error || "Error fetching player",
     });
   }
 };
@@ -74,12 +88,19 @@ export const createPlayer = (playerData) => async (dispatch) => {
   try {
     dispatch({ type: CREATE_PLAYER_REQUEST });
 
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     const config = {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     };
 
-    const { data } = await axios.post('/api/players', playerData, config);
+    const { data } = await axios.post(
+      `${BASE_URL}/players`,
+      playerData,
+      config
+    );
 
     dispatch({
       type: CREATE_PLAYER_SUCCESS,
@@ -88,7 +109,7 @@ export const createPlayer = (playerData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: CREATE_PLAYER_FAIL,
-      payload: error.response.data.error || "Error creating player",
+      payload: error.response?.data?.error || "Error creating player",
     });
   }
 };
@@ -98,12 +119,19 @@ export const updatePlayer = (id, playerData) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_PLAYER_REQUEST });
 
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     const config = {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     };
 
-    const { data } = await axios.put(`/api/players/${id}`, playerData, config);
+    const { data } = await axios.put(
+      `${BASE_URL}/players/${id}`,
+      playerData,
+      config
+    );
 
     dispatch({
       type: UPDATE_PLAYER_SUCCESS,
@@ -112,7 +140,7 @@ export const updatePlayer = (id, playerData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: UPDATE_PLAYER_FAIL,
-      payload: error.response.data.error || "Error updating player",
+      payload: error.response?.data?.error || "Error updating player",
     });
   }
 };
@@ -122,12 +150,12 @@ export const deletePlayer = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_PLAYER_REQUEST });
 
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
 
-    await axios.delete(`/api/players/${id}`, config);
+    await axios.delete(`${BASE_URL}/players/${id}`, config);
 
     dispatch({
       type: DELETE_PLAYER_SUCCESS,
@@ -136,7 +164,7 @@ export const deletePlayer = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: DELETE_PLAYER_FAIL,
-      payload: error.response.data.error || "Error deleting player",
+      payload: error.response?.data?.error || "Error deleting player",
     });
   }
 };

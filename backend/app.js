@@ -46,13 +46,12 @@ app.use(errorMiddleware);
 
 module.exports = app;
 
-
 app.use(cors()); // Allows all origins (for development; restrict in production)
 app.use(express.json());
 
-const playerRoutes = require('./routes/player'); // Adjust path if needed
+const playerRoutes = require("./routes/player"); // Adjust path if needed
 app.use("/api/v1", playerRoutes); // This prefixes all routes in product.js with /api
 
 app.listen(3001, () => {
-  console.log('Backend running on port 3001');
+  console.log("Backend running on port 3001");
 });

@@ -2,7 +2,6 @@ const initialState = {
   cartItems: [],
   userId: null,
   shippingInfo: {
-    // Add default shippingInfo
     address: "",
     city: "",
     postalCode: "",
@@ -54,6 +53,11 @@ export const cartReducer = (state = initialState, action) => {
       return {
         ...state,
         userId: action.payload,
+      };
+    case "CLEAR_CART":
+      return {
+        ...state,
+        cartItems: [], // Reset cartItems to empty array
       };
     default:
       return state;

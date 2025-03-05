@@ -1,14 +1,12 @@
 const db = require("../config/database");
 
 module.exports = {
-  // 1. Create a new player
   createPlayer: async (playerData) => {
     const {
       first_name,
       last_name,
       position,
       jersey_number,
-      image_url,
       height,
       weight,
       birth_date,
@@ -16,8 +14,8 @@ module.exports = {
 
     const sql = `
       INSERT INTO players 
-        (first_name, last_name, position, jerQQQsey_number, image_url, height, weight, birth_date)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        (first_name, last_name, position, jersey_number, height, weight, birth_date)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
 
     const [result] = await db.execute(sql, [
@@ -25,7 +23,6 @@ module.exports = {
       last_name || null,
       position,
       jersey_number,
-      image_url || null,
       height || null,
       weight || null,
       birth_date || null,
@@ -34,16 +31,12 @@ module.exports = {
     return result.insertId;
   },
 
-  // 2. Get a player by ID
   getPlayerById: async (id) => {
     const sql = "SELECT * FROM players WHERE id = ?";
     const [rows] = await db.execute(sql, [id]);
-    if (!rows[0]) return null;
-
-    return rows[0];
+    return rows[0] || null;
   },
 
-  // 3. Update a player
   updatePlayer: async (id, updates) => {
     const fields = [];
     const values = [];
@@ -63,10 +56,6 @@ module.exports = {
     if (updates.jersey_number !== undefined) {
       fields.push("jersey_number = ?");
       values.push(updates.jersey_number);
-    }
-    if (updates.image_url !== undefined) {
-      fields.push("image_url = ?");
-      values.push(updates.image_url);
     }
     if (updates.height !== undefined) {
       fields.push("height = ?");
@@ -88,14 +77,12 @@ module.exports = {
     return result.affectedRows;
   },
 
-  // 4. Delete a player
   deletePlayer: async (id) => {
     const sql = "DELETE FROM players WHERE id = ?";
     const [result] = await db.execute(sql, [id]);
     return result.affectedRows;
   },
 
-  // 5. Get all players
   getAllPlayers: async (
     keyword = "",
     position = "",
@@ -131,7 +118,6 @@ module.exports = {
     }
 
     sql += ` ORDER BY ${sortOption}`;
-
     if (limit !== null && offset !== null) {
       sql += " LIMIT ? OFFSET ?";
       values.push(limit, offset);

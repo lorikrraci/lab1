@@ -86,6 +86,10 @@ const Home = () => {
       <MetaData title={"KB Vëllaznimi"} />
       <div className="background-container">
         <h1 className="background-text">KB Vëllaznimi</h1>
+        <h3>
+          Mirësevini në uebfaqën zyrtare të Klubit Basketbollistik Vëllaznimi ku
+          ju mund të informoheni me më të rejat e klubit.
+        </h3>
       </div>
 
       {/* Results Section */}

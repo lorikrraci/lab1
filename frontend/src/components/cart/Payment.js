@@ -13,7 +13,7 @@ import { CheckoutSteps } from "./CheckoutSteps";
 import "./Payment.css";
 import { useNavigate } from "react-router-dom";
 import { createOrder, clearErrors } from "../../actions/orderActions";
-import { toast } from "react-toastify";
+import { clearCart } from "../../actions/cartActions";
 
 const Payment = () => {
   const stripe = useStripe();
@@ -34,7 +34,7 @@ const Payment = () => {
   useEffect(() => {
     const getClientSecret = async () => {
       if (!orderInfo.totalPrice || orderInfo.totalPrice <= 0) {
-        toast("Please check your cart.");
+        console.error("Invalid order total price");
         return;
       }
 
@@ -51,7 +51,6 @@ const Payment = () => {
         setClientSecret(data.clientSecret);
       } catch (error) {
         console.error("Error fetching client secret:", error);
-        toast.error("Failed to initialize payment.");
       }
     };
     getClientSecret();
@@ -68,7 +67,7 @@ const Payment = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!stripe || !elements || !clientSecret) {
-      toast.error("Payment system not ready.");
+      console.error("Payment system not ready");
       return;
     }
 
@@ -82,7 +81,7 @@ const Payment = () => {
       });
 
       if (result.error) {
-        toast.error(result.error.message);
+        console.error("Stripe error:", result.error.message);
         setLoading(false);
         return;
       }
@@ -90,7 +89,7 @@ const Payment = () => {
       if (result.paymentIntent.status === "succeeded") {
         const order = {
           orderItems: cartItems,
-          shippingInfo: shippingInfo || {}, // Fallback to empty object
+          shippingInfo: shippingInfo || {},
           paymentInfo: {
             id: result.paymentIntent.id,
             status: result.paymentIntent.status,
@@ -107,16 +106,14 @@ const Payment = () => {
 
         if (!error) {
           sessionStorage.removeItem("orderInfo");
-          toast.success("Order completed successfully!");
-          navigate("/success");
+          dispatch(clearCart()); // Clear cart after successful order
+          navigate("/success"); // Toast will be handled in Success.js
         } else {
-          toast.error(`Failed to complete order: ${error}`);
           console.error("Order creation failed:", error);
         }
       }
     } catch (err) {
       console.error("Payment error:", err);
-      toast.error("Payment failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -125,7 +122,6 @@ const Payment = () => {
   useEffect(() => {
     if (error) {
       console.error("Redux error:", error);
-      toast.error(error);
       dispatch(clearErrors());
     }
   }, [dispatch, error]);
